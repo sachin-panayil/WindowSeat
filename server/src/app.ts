@@ -58,9 +58,9 @@ app.get('/api/test', (req: Request, res: Response) => {
   
   app.listen(PORT, () => {
     console.log(`WindowSeat Backend Server Started!`);
-    console.log(`📡 Port: ${PORT}`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
-    console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`Port: ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV}`);
+    console.log(`Health Check: http://localhost:${PORT}/api/health`);
 
   });
   
