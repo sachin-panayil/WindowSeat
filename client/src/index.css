@@ -1,0 +1,221 @@
+/* Import Tailwind CSS base styles, components, and utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles and CSS reset */
+@layer base {
+  /* Set up the html and body elements */
+  html {
+    height: 100%;
+  }
+
+  body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Root element styling */
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Custom component classes */
+@layer components {
+  /* Custom input field styling */
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+           disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed;
+  }
+
+  .input-field--error {
+    @apply border-red-500 focus:ring-red-500 focus:border-red-500;
+  }
+
+  /* Custom button styles */
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium text-sm transition-colors duration-200 
+           focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed;
+  }
+
+  .btn--primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500
+           disabled:bg-gray-400 disabled:hover:bg-gray-400;
+  }
+
+  .btn--secondary {
+    @apply bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 
+           focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-400;
+  }
+
+  /* Card component styling */
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden;
+  }
+
+  .card--hover {
+    @apply hover:shadow-md transition-shadow duration-200;
+  }
+
+  /* Form group styling */
+  .form-group {
+    @apply space-y-1;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+
+  .form-error {
+    @apply text-sm text-red-600;
+  }
+
+  .form-help {
+    @apply text-sm text-gray-500;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  /* Loading spinner animation */
+  .animate-spin-slow {
+    animation: spin 2s linear infinite;
+  }
+
+  /* Custom scroll behavior */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Custom gradient backgrounds */
+  .gradient-blue {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .gradient-sky {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  }
+}
+
+/* Animations and keyframes */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animation utility classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Responsive design helpers */
+@media (max-width: 640px) {
+  /* Mobile-specific styles */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn--primary {
+    @apply border-2 border-blue-800;
+  }
+  
+  .input-field {
+    @apply border-2 border-gray-600;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support (future enhancement) */
+@media (prefers-color-scheme: dark) {
+  /* Add dark mode styles when you're ready to implement them */
+}
+
+/* React Query DevTools positioning fix */
+.react-query-devtools {
+  z-index: 9999 !important;
+}
+
+@keyframes flyLeft {
+  0% { left: -50px; opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% { left: 100vw; opacity: 0; }
+}
+
+@keyframes flyRight {
+  0% { right: -50px; opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% { right: 100vw; opacity: 0; }
+}
