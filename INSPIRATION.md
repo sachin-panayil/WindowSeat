@@ -6,7 +6,7 @@ After a few trips, I realized we kept talking about what views we'd catch from o
 
 How do you even know which side of the plane to sit on? There's no way to figure it out unless you've flown that exact route before and even then, there's nothing really to give you odds on where to sit.
 
-So I built this. Now we both know which window seat to pick. And honestly, it's nice not missing the good views anymore.
+So I built this. Now we both know which seat to pick.
 
 ---
 
