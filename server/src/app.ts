@@ -1,7 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import { nextTick } from 'process'
+import { router } from './routes/recommendations';
 
 dotenv.config()
 
@@ -21,6 +21,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next()
 })
 
+app.use('/api/recommendations', router);
+
 app.get('/api/health', (req: Request, res: Response) => {
     res.json({
         status: 'healthy',
@@ -30,38 +32,28 @@ app.get('/api/health', (req: Request, res: Response) => {
     })
 })
 
-app.get('/api/test', (req: Request, res: Response) => {
-    res.json({
-      message: 'Backend is connected!',
-      data: {
-        server: 'Express with TypeScript',
-        version: '1.0.0'
-      }
-    });
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    error: 'Route not found',
+    path: req.path,
+    method: req.method
   });
+});
   
-  app.use((req: Request, res: Response) => {
-    res.status(404).json({
-      error: 'Route not found',
-      path: req.path,
-      method: req.method
-    });
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error('Error:', err.message);
+  res.status(500).json({
+    error: 'Internal server error',
+    message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
   });
+});
   
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error('Error:', err.message);
-    res.status(500).json({
-      error: 'Internal server error',
-      message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
-    });
-  });
-  
-  app.listen(PORT, () => {
-    console.log(`WindowSeat Backend Server Started!`);
-    console.log(`Port: ${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV}`);
-    console.log(`Health Check: http://localhost:${PORT}/api/health`);
+app.listen(PORT, () => {
+  console.log(`WindowSeat Backend Server Started!`);
+  console.log(`Port: ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(`Health Check: http://localhost:${PORT}/api/health`);
 
-  });
+});
   
-  export default app;
+export default app;

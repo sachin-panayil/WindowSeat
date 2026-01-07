@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import type { FlightSearchParams } from '../../types/flight.types';
+import type { FlightSearchParams } from '../../../../shared/types/flight.types';
 
 // Updated Flight Search Form with React Hook Form and Full Validation
 interface FlightSearchFormData {
