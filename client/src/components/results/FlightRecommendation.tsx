@@ -44,6 +44,20 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
 
   const { flight, recommendation: seatRec } = recommendation;
 
+  // Format estimated time for display
+  const formatTime = (isoString: string) => {
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  };
+
+  // Weather confidence display
+  const weatherConfidenceDisplay = {
+    high: { text: 'Weather data available', color: 'text-green-400' },
+    partial: { text: 'Partial weather data', color: 'text-yellow-400' },
+    unavailable: { text: 'Weather forecast not yet available', color: 'text-orange-400' }
+  };
+
   return (
     <div className="space-y-6">
       {/* Flight Details Header */}
@@ -51,31 +65,27 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
         <div className="flex justify-between items-start mb-4">
           <div>
             <h2 className="text-2xl font-bold text-[#f4e6e8] mb-1">
-              Flight {flight.flightNumber}
+              {flight.originCity} → {flight.destinationCity}
             </h2>
             <p className="text-[#dbb8bd] text-lg">
-              {flight.route} • {flight.airline}
+              {flight.route}
             </p>
           </div>
           <div className="text-right text-sm text-[#dbb8bd]">
             <p>{new Date(flight.date).toLocaleDateString()}</p>
-            <p>{flight.aircraft}</p>
+            <p>{flight.distanceMiles.toLocaleString()} miles</p>
           </div>
         </div>
         
-        <div className="grid grid-cols-3 gap-4 text-sm">
+        <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="block font-medium text-[#f4e6e8]">Departure</span>
-            <span className="text-[#dbb8bd]">{flight.departure_time}</span>
-          </div>
-          <div>
-            <span className="block font-medium text-[#f4e6e8]">Arrival</span>
-            <span className="text-[#dbb8bd]">{flight.arrival_time}</span>
+            <span className="text-[#dbb8bd]">{flight.departureTime}</span>
           </div>
           <div>
             <span className="block font-medium text-[#f4e6e8]">Duration</span>
             <span className="text-[#dbb8bd]">
-              {Math.floor(flight.duration / 60)}h {flight.duration % 60}m
+              {Math.floor(flight.durationMinutes / 60)}h {flight.durationMinutes % 60}m
             </span>
           </div>
         </div>
@@ -106,7 +116,7 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
                 {seatRec.recommendedSeat === 'left' ? 'Left Side' : 'Right Side'}
               </div>
               <div className="text-[#dbb8bd] text-sm">
-                {seatRec.seatType === 'window' ? 'Window Seat' : 'Aisle Seat'}
+                Window Seat
               </div>
             </div>
           </div>
@@ -131,35 +141,52 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
           <p className="text-[#dbb8bd] leading-relaxed">{seatRec.reasoning}</p>
         </div>
 
-        {/* Expected Views */}
-        {seatRec.expectedViews.length > 0 && (
+        {/* Landmarks */}
+        {seatRec.landmarks.length > 0 && (
           <div className="mb-6">
-            <h4 className="font-medium text-[#f4e6e8] mb-3">Expected Views</h4>
+            <h4 className="font-medium text-[#f4e6e8] mb-3">
+              Landmarks You'll See ({seatRec.landmarks.length})
+            </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {seatRec.expectedViews.map((view, index) => (
+              {seatRec.landmarks.map((landmark, index) => (
                 <div 
                   key={index}
-                  className="bg-[#722f37]/10 border border-[#722f37]/20 rounded-lg p-3 flex items-center space-x-3"
+                  className="bg-[#722f37]/10 border border-[#722f37]/20 rounded-lg p-3"
                 >
-                  <div className="w-8 h-8 bg-gradient-to-br from-[#722f37] to-[#9d4851] rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-white text-sm">{index + 1}</span>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-gradient-to-br from-[#722f37] to-[#9d4851] rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white text-sm">{index + 1}</span>
+                      </div>
+                      <div>
+                        <span className="text-[#f4e6e8] text-sm font-medium block">{landmark.name}</span>
+                        <span className="text-[#dbb8bd]/60 text-xs">
+                          {formatTime(landmark.estimatedTime)} • {landmark.distanceFromOrigin} mi
+                        </span>
+                      </div>
+                    </div>
+                    {landmark.cloudCover !== undefined && (
+                      <div className="text-xs text-[#dbb8bd]/60">
+                        {landmark.cloudCover}% clouds
+                      </div>
+                    )}
                   </div>
-                  <span className="text-[#dbb8bd] text-sm">{view}</span>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Additional Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <h4 className="font-medium text-[#f4e6e8] mb-2">Best Viewing Times</h4>
-            <p className="text-[#dbb8bd] text-sm">{seatRec.bestViewingTimes}</p>
-          </div>
-          <div>
-            <h4 className="font-medium text-[#f4e6e8] mb-2">Weather Impact</h4>
-            <p className="text-[#dbb8bd] text-sm">{seatRec.weatherImpact}</p>
+        {/* Weather Confidence */}
+        <div className="border-t border-[#722f37]/20 pt-4">
+          <div className="flex items-center space-x-2">
+            <div className={`w-2 h-2 rounded-full ${
+              seatRec.weatherConfidence === 'high' ? 'bg-green-400' :
+              seatRec.weatherConfidence === 'partial' ? 'bg-yellow-400' : 'bg-orange-400'
+            }`}></div>
+            <span className={`text-sm ${weatherConfidenceDisplay[seatRec.weatherConfidence].color}`}>
+              {weatherConfidenceDisplay[seatRec.weatherConfidence].text}
+            </span>
           </div>
         </div>
       </div>

@@ -37,9 +37,6 @@ const SearchPage: React.FC = () => {
       <div className="relative z-10 w-full py-8">
         {/* Header Section */}
         <div className="max-w-lg mx-auto px-4 pb-8 text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-[#722f37] to-[#9d4851] rounded-2xl shadow-lg shadow-[#722f37]/40 flex items-center justify-center text-3xl mx-auto mb-6">
-            ✈️
-          </div>
           <h1 className="text-3xl font-bold text-[#f8fafc] mb-3 tracking-tight">
             WindowSeat
           </h1>

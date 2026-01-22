@@ -1,4 +1,3 @@
-import React from 'react'
 import SearchPage from './pages/SearchPage'
 import './App.css'
 

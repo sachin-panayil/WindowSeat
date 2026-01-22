@@ -1,11 +1,6 @@
 import { useForm } from 'react-hook-form';
 import type { FlightSearchParams } from '../../../../shared/types/flight.types';
-
-// Updated Flight Search Form with React Hook Form and Full Validation
-interface FlightSearchFormData {
-  flightNumber: string;
-  date: string;
-}
+import type { FlightSearchFormData } from '../../types/FlightSearchFormData';
 
 interface FlightSearchFormProps {
   onSearch: (data: FlightSearchParams) => void;
@@ -16,46 +11,53 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
   onSearch, 
   isLoading 
 }) => {
-  // React Hook Form setup with TypeScript support
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, touchedFields },
     reset,
-    watch
   } = useForm<FlightSearchFormData>({
-    mode: 'onChange', // Validate as user types
+    mode: 'onChange',
     defaultValues: {
-      flightNumber: '',
-      date: ''
+      origin: '',
+      destination: '',
+      date: '',
+      departureTime: ''
     }
   });
 
-  // Watch form values for additional validation
-  const watchedValues = watch();
-
-  // Form submission handler with type safety
   const onSubmit = (data: FlightSearchFormData) => {
     console.log('Form submitted with data:', data);
     
-    // Convert form data to API format
     const searchParams: FlightSearchParams = {
-      flightNumber: data.flightNumber.toUpperCase().replace(/\s+/g, ''),
-      date: data.date
+      origin: data.origin.toUpperCase().trim(),
+      destination: data.destination.toUpperCase().trim(),
+      date: data.date,
+      departureTime: data.departureTime
     };
     
     onSearch(searchParams);
   };
 
-  // Validate flight number format
-  const validateFlightNumber = (value: string) => {
-    const cleaned = value.toUpperCase().replace(/\s+/g, '');
+  // Validate IATA airport code format (3 letters)
+  const validateIataCode = (value: string) => {
+    const cleaned = value.toUpperCase().trim();
+    const iataPattern = /^[A-Z]{3}$/;
     
-    // Basic flight number patterns: AA1234, AAL1234, 1234, etc.
-    const flightNumberPattern = /^([A-Z]{1,3})?[0-9]{1,4}[A-Z]?$/;
+    if (!iataPattern.test(cleaned)) {
+      return 'Please enter a valid 3-letter airport code (e.g., LAX, JFK)';
+    }
     
-    if (!flightNumberPattern.test(cleaned)) {
-      return 'Please enter a valid flight number (e.g., AA1234, DL567)';
+    return true;
+  };
+
+  // Validate that origin and destination are different
+  const validateDifferentAirports = (value: string, formValues: FlightSearchFormData) => {
+    const origin = formValues.origin.toUpperCase().trim();
+    const destination = value.toUpperCase().trim();
+    
+    if (origin && destination && origin === destination) {
+      return 'Destination must be different from origin';
     }
     
     return true;
@@ -63,38 +65,70 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Flight Number */}
+      {/* Origin Airport */}
       <div>
-        <label htmlFor="flightNumber" className="block text-sm font-medium text-[#f4e6e8] mb-2">
-          Flight Number
+        <label htmlFor="origin" className="block text-sm font-medium text-[#f4e6e8] mb-2">
+          From (Origin Airport)
         </label>
         <input
-          id="flightNumber"
+          id="origin"
           type="text"
-          placeholder="AA1234"
+          placeholder="LAX"
+          maxLength={3}
           autoComplete="off"
-          {...register('flightNumber', {
-            required: 'Flight number is required',
+          {...register('origin', {
+            required: 'Origin airport is required',
             validate: {
-              validFormat: validateFlightNumber,
-              notEmpty: (value) => value.trim().length > 0 || 'Flight number is required'
+              validFormat: validateIataCode
             }
           })}
-          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 ${
-            errors.flightNumber 
+          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 uppercase ${
+            errors.origin 
               ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : touchedFields.flightNumber && !errors.flightNumber
+              : touchedFields.origin && !errors.origin
               ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
               : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
           }`}
         />
-        {errors.flightNumber && (
-          <div className="mt-2 flex items-start space-x-2">
-            <p className="text-sm text-red-400 leading-tight">{errors.flightNumber.message}</p>
-          </div>
+        {errors.origin && (
+          <p className="mt-2 text-sm text-red-400">{errors.origin.message}</p>
         )}
         <p className="mt-1 text-xs text-[#dbb8bd]">
-          Examples: AA1234, DL567, UA2019, Southwest 1234
+          3-letter airport code (e.g., LAX, SFO, ORD)
+        </p>
+      </div>
+
+      {/* Destination Airport */}
+      <div>
+        <label htmlFor="destination" className="block text-sm font-medium text-[#f4e6e8] mb-2">
+          To (Destination Airport)
+        </label>
+        <input
+          id="destination"
+          type="text"
+          placeholder="JFK"
+          maxLength={3}
+          autoComplete="off"
+          {...register('destination', {
+            required: 'Destination airport is required',
+            validate: {
+              validFormat: validateIataCode,
+              differentFromOrigin: validateDifferentAirports
+            }
+          })}
+          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 uppercase ${
+            errors.destination 
+              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
+              : touchedFields.destination && !errors.destination
+              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
+              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
+          }`}
+        />
+        {errors.destination && (
+          <p className="mt-2 text-sm text-red-400">{errors.destination.message}</p>
+        )}
+        <p className="mt-1 text-xs text-[#dbb8bd]">
+          3-letter airport code (e.g., JFK, MIA, SEA)
         </p>
       </div>
 
@@ -132,15 +166,39 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
           }`}
         />
         {errors.date && (
-          <div className="mt-2 flex items-start space-x-2">
-            <p className="text-sm text-red-400 leading-tight">{errors.date.message}</p>
-          </div>
+          <p className="mt-2 text-sm text-red-400">{errors.date.message}</p>
         )}
+      </div>
+
+      {/* Departure Time */}
+      <div>
+        <label htmlFor="departureTime" className="block text-sm font-medium text-[#f4e6e8] mb-2">
+          Departure Time
+        </label>
+        <input
+          id="departureTime"
+          type="time"
+          {...register('departureTime', {
+            required: 'Departure time is required'
+          })}
+          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] focus:outline-none focus:ring-2 transition-all duration-300 ${
+            errors.departureTime 
+              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
+              : touchedFields.departureTime && !errors.departureTime
+              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
+              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
+          }`}
+        />
+        {errors.departureTime && (
+          <p className="mt-2 text-sm text-red-400">{errors.departureTime.message}</p>
+        )}
+        <p className="mt-1 text-xs text-[#dbb8bd]">
+          Local departure time at origin airport
+        </p>
       </div>
 
       {/* Form Actions */}
       <div className="space-y-3">
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={!isValid || isLoading}
@@ -163,7 +221,6 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
           )}
         </button>
 
-        {/* Reset Button */}
         <button
           type="button"
           onClick={() => reset()}
@@ -181,7 +238,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
             : 'bg-yellow-500/20 text-yellow-400'
         }`}>
           <div className={`w-2 h-2 rounded-full ${isValid ? 'bg-green-400' : 'bg-yellow-400'}`}></div>
-          <span>{isValid ? 'Ready to analyze your flight' : 'Please enter flight number and date'}</span>
+          <span>{isValid ? 'Ready to analyze your flight' : 'Please complete all fields'}</span>
         </div>
       </div>
     </form>

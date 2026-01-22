@@ -1,39 +1,39 @@
 export interface FlightSearchParams {
-    flightNumber: string;
-    date: string;
+    origin: string;           // IATA code
+    destination: string;      // IATA code
+    date: string;             // YYYY-MM-DD
+    departureTime: string;    // HH:MM
 }
 
 export interface FlightData {
-    flightNumber: string;
-    route: string;
-    origin: string;
-    destination: string;
-    departure_time: string;
-    arrival_time: string;
-    aircraft: string;
-    airline: string;
-    duration: number;
-    date: string;
+    route: string;            // "LAX → JFK"
+    origin: string;           // IATA code
+    destination: string;      // IATA code
+    originCity: string;       // "Los Angeles"
+    destinationCity: string;  // "New York"
+    departureTime: string;    // from user input
+    date: string;             // from user input
+    distanceMiles: number;    // calculated from path
+    durationMinutes: number;  // estimated from distance
+}
+
+export interface LandmarkSummary {
+    name: string;
+    side: 'left' | 'right';
+    distanceFromOrigin: number;
+    estimatedTime: string;
+    cloudCover?: number;
 }
 
 export interface SeatRecommendation {
     recommendedSeat: 'left' | 'right';
-    seatType: 'window' | 'aisle';
-    confidence: number;
-    reasoning: string;
-    expectedViews: string[];
-    bestViewingTimes: string;
-    weatherImpact: string;
+    confidence: number;       // 1-10 score
+    reasoning: string;        // explanation
+    landmarks: LandmarkSummary[];
+    weatherConfidence: 'high' | 'partial' | 'unavailable';
 }
 
 export interface FlightRecommendation {
     flight: FlightData;
     recommendation: SeatRecommendation;
-}
-
-export interface WeatherCondition {
-    location: string;
-    condition: string;
-    visibility: number;
-    temperature: number;
 }
