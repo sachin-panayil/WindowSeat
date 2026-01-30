@@ -28,19 +28,20 @@ router.post('/', async (req, res) => {
             getAirport(params.destination)
         ]);
 
-        if (!originAirport) {
+        if (!originAirport || !originAirport.city || !originAirport.timezone) {
             return res.status(400).json({
                 error: 'Invalid airport',
                 code: 'AIRPORT_NOT_FOUND',
-                message: `Airport not found: ${params.origin}`,
+                message: `Airport not found: ${params.origin}. Please enter a valid 3-letter airport code.`,
                 retryable: false
             } as APIError);
         }
-        if (!destAirport) {
+        
+        if (!destAirport || !destAirport.city || !destAirport.timezone) {
             return res.status(400).json({
                 error: 'Invalid airport',
                 code: 'AIRPORT_NOT_FOUND',
-                message: `Airport not found: ${params.destination}`,
+                message: `Airport not found: ${params.destination}. Please enter a valid 3-letter airport code.`,
                 retryable: false
             } as APIError);
         }
@@ -108,7 +109,7 @@ router.post('/', async (req, res) => {
         });
 
         // 8. Generate recommendation 
-        const recommendation = await generateRecommendation(landmarkSummaries, pathWithSun, weatherResult.reason);
+        const recommendation = await generateRecommendation(landmarkSummaries, pathWithSun, weatherResult.reason, flightData);
 
         // 9. Assemble response
         const response: FlightRecommendation = {

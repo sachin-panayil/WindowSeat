@@ -1,16 +1,30 @@
 import React from 'react';
 import type { FlightRecommendation as FlightRecommendationType } from '../../../../shared/types/flight.types';
+import type { FlightError } from '../../types/FlightError';
 
 interface FlightRecommendationProps {
   recommendation: FlightRecommendationType | null;
   isLoading: boolean;
-  error: Error | null;
+  error: FlightError | null;
+  onRetry?: () => void;
 }
+
+const errorTitles: Record<string, string> = {
+  AIRPORT_NOT_FOUND: 'Invalid Airport Code',
+  TIMEOUT: 'Request Timed Out',
+  AI_UNAVAILABLE: 'AI Service Unavailable',
+  SERVICE_ERROR: 'Service Temporarily Unavailable',
+  RATE_LIMITED: 'Too Many Requests',
+  NETWORK_ERROR: 'Connection Error',
+  INTERNAL_ERROR: 'Something Went Wrong',
+  UNKNOWN_ERROR: 'Unexpected Error'
+};
 
 const FlightRecommendation: React.FC<FlightRecommendationProps> = ({ 
   recommendation, 
   isLoading, 
-  error 
+  error,
+  onRetry
 }) => {
   // Handle loading state
   if (isLoading) {
@@ -25,10 +39,41 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
 
   // Handle error state
   if (error) {
+    const title = errorTitles[error.code] || 'Unable to analyze flight';
+    
     return (
       <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-6">
-        <h3 className="text-red-300 font-medium text-lg mb-2">Unable to analyze flight</h3>
-        <p className="text-red-400 text-sm">{error.message}</p>
+        <div className="flex items-start space-x-3">
+          {/* Error icon */}
+          <div className="flex-shrink-0 w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
+            <svg className="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          
+          <div className="flex-1">
+            <h3 className="text-red-300 font-medium text-lg mb-1">{title}</h3>
+            <p className="text-red-400/80 text-sm mb-4">{error.message}</p>
+            
+            {error.retryable && onRetry && (
+              <button
+                onClick={onRetry}
+                className="inline-flex items-center px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 rounded-lg text-red-300 text-sm font-medium transition-colors"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Try Again
+              </button>
+            )}
+            
+            {!error.retryable && (
+              <p className="text-red-400/60 text-xs">
+                Please check your input and try a new search.
+              </p>
+            )}
+          </div>
+        </div>
       </div>
     );
   }

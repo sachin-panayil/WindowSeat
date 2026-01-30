@@ -1,40 +1,62 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { flightAPI } from '../services/flightAPI';
+import { APIError } from '../services/flightAPI';
 import type { FlightSearchParams, FlightRecommendation } from '../../../shared/types/flight.types';
+import type { FlightError } from '../types/FlightError';
 
 export const useFlightRecommendation = () => {
   const [recommendation, setRecommendation] = useState<FlightRecommendation | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<FlightError | null>(null);
   const [searchParams, setSearchParams] = useState<FlightSearchParams | null>(null);
 
-  const searchFlight = async (params: FlightSearchParams) => {
+  const searchFlight = useCallback(async (params: FlightSearchParams) => {
     setIsLoading(true);
     setError(null);
     setSearchParams(params);
     setRecommendation(null);
 
     try {
-      const recommendation = await flightAPI.getRecommendation(params)
-      setRecommendation(recommendation);
+      const result = await flightAPI.getRecommendation(params);
+      setRecommendation(result);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to get recommendation'));
+      if (err instanceof APIError) {
+        setError({
+          message: err.message,
+          code: err.code,
+          retryable: err.retryable
+        });
+      } else {
+        setError({
+          message: err instanceof Error ? err.message : 'An unexpected error occurred',
+          code: 'UNKNOWN_ERROR',
+          retryable: true
+        });
+      }
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const clearSearch = () => {
+  // Retry the last search
+  const retry = useCallback(() => {
+    if (searchParams) {
+      searchFlight(searchParams);
+    }
+  }, [searchParams, searchFlight]);
+
+  const clearSearch = useCallback(() => {
     setSearchParams(null);
     setRecommendation(null);
     setError(null);
-  };
+  }, []);
 
   return {
     recommendation,
     isLoading,
     error,
     searchFlight,
+    retry,
     clearSearch,
     searchParams
   };

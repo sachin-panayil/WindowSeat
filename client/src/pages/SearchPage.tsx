@@ -8,17 +8,17 @@ import { useFlightRecommendation } from '../hooks/useFlightRecommendation';
 const SearchPage: React.FC = () => {
   const resultsRef = useRef<HTMLDivElement>(null);
   
-  // Updated hook for flight recommendations instead of flight search
   const {
     recommendation,
     isLoading,
     error,
     searchFlight,
+    retry,
     clearSearch,
     searchParams
   } = useFlightRecommendation();
 
-  // Scroll to results when search starts - form goes out of view
+  // Scroll to results when search starts so form goes out of view
   useEffect(() => {
     if (searchParams && resultsRef.current) {
       resultsRef.current.scrollIntoView({ 
@@ -73,6 +73,7 @@ const SearchPage: React.FC = () => {
                 recommendation={recommendation}
                 isLoading={isLoading}
                 error={error}
+                onRetry={retry}
               />
             </div>
           </div>
