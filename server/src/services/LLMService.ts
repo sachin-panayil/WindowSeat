@@ -9,7 +9,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
+    apiKey: process.env.OPENAI_API_KEY,
+    timeout: 15000
 });
 
 export async function generateRecommendation(
@@ -32,7 +33,7 @@ export async function generateRecommendation(
             ],
             max_tokens: 1000,
             temperature: 0.6,
-            seed: 67
+            seed: 67,
         });
 
         const content = response.choices[0].message.content;
@@ -46,8 +47,7 @@ export async function generateRecommendation(
         
     } catch (error) {
         console.error('OpenAI API error:', error);
-        // Fallback to simple heuristic if AI fails
-        return fallbackRecommendation(landmarks, pathWithSun, weatherReason);
+        throw new Error('AI recommendation service unavailable. Please try again.');
     }
 }
 

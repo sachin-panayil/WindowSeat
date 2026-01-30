@@ -8,7 +8,9 @@ const apiKey = process.env.API_NINJAS_API_KEY
 
 export async function getAirport(iata: string): Promise<Airport | null>  {
     const endpoint = baseAirportEndpoint + iata
-    console.log(endpoint)
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const requestOptions: RequestInit = {
         method: 'GET',
@@ -16,13 +18,15 @@ export async function getAirport(iata: string): Promise<Airport | null>  {
             'X-Api-Key': `${apiKey}`,
             'Content-Type': 'application/json'
         },
+        signal: controller.signal
     };
 
     try {
         const response = await fetch(endpoint, requestOptions);
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Airport service error: ${response.status}`);
         }
 
         const rawData = (await response.json()) as ApiNinjasResponse[]
@@ -44,6 +48,12 @@ export async function getAirport(iata: string): Promise<Airport | null>  {
 
         return airport;
     } catch (error) {
+        clearTimeout(timeoutId);
+        
+        if (error instanceof Error && error.name === 'AbortError') {
+            throw new Error('Airport lookup timed out. Please try again.');
+        }
+        
         console.error("Fetch error:", error);
         throw error;
     }

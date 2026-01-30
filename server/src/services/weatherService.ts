@@ -4,7 +4,6 @@ import { estimateTimeAtPoint, parseLocalDepartureToUtc } from "../utils/timeHelp
 import type { OpenMeteoResponse } from "../types/OpenMeteoResponse";
 
 const OPEN_METEO_BASE = "https://api.open-meteo.com/v1/forecast";
-const FORECAST_LIMIT_DAYS = 16;
 
 // fetches cloud cover for each point along the flight path
 // returns path with cloudCover data and plus metadata about data availability
@@ -21,7 +20,7 @@ export async function getRouteWeather(
     
     const departureUtc = parseLocalDepartureToUtc(date, departureTime, originTimezone);
     
-    if (daysUntilFlight > FORECAST_LIMIT_DAYS) {
+    if (daysUntilFlight > 16) { // max forecast we get data for
         return {
             path: path.map(point => ({
                 ...point,
@@ -102,25 +101,39 @@ async function fetchCloudCover(
     url.searchParams.append('end_date', dateStr);
     url.searchParams.append('timezone', 'UTC');
     
-    const response = await fetch(url.toString());
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
     
-    if (!response.ok) {
-        throw new Error(`Open-Meteo API error: ${response.status}`);
+    try {
+        const response = await fetch(url.toString(), { signal: controller.signal });
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+            throw new Error(`Open-Meteo API error: ${response.status}`);
+        }
+        
+        const data = await response.json() as OpenMeteoResponse;
+        
+        const cloudCoverArray = data.hourly?.cloud_cover;
+        
+        if (!cloudCoverArray || cloudCoverArray.length === 0) {
+            throw new Error('No cloud cover data in response');
+        }
+        
+        const cloudCover = cloudCoverArray[hour];
+        
+        if (cloudCover === undefined || cloudCover === null) {
+            throw new Error(`No cloud cover data for hour ${hour}`);
+        }
+        
+        return cloudCover;
+    } catch (error) {
+        clearTimeout(timeoutId);
+        
+        if (error instanceof Error && error.name === 'AbortError') {
+            throw new Error('Weather lookup timed out');
+        }
+        
+        throw error;
     }
-    
-    const data = await response.json() as OpenMeteoResponse;
-    
-    const cloudCoverArray = data.hourly?.cloud_cover;
-    
-    if (!cloudCoverArray || cloudCoverArray.length === 0) {
-        throw new Error('No cloud cover data in response');
-    }
-    
-    const cloudCover = cloudCoverArray[hour];
-    
-    if (cloudCover === undefined || cloudCover === null) {
-        throw new Error(`No cloud cover data for hour ${hour}`);
-    }
-    
-    return cloudCover;
 }

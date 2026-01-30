@@ -1,16 +1,17 @@
 import express from 'express';
+import { getAirport } from '../services/airportService';
+import { calculatePath, findLandmarksAlongPath } from '../utils/geoHelper';
+import { getSunPositions } from '../utils/sunHelper';
+import { getRouteWeather } from '../services/weatherService';
+import { generateRecommendation } from '../services/LLMService';
+import { classifyError } from '../helper/classifyError';
 import type { 
     FlightSearchParams, 
     FlightRecommendation,
     FlightData,
     LandmarkSummary
 } from '../../../shared/types/flight.types';
-
-import { getAirport } from '../services/airportService';
-import { calculatePath, findLandmarksAlongPath } from '../utils/geoHelper';
-import { getSunPositions } from '../utils/sunHelper';
-import { getRouteWeather } from '../services/weatherService';
-import { generateRecommendation } from '../services/LLMService';
+import type { APIError } from '../helper/classifyError';
 
 export const router = express.Router();
 
@@ -28,10 +29,20 @@ router.post('/', async (req, res) => {
         ]);
 
         if (!originAirport) {
-            return res.status(400).json({ error: `Airport not found: ${params.origin}` });
+            return res.status(400).json({
+                error: 'Invalid airport',
+                code: 'AIRPORT_NOT_FOUND',
+                message: `Airport not found: ${params.origin}`,
+                retryable: false
+            } as APIError);
         }
         if (!destAirport) {
-            return res.status(400).json({ error: `Airport not found: ${params.destination}` });
+            return res.status(400).json({
+                error: 'Invalid airport',
+                code: 'AIRPORT_NOT_FOUND',
+                message: `Airport not found: ${params.destination}`,
+                retryable: false
+            } as APIError);
         }
 
         console.log('Airports resolved:', originAirport.city, '→', destAirport.city);
@@ -97,7 +108,7 @@ router.post('/', async (req, res) => {
         });
 
         // 8. Generate recommendation 
-        const recommendation = await generateRecommendation(landmarkSummaries, pathWithSun, weatherResult.reason, flightData);
+        const recommendation = await generateRecommendation(landmarkSummaries, pathWithSun, weatherResult.reason);
 
         // 9. Assemble response
         const response: FlightRecommendation = {
@@ -110,9 +121,8 @@ router.post('/', async (req, res) => {
 
     } catch (error) {
         console.error('Recommendation error:', error);
-        res.status(500).json({ 
-            error: 'Failed to generate recommendation',
-            message: error instanceof Error ? error.message : 'Unknown error'
-        });
+        
+        const { status, body } = classifyError(error instanceof Error ? error : new Error('Unknown error'));
+        res.status(status).json(body);
     }
 });

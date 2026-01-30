@@ -1,11 +1,9 @@
 import axios from "axios";
 import type { FlightSearchParams, FlightRecommendation } from "../../../shared/types/flight.types";
 
-const TIMEOUT = 20000
-
 const api = axios.create({
     baseURL: 'http://localhost:5001/api',
-    timeout: TIMEOUT
+    timeout: 15000
 })
 
 export const flightAPI = {
