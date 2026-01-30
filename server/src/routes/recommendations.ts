@@ -10,7 +10,7 @@ import { getAirport } from '../services/airportService';
 import { calculatePath, findLandmarksAlongPath } from '../utils/geoHelper';
 import { getSunPositions } from '../utils/sunHelper';
 import { getRouteWeather } from '../services/weatherService';
-import { generateRecommendation } from '../services/AIService';
+import { generateRecommendation } from '../services/LLMService';
 
 export const router = express.Router();
 
@@ -97,7 +97,7 @@ router.post('/', async (req, res) => {
         });
 
         // 8. Generate recommendation 
-        const recommendation = generateRecommendation(landmarkSummaries, pathWithSun, weatherResult.reason);
+        const recommendation = await generateRecommendation(landmarkSummaries, pathWithSun, weatherResult.reason, flightData);
 
         // 9. Assemble response
         const response: FlightRecommendation = {

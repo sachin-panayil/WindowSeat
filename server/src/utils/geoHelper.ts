@@ -5,7 +5,6 @@ import { LandmarkSighting } from "../types/LandmarkSighting";
 import { LANDMARKS } from "../data/landmarks"
 
 const INTERVAL = 200;
-const VIEWING_RANGE = 230;
 const R = 3959; // earth's radius in miles
 
 export function calculatePath(origin: Coordinates, destination: Coordinates): GeoPoint[] {
@@ -41,7 +40,7 @@ export function findLandmarksAlongPath(path: GeoPoint[]): LandmarkSighting[] {
         // find closest path point to this landmark
         for (let i = 0; i < path.length; i++) {
             const distance = haversineDistance(path[i], landmark);
-            if (distance <= VIEWING_RANGE && distance < closestDistance) {
+            if (distance <= landmark.viewingRange && distance < closestDistance) {
                 closestDistance = distance;
                 closestPointIndex = i;
             }
@@ -118,4 +117,21 @@ function getSide(
         (nextPoint.latitude - pathPoint.latitude) * (landmark.longitude - pathPoint.longitude);
     
     return cross > 0 ? 'left' : 'right';
+}
+
+// calculates the compass bearing from p1 to p2 (0-360°, clockwise from north)
+export function calculateBearing(p1: Coordinates, p2: Coordinates): number {
+    const toRad = (deg: number) => deg * Math.PI / 180;
+    const toDeg = (rad: number) => rad * 180 / Math.PI;
+    
+    const lat1 = toRad(p1.latitude);
+    const lat2 = toRad(p2.latitude);
+    const dLon = toRad(p2.longitude - p1.longitude);
+    
+    const x = Math.sin(dLon) * Math.cos(lat2);
+    const y = Math.cos(lat1) * Math.sin(lat2) - 
+              Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+    
+    const bearing = toDeg(Math.atan2(x, y));
+    return (bearing + 360) % 360; // normalize to 0-360
 }

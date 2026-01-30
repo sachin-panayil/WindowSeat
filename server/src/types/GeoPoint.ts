@@ -5,5 +5,6 @@ export interface GeoPoint {
     estimatedTime?: string;
     cloudCover?: number;        
     sunAzimuth?: number;        
-    sunElevation?: number;   
+    sunElevation?: number;
+    sunGlareSide?: 'left' | 'right' | 'none';
 }

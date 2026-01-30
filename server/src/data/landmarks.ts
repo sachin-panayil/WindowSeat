@@ -10,7 +10,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.1911,
         longitude: -106.8175,
         type: 'mountain',
-        description: 'Major mountain range; snow-capped peaks visible most of year'
+        description: 'Major mountain range; snow-capped peaks visible most of year',
+        viewingRange: 230
     },
     {
         id: 'rocky-mountains-mt',
@@ -18,7 +19,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.0000,
         longitude: -113.5000,
         type: 'mountain',
-        description: 'Northern Rockies with glacial valleys and rugged terrain'
+        description: 'Northern Rockies with glacial valleys and rugged terrain',
+        viewingRange: 230
     },
     {
         id: 'mt-rainier',
@@ -26,7 +28,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 46.8523,
         longitude: -121.7603,
         type: 'mountain',
-        description: 'Iconic volcanic peak near Seattle; glaciated summit at 14,411 ft'
+        description: 'Iconic volcanic peak near Seattle; glaciated summit at 14,411 ft',
+        viewingRange: 180
     },
     {
         id: 'mt-hood',
@@ -34,7 +37,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 45.3735,
         longitude: -121.6959,
         type: 'mountain',
-        description: 'Oregon\'s highest peak; distinctive triangular silhouette'
+        description: 'Oregon\'s highest peak; distinctive triangular silhouette',
+        viewingRange: 150
     },
     {
         id: 'mt-shasta',
@@ -42,7 +46,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.4092,
         longitude: -122.1949,
         type: 'mountain',
-        description: 'Isolated volcanic peak in Northern California; perpetual snow'
+        description: 'Isolated volcanic peak in Northern California; perpetual snow',
+        viewingRange: 180
     },
     {
         id: 'mt-st-helens',
@@ -50,7 +55,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 46.1912,
         longitude: -122.1944,
         type: 'mountain',
-        description: 'Active volcano with distinctive crater from 1980 eruption'
+        description: 'Active volcano with distinctive crater from 1980 eruption',
+        viewingRange: 150
     },
     {
         id: 'mt-baker',
@@ -58,7 +64,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 48.7768,
         longitude: -121.8145,
         type: 'mountain',
-        description: 'Glaciated volcano in North Cascades; visible from Seattle'
+        description: 'Glaciated volcano in North Cascades; visible from Seattle',
+        viewingRange: 150
     },
     {
         id: 'sierra-nevada-north',
@@ -66,7 +73,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.0968,
         longitude: -120.0324,
         type: 'mountain',
-        description: 'Northern Sierra including Lake Tahoe region'
+        description: 'Northern Sierra including Lake Tahoe region',
+        viewingRange: 230
     },
     {
         id: 'sierra-nevada-south',
@@ -74,7 +82,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.5785,
         longitude: -118.2923,
         type: 'mountain',
-        description: 'Southern Sierra including Mt Whitney and Sequoia region'
+        description: 'Southern Sierra including Mt Whitney and Sequoia region',
+        viewingRange: 230
     },
     {
         id: 'mt-whitney',
@@ -82,7 +91,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.5785,
         longitude: -118.2923,
         type: 'mountain',
-        description: 'Highest peak in contiguous US at 14,505 ft'
+        description: 'Highest peak in contiguous US at 14,505 ft',
+        viewingRange: 150
     },
     {
         id: 'cascade-range-wa',
@@ -90,7 +100,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.5000,
         longitude: -121.0000,
         type: 'mountain',
-        description: 'Volcanic chain with numerous glaciated peaks'
+        description: 'Volcanic chain with numerous glaciated peaks',
+        viewingRange: 230
     },
     {
         id: 'cascade-range-or',
@@ -98,7 +109,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.0000,
         longitude: -121.7500,
         type: 'mountain',
-        description: 'Oregon Cascades including Three Sisters and Crater Lake'
+        description: 'Oregon Cascades including Three Sisters and Crater Lake',
+        viewingRange: 230
     },
     {
         id: 'appalachian-smokies',
@@ -106,7 +118,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.6532,
         longitude: -83.5070,
         type: 'mountain',
-        description: 'Mist-shrouded peaks on TN-NC border; most visited national park'
+        description: 'Mist-shrouded peaks on TN-NC border; most visited national park',
+        viewingRange: 200
     },
     {
         id: 'appalachian-blue-ridge',
@@ -114,7 +127,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.5000,
         longitude: -81.0000,
         type: 'mountain',
-        description: 'Eastern front of Appalachians; distinctive blue haze'
+        description: 'Eastern front of Appalachians; distinctive blue haze',
+        viewingRange: 200
     },
     {
         id: 'appalachian-shenandoah',
@@ -122,7 +136,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.5000,
         longitude: -78.8500,
         type: 'mountain',
-        description: 'Virginia valley between Blue Ridge and Allegheny ranges'
+        description: 'Virginia valley between Blue Ridge and Allegheny ranges',
+        viewingRange: 180
     },
     {
         id: 'appalachian-white-mtns',
@@ -130,7 +145,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.2706,
         longitude: -71.3033,
         type: 'mountain',
-        description: 'New Hampshire peaks including Mt Washington; fall colors spectacular'
+        description: 'New Hampshire peaks including Mt Washington; fall colors spectacular',
+        viewingRange: 180
     },
     {
         id: 'appalachian-green-mtns',
@@ -138,7 +154,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.0000,
         longitude: -72.8000,
         type: 'mountain',
-        description: 'Vermont range; rolling forested peaks'
+        description: 'Vermont range; rolling forested peaks',
+        viewingRange: 180
     },
     {
         id: 'appalachian-adirondacks',
@@ -146,7 +163,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.1127,
         longitude: -73.9212,
         type: 'mountain',
-        description: 'New York wilderness with lakes and high peaks'
+        description: 'New York wilderness with lakes and high peaks',
+        viewingRange: 180
     },
     {
         id: 'appalachian-catskills',
@@ -154,7 +172,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 42.0000,
         longitude: -74.3500,
         type: 'mountain',
-        description: 'New York mountains north of NYC; forested ridges'
+        description: 'New York mountains north of NYC; forested ridges',
+        viewingRange: 150
     },
     {
         id: 'grand-tetons',
@@ -162,7 +181,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 43.7904,
         longitude: -110.6818,
         type: 'mountain',
-        description: 'Dramatic jagged peaks rising sharply from Jackson Hole valley'
+        description: 'Dramatic jagged peaks rising sharply from Jackson Hole valley',
+        viewingRange: 150
     },
     {
         id: 'wind-river-range',
@@ -170,7 +190,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 43.1833,
         longitude: -109.6500,
         type: 'mountain',
-        description: 'Remote Wyoming range with glaciers and alpine lakes'
+        description: 'Remote Wyoming range with glaciers and alpine lakes',
+        viewingRange: 180
     },
     {
         id: 'bighorn-mountains',
@@ -178,7 +199,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.3833,
         longitude: -107.1667,
         type: 'mountain',
-        description: 'Wyoming range rising from Great Plains'
+        description: 'Wyoming range rising from Great Plains',
+        viewingRange: 180
     },
     {
         id: 'wasatch-range',
@@ -186,7 +208,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 40.6500,
         longitude: -111.5000,
         type: 'mountain',
-        description: 'Utah mountains east of Salt Lake City; dramatic escarpment'
+        description: 'Utah mountains east of Salt Lake City; dramatic escarpment',
+        viewingRange: 180
     },
     {
         id: 'uinta-mountains',
@@ -194,7 +217,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 40.7500,
         longitude: -110.5000,
         type: 'mountain',
-        description: 'East-west trending range in Utah; unusual orientation'
+        description: 'East-west trending range in Utah; unusual orientation',
+        viewingRange: 180
     },
     {
         id: 'san-juan-mountains',
@@ -202,7 +226,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.8167,
         longitude: -107.6667,
         type: 'mountain',
-        description: 'Rugged Colorado range with mining history; colorful peaks'
+        description: 'Rugged Colorado range with mining history; colorful peaks',
+        viewingRange: 180
     },
     {
         id: 'sangre-de-cristo',
@@ -210,7 +235,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.5000,
         longitude: -105.5000,
         type: 'mountain',
-        description: 'Southern Rocky range in Colorado/New Mexico'
+        description: 'Southern Rocky range in Colorado/New Mexico',
+        viewingRange: 180
     },
     {
         id: 'sandia-mountains',
@@ -218,7 +244,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.2100,
         longitude: -106.4450,
         type: 'mountain',
-        description: 'Dramatic granite face east of Albuquerque; pink at sunset'
+        description: 'Dramatic granite face east of Albuquerque; pink at sunset',
+        viewingRange: 150
     },
     {
         id: 'olympic-mountains',
@@ -226,7 +253,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.8000,
         longitude: -123.7000,
         type: 'mountain',
-        description: 'Isolated Washington range with glaciers and rainforest'
+        description: 'Isolated Washington range with glaciers and rainforest',
+        viewingRange: 180
     },
     {
         id: 'sawtooth-range',
@@ -234,7 +262,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.0000,
         longitude: -114.9167,
         type: 'mountain',
-        description: 'Idaho\'s jagged granite peaks; alpine lakes'
+        description: 'Idaho\'s jagged granite peaks; alpine lakes',
+        viewingRange: 150
     },
     {
         id: 'bitterroot-range',
@@ -242,7 +271,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 46.0000,
         longitude: -114.5000,
         type: 'mountain',
-        description: 'Idaho-Montana border range; rugged wilderness'
+        description: 'Idaho-Montana border range; rugged wilderness',
+        viewingRange: 180
     },
     {
         id: 'glacier-national-park',
@@ -250,7 +280,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 48.7596,
         longitude: -113.7870,
         type: 'mountain',
-        description: 'Montana\'s crown; glacial valleys and alpine lakes'
+        description: 'Montana\'s crown; glacial valleys and alpine lakes',
+        viewingRange: 180
     },
     {
         id: 'pikes-peak',
@@ -258,7 +289,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.8409,
         longitude: -105.0423,
         type: 'mountain',
-        description: 'Famous Colorado peak visible from Great Plains'
+        description: 'Famous Colorado peak visible from Great Plains',
+        viewingRange: 150
     },
     {
         id: 'longs-peak',
@@ -266,7 +298,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 40.2550,
         longitude: -105.6151,
         type: 'mountain',
-        description: 'Rocky Mountain National Park highpoint; flat summit'
+        description: 'Rocky Mountain National Park highpoint; flat summit',
+        viewingRange: 120
     },
     {
         id: 'denali',
@@ -274,7 +307,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 63.0692,
         longitude: -151.0070,
         type: 'mountain',
-        description: 'Highest peak in North America at 20,310 ft; Alaska'
+        description: 'Highest peak in North America at 20,310 ft; Alaska',
+        viewingRange: 230
     },
     {
         id: 'mauna-kea',
@@ -282,7 +316,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 19.8207,
         longitude: -155.4680,
         type: 'mountain',
-        description: 'Hawaii\'s highest; observatories on summit often above clouds'
+        description: 'Hawaii\'s highest; observatories on summit often above clouds',
+        viewingRange: 180
     },
 
     // ============================================
@@ -294,7 +329,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.0544,
         longitude: -112.1401,
         type: 'canyon',
-        description: 'Mile-deep canyon carved by Colorado River; 277 miles long'
+        description: 'Mile-deep canyon carved by Colorado River; 277 miles long',
+        viewingRange: 200
     },
     {
         id: 'bryce-canyon',
@@ -302,7 +338,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.5930,
         longitude: -112.1871,
         type: 'canyon',
-        description: 'Distinctive red rock hoodoos and amphitheaters'
+        description: 'Distinctive red rock hoodoos and amphitheaters',
+        viewingRange: 100
     },
     {
         id: 'zion-canyon',
@@ -310,7 +347,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.2982,
         longitude: -113.0263,
         type: 'canyon',
-        description: 'Deep red and tan sandstone canyon in Utah'
+        description: 'Deep red and tan sandstone canyon in Utah',
+        viewingRange: 120
     },
     {
         id: 'monument-valley',
@@ -318,7 +356,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.9980,
         longitude: -110.0985,
         type: 'geological',
-        description: 'Iconic red sandstone buttes on Arizona-Utah border'
+        description: 'Iconic red sandstone buttes on Arizona-Utah border',
+        viewingRange: 150
     },
     {
         id: 'arches',
@@ -326,7 +365,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.7331,
         longitude: -109.5925,
         type: 'geological',
-        description: 'Over 2,000 natural stone arches; red rock formations'
+        description: 'Over 2,000 natural stone arches; red rock formations',
+        viewingRange: 80
     },
     {
         id: 'canyonlands',
@@ -334,7 +374,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.3269,
         longitude: -109.8783,
         type: 'canyon',
-        description: 'Vast canyon wilderness carved by Colorado and Green rivers'
+        description: 'Vast canyon wilderness carved by Colorado and Green rivers',
+        viewingRange: 180
     },
     {
         id: 'mesa-verde',
@@ -342,7 +383,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.2309,
         longitude: -108.4618,
         type: 'geological',
-        description: 'Green mesa with ancient cliff dwellings'
+        description: 'Green mesa with ancient cliff dwellings',
+        viewingRange: 100
     },
     {
         id: 'capitol-reef',
@@ -350,7 +392,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.2000,
         longitude: -111.1667,
         type: 'geological',
-        description: 'Waterpocket Fold; colorful Navajo sandstone'
+        description: 'Waterpocket Fold; colorful Navajo sandstone',
+        viewingRange: 100
     },
     {
         id: 'crater-lake',
@@ -358,7 +401,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 42.8684,
         longitude: -122.1685,
         type: 'geological',
-        description: 'Deep blue volcanic crater lake; deepest in US'
+        description: 'Deep blue volcanic crater lake; deepest in US',
+        viewingRange: 120
     },
     {
         id: 'death-valley',
@@ -366,7 +410,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.5054,
         longitude: -117.0794,
         type: 'desert',
-        description: 'Below-sea-level desert basin; salt flats and badlands'
+        description: 'Below-sea-level desert basin; salt flats and badlands',
+        viewingRange: 200
     },
     {
         id: 'yellowstone',
@@ -374,7 +419,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.4280,
         longitude: -110.5885,
         type: 'geological',
-        description: 'Volcanic caldera with geothermal features; distinctive terrain'
+        description: 'Volcanic caldera with geothermal features; distinctive terrain',
+        viewingRange: 180
     },
     {
         id: 'badlands-sd',
@@ -382,7 +428,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 43.8554,
         longitude: -102.3397,
         type: 'geological',
-        description: 'Eroded buttes and pinnacles in South Dakota prairie'
+        description: 'Eroded buttes and pinnacles in South Dakota prairie',
+        viewingRange: 150
     },
     {
         id: 'theodore-roosevelt-np',
@@ -390,7 +437,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 46.9790,
         longitude: -103.5387,
         type: 'geological',
-        description: 'North Dakota badlands; colorful striped buttes'
+        description: 'North Dakota badlands; colorful striped buttes',
+        viewingRange: 120
     },
     {
         id: 'painted-desert',
@@ -398,7 +446,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.0653,
         longitude: -109.7870,
         type: 'desert',
-        description: 'Colorful badlands in Arizona; bands of red, orange, pink'
+        description: 'Colorful badlands in Arizona; bands of red, orange, pink',
+        viewingRange: 180
     },
     {
         id: 'petrified-forest',
@@ -406,7 +455,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 34.9100,
         longitude: -109.8068,
         type: 'geological',
-        description: 'Ancient petrified logs scattered across desert'
+        description: 'Ancient petrified logs scattered across desert',
+        viewingRange: 60
     },
     {
         id: 'meteor-crater',
@@ -414,7 +464,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.0275,
         longitude: -111.0228,
         type: 'geological',
-        description: 'Well-preserved impact crater nearly mile wide'
+        description: 'Well-preserved impact crater nearly mile wide',
+        viewingRange: 50
     },
     {
         id: 'devils-tower',
@@ -422,7 +473,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.5902,
         longitude: -104.7146,
         type: 'geological',
-        description: 'Volcanic rock tower rising 867 ft from Wyoming prairie'
+        description: 'Volcanic rock tower rising 867 ft from Wyoming prairie',
+        viewingRange: 40
     },
     {
         id: 'ship-rock',
@@ -430,7 +482,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.6875,
         longitude: -108.8367,
         type: 'geological',
-        description: 'Dramatic volcanic plug rising from New Mexico desert'
+        description: 'Dramatic volcanic plug rising from New Mexico desert',
+        viewingRange: 60
     },
     {
         id: 'carlsbad-caverns',
@@ -438,7 +491,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 32.1479,
         longitude: -104.5567,
         type: 'geological',
-        description: 'Surface above vast cave system; Guadalupe Mountains'
+        description: 'Surface above vast cave system; Guadalupe Mountains',
+        viewingRange: 30
     },
     {
         id: 'white-sands',
@@ -446,7 +500,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 32.7872,
         longitude: -106.3257,
         type: 'desert',
-        description: 'Brilliant white gypsum dune field in New Mexico'
+        description: 'Brilliant white gypsum dune field in New Mexico',
+        viewingRange: 150
     },
     {
         id: 'big-bend',
@@ -454,7 +509,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 29.2500,
         longitude: -103.2500,
         type: 'canyon',
-        description: 'Rio Grande canyons and Chisos Mountains; remote Texas'
+        description: 'Rio Grande canyons and Chisos Mountains; remote Texas',
+        viewingRange: 150
     },
     {
         id: 'palo-duro-canyon',
@@ -462,7 +518,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 34.9370,
         longitude: -101.6703,
         type: 'canyon',
-        description: 'Second largest US canyon; Texas Panhandle'
+        description: 'Second largest US canyon; Texas Panhandle',
+        viewingRange: 120
     },
     {
         id: 'joshua-tree',
@@ -470,7 +527,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 33.8734,
         longitude: -115.9010,
         type: 'desert',
-        description: 'Where Mojave and Colorado deserts meet; iconic trees and boulders'
+        description: 'Where Mojave and Colorado deserts meet; iconic trees and boulders',
+        viewingRange: 100
     },
     {
         id: 'mojave-desert',
@@ -478,7 +536,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.0110,
         longitude: -115.4734,
         type: 'desert',
-        description: 'High desert between LA and Las Vegas; sparse vegetation'
+        description: 'High desert between LA and Las Vegas; sparse vegetation',
+        viewingRange: 230
     },
     {
         id: 'sonoran-desert',
@@ -486,7 +545,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 32.2500,
         longitude: -111.0000,
         type: 'desert',
-        description: 'Arizona desert with saguaro cacti; distinctive landscape'
+        description: 'Arizona desert with saguaro cacti; distinctive landscape',
+        viewingRange: 230
     },
     {
         id: 'great-basin',
@@ -494,7 +554,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.0000,
         longitude: -117.0000,
         type: 'desert',
-        description: 'Vast Nevada basin between mountain ranges'
+        description: 'Vast Nevada basin between mountain ranges',
+        viewingRange: 230
     },
     {
         id: 'bonneville-salt-flats',
@@ -502,7 +563,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 40.7579,
         longitude: -113.8942,
         type: 'geological',
-        description: 'Brilliant white salt flat in Utah; land speed record site'
+        description: 'Brilliant white salt flat in Utah; land speed record site',
+        viewingRange: 150
     },
     {
         id: 'garden-of-the-gods',
@@ -510,7 +572,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.8739,
         longitude: -104.8863,
         type: 'geological',
-        description: 'Red rock formations near Colorado Springs'
+        description: 'Red rock formations near Colorado Springs',
+        viewingRange: 40
     },
     {
         id: 'sedona-red-rocks',
@@ -518,7 +581,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 34.8697,
         longitude: -111.7610,
         type: 'geological',
-        description: 'Dramatic red sandstone formations in Verde Valley'
+        description: 'Dramatic red sandstone formations in Verde Valley',
+        viewingRange: 80
     },
     {
         id: 'chiricahua',
@@ -526,7 +590,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 32.0131,
         longitude: -109.3425,
         type: 'geological',
-        description: 'Sea of rhyolite spires in Arizona; volcanic rock columns'
+        description: 'Sea of rhyolite spires in Arizona; volcanic rock columns',
+        viewingRange: 60
     },
 
     // ============================================
@@ -538,7 +603,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.7000,
         longitude: -87.5000,
         type: 'lake',
-        description: 'Largest Great Lake; looks like inland sea from altitude'
+        description: 'Largest Great Lake; looks like inland sea from altitude',
+        viewingRange: 230
     },
     {
         id: 'lake-michigan',
@@ -546,7 +612,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 43.6167,
         longitude: -87.0000,
         type: 'lake',
-        description: 'Great Lake bordering Chicago; distinctive shoreline'
+        description: 'Great Lake bordering Chicago; distinctive shoreline',
+        viewingRange: 230
     },
     {
         id: 'lake-erie',
@@ -554,7 +621,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 42.2000,
         longitude: -81.2000,
         type: 'lake',
-        description: 'Shallowest Great Lake; borders Cleveland and Buffalo'
+        description: 'Shallowest Great Lake; borders Cleveland and Buffalo',
+        viewingRange: 230
     },
     {
         id: 'lake-ontario',
@@ -562,7 +630,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 43.6500,
         longitude: -77.8500,
         type: 'lake',
-        description: 'Easternmost Great Lake; gateway to St Lawrence'
+        description: 'Easternmost Great Lake; gateway to St Lawrence',
+        viewingRange: 230
     },
     {
         id: 'lake-huron',
@@ -570,7 +639,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.8000,
         longitude: -82.4167,
         type: 'lake',
-        description: 'Great Lake with distinctive Georgian Bay'
+        description: 'Great Lake with distinctive Georgian Bay',
+        viewingRange: 230
     },
     {
         id: 'great-salt-lake',
@@ -578,7 +648,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.0000,
         longitude: -112.5000,
         type: 'lake',
-        description: 'Largest saltwater lake in Western Hemisphere; pinkish hue'
+        description: 'Largest saltwater lake in Western Hemisphere; pinkish hue',
+        viewingRange: 200
     },
     {
         id: 'lake-tahoe',
@@ -586,7 +657,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.0968,
         longitude: -120.0324,
         type: 'lake',
-        description: 'Deep alpine lake on California-Nevada border; vivid blue'
+        description: 'Deep alpine lake on California-Nevada border; vivid blue',
+        viewingRange: 120
     },
     {
         id: 'lake-mead',
@@ -594,7 +666,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.1456,
         longitude: -114.3903,
         type: 'lake',
-        description: 'Large reservoir near Las Vegas; Hoover Dam visible'
+        description: 'Large reservoir near Las Vegas; Hoover Dam visible',
+        viewingRange: 150
     },
     {
         id: 'lake-powell',
@@ -602,7 +675,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.0683,
         longitude: -111.2433,
         type: 'lake',
-        description: 'Reservoir with red rock canyons; Glen Canyon Dam'
+        description: 'Reservoir with red rock canyons; Glen Canyon Dam',
+        viewingRange: 150
     },
     {
         id: 'mono-lake',
@@ -610,7 +684,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.0000,
         longitude: -119.0000,
         type: 'lake',
-        description: 'Ancient saline lake with tufa towers; east of Yosemite'
+        description: 'Ancient saline lake with tufa towers; east of Yosemite',
+        viewingRange: 80
     },
     {
         id: 'lake-champlain',
@@ -618,7 +693,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.5333,
         longitude: -73.3333,
         type: 'lake',
-        description: 'Long narrow lake between Vermont and New York'
+        description: 'Long narrow lake between Vermont and New York',
+        viewingRange: 150
     },
     {
         id: 'finger-lakes',
@@ -626,7 +702,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 42.6500,
         longitude: -76.9000,
         type: 'lake',
-        description: 'Series of long narrow glacial lakes in New York'
+        description: 'Series of long narrow glacial lakes in New York',
+        viewingRange: 120
     },
     {
         id: 'lake-okeechobee',
@@ -634,7 +711,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 26.9500,
         longitude: -80.8000,
         type: 'lake',
-        description: 'Large shallow Florida lake; Everglades headwaters'
+        description: 'Large shallow Florida lake; Everglades headwaters',
+        viewingRange: 150
     },
     {
         id: 'lake-pontchartrain',
@@ -642,7 +720,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 30.2000,
         longitude: -90.1000,
         type: 'lake',
-        description: 'Large brackish lake north of New Orleans; causeway visible'
+        description: 'Large brackish lake north of New Orleans; causeway visible',
+        viewingRange: 150
     },
     {
         id: 'flathead-lake',
@@ -650,7 +729,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.8833,
         longitude: -114.1167,
         type: 'lake',
-        description: 'Largest natural freshwater lake west of Mississippi'
+        description: 'Largest natural freshwater lake west of Mississippi',
+        viewingRange: 150
     },
     {
         id: 'lake-of-the-ozarks',
@@ -658,7 +738,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.1167,
         longitude: -92.6833,
         type: 'lake',
-        description: 'Large serpentine reservoir in Missouri'
+        description: 'Large serpentine reservoir in Missouri',
+        viewingRange: 120
     },
     {
         id: 'lake-havasu',
@@ -666,7 +747,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 34.4731,
         longitude: -114.3225,
         type: 'lake',
-        description: 'Colorado River reservoir on Arizona-California border'
+        description: 'Colorado River reservoir on Arizona-California border',
+        viewingRange: 100
     },
     {
         id: 'salton-sea',
@@ -674,7 +756,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 33.3000,
         longitude: -115.8333,
         type: 'lake',
-        description: 'Accidental lake in California desert; below sea level'
+        description: 'Accidental lake in California desert; below sea level',
+        viewingRange: 120
     },
     {
         id: 'lake-sakakawea',
@@ -682,7 +765,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.6500,
         longitude: -102.5000,
         type: 'lake',
-        description: 'Large Missouri River reservoir in North Dakota'
+        description: 'Large Missouri River reservoir in North Dakota',
+        viewingRange: 150
     },
     {
         id: 'lake-chelan',
@@ -690,7 +774,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.9000,
         longitude: -120.2000,
         type: 'lake',
-        description: 'Deep glacial lake in Washington Cascades'
+        description: 'Deep glacial lake in Washington Cascades',
+        viewingRange: 100
     },
     {
         id: 'kentucky-lake',
@@ -698,7 +783,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.8167,
         longitude: -88.0667,
         type: 'lake',
-        description: 'One of largest artificial lakes in eastern US'
+        description: 'One of largest artificial lakes in eastern US',
+        viewingRange: 150
     },
     {
         id: 'lake-lanier',
@@ -706,7 +792,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 34.2500,
         longitude: -83.9667,
         type: 'lake',
-        description: 'Large reservoir north of Atlanta'
+        description: 'Large reservoir north of Atlanta',
+        viewingRange: 100
     },
     {
         id: 'chesapeake-bay',
@@ -714,7 +801,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.8000,
         longitude: -76.1000,
         type: 'coastal',
-        description: 'Largest estuary in US; distinctive shape from air'
+        description: 'Largest estuary in US; distinctive shape from air',
+        viewingRange: 200
     },
     {
         id: 'san-francisco-bay',
@@ -722,7 +810,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.6000,
         longitude: -122.1500,
         type: 'coastal',
-        description: 'Iconic bay with Golden Gate strait; bridges visible'
+        description: 'Iconic bay with Golden Gate strait; bridges visible',
+        viewingRange: 150
     },
     {
         id: 'puget-sound',
@@ -730,7 +819,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.5000,
         longitude: -122.5000,
         type: 'coastal',
-        description: 'Complex inlet system near Seattle with island chains'
+        description: 'Complex inlet system near Seattle with island chains',
+        viewingRange: 150
     },
     {
         id: 'long-island-sound',
@@ -738,7 +828,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.1000,
         longitude: -72.9000,
         type: 'coastal',
-        description: 'Body of water between Connecticut and Long Island'
+        description: 'Body of water between Connecticut and Long Island',
+        viewingRange: 150
     },
     {
         id: 'delaware-bay',
@@ -746,7 +837,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.0000,
         longitude: -75.1000,
         type: 'coastal',
-        description: 'Large estuary between Delaware and New Jersey'
+        description: 'Large estuary between Delaware and New Jersey',
+        viewingRange: 150
     },
     {
         id: 'tampa-bay',
@@ -754,7 +846,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 27.7500,
         longitude: -82.5500,
         type: 'coastal',
-        description: 'Large natural harbor on Florida Gulf Coast'
+        description: 'Large natural harbor on Florida Gulf Coast',
+        viewingRange: 150
     },
     {
         id: 'mobile-bay',
@@ -762,7 +855,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 30.4500,
         longitude: -88.0000,
         type: 'coastal',
-        description: 'Alabama\'s Gulf Coast estuary'
+        description: 'Alabama\'s Gulf Coast estuary',
+        viewingRange: 120
     },
     {
         id: 'galveston-bay',
@@ -770,7 +864,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 29.5000,
         longitude: -94.8500,
         type: 'coastal',
-        description: 'Large Texas bay near Houston'
+        description: 'Large Texas bay near Houston',
+        viewingRange: 120
     },
     {
         id: 'monterey-bay',
@@ -778,7 +873,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.8000,
         longitude: -121.9000,
         type: 'coastal',
-        description: 'California bay with deep submarine canyon'
+        description: 'California bay with deep submarine canyon',
+        viewingRange: 120
     },
     {
         id: 'narragansett-bay',
@@ -786,7 +882,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.6167,
         longitude: -71.3667,
         type: 'coastal',
-        description: 'Rhode Island bay with numerous islands'
+        description: 'Rhode Island bay with numerous islands',
+        viewingRange: 100
     },
     {
         id: 'boston-harbor',
@@ -794,7 +891,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 42.3333,
         longitude: -70.9667,
         type: 'coastal',
-        description: 'Historic harbor with island archipelago'
+        description: 'Historic harbor with island archipelago',
+        viewingRange: 80
     },
     {
         id: 'columbia-river-gorge',
@@ -802,7 +900,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 45.7000,
         longitude: -121.8000,
         type: 'river',
-        description: 'Dramatic canyon through Cascades; Oregon-Washington border'
+        description: 'Dramatic canyon through Cascades; Oregon-Washington border',
+        viewingRange: 100
     },
     {
         id: 'niagara-falls',
@@ -810,7 +909,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 43.0828,
         longitude: -79.0742,
         type: 'river',
-        description: 'Massive waterfalls on US-Canada border; mist visible from air'
+        description: 'Massive waterfalls on US-Canada border; mist visible from air',
+        viewingRange: 30
     },
 
     // ============================================
@@ -822,7 +922,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 29.2000,
         longitude: -89.2500,
         type: 'river',
-        description: 'Bird-foot delta where Mississippi meets Gulf'
+        description: 'Bird-foot delta where Mississippi meets Gulf',
+        viewingRange: 150
     },
     {
         id: 'mississippi-upper',
@@ -830,7 +931,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.5000,
         longitude: -90.5000,
         type: 'river',
-        description: 'Wide river with bluffs through Minnesota to St Louis'
+        description: 'Wide river with bluffs through Minnesota to St Louis',
+        viewingRange: 80
     },
     {
         id: 'mississippi-lower',
@@ -838,7 +940,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 32.3000,
         longitude: -90.9000,
         type: 'river',
-        description: 'Meandering river through Deep South; oxbow lakes'
+        description: 'Meandering river through Deep South; oxbow lakes',
+        viewingRange: 80
     },
     {
         id: 'missouri-river',
@@ -846,7 +949,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.2500,
         longitude: -95.9000,
         type: 'river',
-        description: 'Longest river in US; joins Mississippi near St Louis'
+        description: 'Longest river in US; joins Mississippi near St Louis',
+        viewingRange: 80
     },
     {
         id: 'ohio-river',
@@ -854,7 +958,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.7000,
         longitude: -85.0000,
         type: 'river',
-        description: 'Major tributary; border of multiple states'
+        description: 'Major tributary; border of multiple states',
+        viewingRange: 80
     },
     {
         id: 'colorado-river-az',
@@ -862,7 +967,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.0000,
         longitude: -112.0000,
         type: 'river',
-        description: 'River carving through Grand Canyon'
+        description: 'River carving through Grand Canyon',
+        viewingRange: 100
     },
     {
         id: 'colorado-river-lower',
@@ -870,7 +976,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 33.5000,
         longitude: -114.5000,
         type: 'river',
-        description: 'River forming Arizona-California border'
+        description: 'River forming Arizona-California border',
+        viewingRange: 80
     },
     {
         id: 'columbia-river',
@@ -878,7 +985,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 46.2500,
         longitude: -119.2500,
         type: 'river',
-        description: 'Pacific Northwest\'s largest river; dramatic gorge'
+        description: 'Pacific Northwest\'s largest river; dramatic gorge',
+        viewingRange: 100
     },
     {
         id: 'snake-river',
@@ -886,7 +994,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 43.6500,
         longitude: -116.2000,
         type: 'river',
-        description: 'Major Columbia tributary through Idaho'
+        description: 'Major Columbia tributary through Idaho',
+        viewingRange: 80
     },
     {
         id: 'rio-grande',
@@ -894,7 +1003,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 29.7500,
         longitude: -104.4000,
         type: 'river',
-        description: 'US-Mexico border river; Big Bend region'
+        description: 'US-Mexico border river; Big Bend region',
+        viewingRange: 80
     },
     {
         id: 'hudson-river',
@@ -902,7 +1012,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.5000,
         longitude: -73.9500,
         type: 'river',
-        description: 'River flowing south to New York Harbor'
+        description: 'River flowing south to New York Harbor',
+        viewingRange: 60
     },
     {
         id: 'potomac-river',
@@ -910,7 +1021,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.9000,
         longitude: -77.0500,
         type: 'river',
-        description: 'River flowing past Washington DC to Chesapeake'
+        description: 'River flowing past Washington DC to Chesapeake',
+        viewingRange: 60
     },
     {
         id: 'st-lawrence-river',
@@ -918,7 +1030,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.5000,
         longitude: -75.5000,
         type: 'river',
-        description: 'Great Lakes outlet with Thousand Islands'
+        description: 'Great Lakes outlet with Thousand Islands',
+        viewingRange: 100
     },
     {
         id: 'sacramento-river',
@@ -926,7 +1039,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.5833,
         longitude: -121.5000,
         type: 'river',
-        description: 'California\'s largest river through Central Valley'
+        description: 'California\'s largest river through Central Valley',
+        viewingRange: 60
     },
     {
         id: 'arkansas-river',
@@ -934,7 +1048,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.6500,
         longitude: -99.5000,
         type: 'river',
-        description: 'Major tributary flowing from Colorado to Mississippi'
+        description: 'Major tributary flowing from Colorado to Mississippi',
+        viewingRange: 80
     },
     {
         id: 'tennessee-river',
@@ -942,7 +1057,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.0000,
         longitude: -88.0000,
         type: 'river',
-        description: 'Major river with TVA dams through Tennessee Valley'
+        description: 'Major river with TVA dams through Tennessee Valley',
+        viewingRange: 80
     },
     {
         id: 'platte-river',
@@ -950,7 +1066,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.0000,
         longitude: -100.0000,
         type: 'river',
-        description: 'Wide shallow river across Nebraska plains'
+        description: 'Wide shallow river across Nebraska plains',
+        viewingRange: 80
     },
     {
         id: 'yellowstone-river',
@@ -958,7 +1075,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 45.8000,
         longitude: -108.5000,
         type: 'river',
-        description: 'Longest free-flowing river in lower 48'
+        description: 'Longest free-flowing river in lower 48',
+        viewingRange: 80
     },
     {
         id: 'green-river',
@@ -966,7 +1084,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.9000,
         longitude: -110.1500,
         type: 'river',
-        description: 'Colorado tributary through Utah canyonlands'
+        description: 'Colorado tributary through Utah canyonlands',
+        viewingRange: 80
     },
     {
         id: 'susquehanna-river',
@@ -974,7 +1093,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 40.2500,
         longitude: -76.8500,
         type: 'river',
-        description: 'Longest river on East Coast; feeds Chesapeake'
+        description: 'Longest river on East Coast; feeds Chesapeake',
+        viewingRange: 60
     },
 
     // ============================================
@@ -986,7 +1106,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.5585,
         longitude: -75.4665,
         type: 'coastal',
-        description: 'North Carolina barrier islands; Cape Hatteras'
+        description: 'North Carolina barrier islands; Cape Hatteras',
+        viewingRange: 150
     },
     {
         id: 'cape-cod',
@@ -994,7 +1115,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.6688,
         longitude: -70.2962,
         type: 'coastal',
-        description: 'Distinctive hook-shaped Massachusetts peninsula'
+        description: 'Distinctive hook-shaped Massachusetts peninsula',
+        viewingRange: 150
     },
     {
         id: 'florida-keys',
@@ -1002,7 +1124,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 24.6649,
         longitude: -81.5475,
         type: 'island',
-        description: 'Island chain curving into Gulf; Overseas Highway visible'
+        description: 'Island chain curving into Gulf; Overseas Highway visible',
+        viewingRange: 150
     },
     {
         id: 'big-sur-coast',
@@ -1010,7 +1133,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.2000,
         longitude: -121.8000,
         type: 'coastal',
-        description: 'Dramatic California cliffs meeting Pacific'
+        description: 'Dramatic California cliffs meeting Pacific',
+        viewingRange: 120
     },
     {
         id: 'olympic-coast',
@@ -1018,7 +1142,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.9000,
         longitude: -124.6000,
         type: 'coastal',
-        description: 'Rugged Washington coastline with sea stacks'
+        description: 'Rugged Washington coastline with sea stacks',
+        viewingRange: 120
     },
     {
         id: 'oregon-coast',
@@ -1026,7 +1151,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.6500,
         longitude: -124.0500,
         type: 'coastal',
-        description: 'Dramatic cliffs and beaches along Pacific'
+        description: 'Dramatic cliffs and beaches along Pacific',
+        viewingRange: 120
     },
     {
         id: 'mendocino-coast',
@@ -1034,7 +1160,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.3077,
         longitude: -123.7994,
         type: 'coastal',
-        description: 'Northern California\'s rugged coastline'
+        description: 'Northern California\'s rugged coastline',
+        viewingRange: 100
     },
     {
         id: 'point-reyes',
@@ -1042,7 +1169,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.0400,
         longitude: -122.9983,
         type: 'coastal',
-        description: 'Peninsula jutting into Pacific north of SF'
+        description: 'Peninsula jutting into Pacific north of SF',
+        viewingRange: 100
     },
     {
         id: 'acadia-coast',
@@ -1050,7 +1178,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.3500,
         longitude: -68.2000,
         type: 'coastal',
-        description: 'Rocky Maine coastline with islands'
+        description: 'Rocky Maine coastline with islands',
+        viewingRange: 100
     },
     {
         id: 'jersey-shore',
@@ -1058,7 +1187,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.9000,
         longitude: -74.0500,
         type: 'coastal',
-        description: 'New Jersey barrier beach coastline'
+        description: 'New Jersey barrier beach coastline',
+        viewingRange: 100
     },
     {
         id: 'hamptons',
@@ -1066,7 +1196,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 40.9500,
         longitude: -72.3000,
         type: 'coastal',
-        description: 'Long Island\'s eastern beaches and bays'
+        description: 'Long Island\'s eastern beaches and bays',
+        viewingRange: 80
     },
     {
         id: 'padre-island',
@@ -1074,7 +1205,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 26.7500,
         longitude: -97.4000,
         type: 'island',
-        description: 'World\'s longest barrier island; Texas Gulf'
+        description: 'World\'s longest barrier island; Texas Gulf',
+        viewingRange: 150
     },
     {
         id: 'sea-islands',
@@ -1082,7 +1214,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 32.0000,
         longitude: -80.9000,
         type: 'island',
-        description: 'Georgia and South Carolina barrier islands'
+        description: 'Georgia and South Carolina barrier islands',
+        viewingRange: 120
     },
     {
         id: 'sanibel-island',
@@ -1090,7 +1223,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 26.4500,
         longitude: -82.1000,
         type: 'island',
-        description: 'Florida Gulf Coast island; distinctive shape'
+        description: 'Florida Gulf Coast island; distinctive shape',
+        viewingRange: 80
     },
     {
         id: 'catalina-island',
@@ -1098,7 +1232,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 33.3869,
         longitude: -118.4160,
         type: 'island',
-        description: 'California island visible from LA coast'
+        description: 'California island visible from LA coast',
+        viewingRange: 120
     },
     {
         id: 'channel-islands',
@@ -1106,7 +1241,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 34.0000,
         longitude: -119.7500,
         type: 'island',
-        description: 'California island chain off Santa Barbara'
+        description: 'California island chain off Santa Barbara',
+        viewingRange: 150
     },
     {
         id: 'san-juan-islands',
@@ -1114,7 +1250,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 48.5500,
         longitude: -123.0000,
         type: 'island',
-        description: 'Washington island archipelago near Canada'
+        description: 'Washington island archipelago near Canada',
+        viewingRange: 120
     },
     {
         id: 'apostle-islands',
@@ -1122,7 +1259,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 46.9500,
         longitude: -90.7000,
         type: 'island',
-        description: 'Lake Superior island chain off Wisconsin'
+        description: 'Lake Superior island chain off Wisconsin',
+        viewingRange: 120
     },
     {
         id: 'everglades',
@@ -1130,7 +1268,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 25.2866,
         longitude: -80.8987,
         type: 'coastal',
-        description: 'River of grass; vast wetland at Florida\'s tip'
+        description: 'River of grass; vast wetland at Florida\'s tip',
+        viewingRange: 180
     },
     {
         id: 'ten-thousand-islands',
@@ -1138,7 +1277,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 25.8500,
         longitude: -81.5500,
         type: 'coastal',
-        description: 'Mangrove island maze on Florida Gulf Coast'
+        description: 'Mangrove island maze on Florida Gulf Coast',
+        viewingRange: 120
     },
 
     // ============================================
@@ -1150,7 +1290,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 19.5667,
         longitude: -155.5000,
         type: 'island',
-        description: 'Largest Hawaiian island; active volcanoes Kilauea and Mauna Loa'
+        description: 'Largest Hawaiian island; active volcanoes Kilauea and Mauna Loa',
+        viewingRange: 200
     },
     {
         id: 'maui',
@@ -1158,7 +1299,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 20.7984,
         longitude: -156.3319,
         type: 'island',
-        description: 'Valley isle with Haleakala crater'
+        description: 'Valley isle with Haleakala crater',
+        viewingRange: 150
     },
     {
         id: 'oahu',
@@ -1166,7 +1308,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 21.4389,
         longitude: -158.0001,
         type: 'island',
-        description: 'Home to Honolulu; Diamond Head crater visible'
+        description: 'Home to Honolulu; Diamond Head crater visible',
+        viewingRange: 150
     },
     {
         id: 'kauai',
@@ -1174,7 +1317,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 22.0964,
         longitude: -159.5261,
         type: 'island',
-        description: 'Garden isle; dramatic Na Pali coast cliffs'
+        description: 'Garden isle; dramatic Na Pali coast cliffs',
+        viewingRange: 150
     },
     {
         id: 'molokai',
@@ -1182,7 +1326,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 21.1333,
         longitude: -157.0167,
         type: 'island',
-        description: 'World\'s highest sea cliffs on north shore'
+        description: 'World\'s highest sea cliffs on north shore',
+        viewingRange: 120
     },
     {
         id: 'lanai',
@@ -1190,7 +1335,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 20.8333,
         longitude: -156.9167,
         type: 'island',
-        description: 'Pineapple isle between Maui and Molokai'
+        description: 'Pineapple isle between Maui and Molokai',
+        viewingRange: 100
     },
     {
         id: 'diamond-head',
@@ -1198,7 +1344,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 21.2614,
         longitude: -157.8058,
         type: 'geological',
-        description: 'Iconic volcanic crater overlooking Waikiki'
+        description: 'Iconic volcanic crater overlooking Waikiki',
+        viewingRange: 60
     },
     {
         id: 'haleakala',
@@ -1206,7 +1353,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 20.7097,
         longitude: -156.1731,
         type: 'geological',
-        description: 'Massive shield volcano crater on Maui'
+        description: 'Massive shield volcano crater on Maui',
+        viewingRange: 120
     },
 
     // ============================================
@@ -1218,7 +1366,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 40.7128,
         longitude: -74.0060,
         type: 'city',
-        description: 'Manhattan skyline with Empire State and One WTC; dense urban grid'
+        description: 'Manhattan skyline with Empire State and One WTC; dense urban grid',
+        viewingRange: 100
     },
     {
         id: 'chicago',
@@ -1226,7 +1375,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.8781,
         longitude: -87.6298,
         type: 'city',
-        description: 'Iconic lakefront skyline with Willis Tower; grid meets Lake Michigan'
+        description: 'Iconic lakefront skyline with Willis Tower; grid meets Lake Michigan',
+        viewingRange: 100
     },
     {
         id: 'los-angeles',
@@ -1234,7 +1384,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 34.0522,
         longitude: -118.2437,
         type: 'city',
-        description: 'Sprawling metro from mountains to coast; downtown cluster visible'
+        description: 'Sprawling metro from mountains to coast; downtown cluster visible',
+        viewingRange: 100
     },
     {
         id: 'san-francisco',
@@ -1242,7 +1393,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.7749,
         longitude: -122.4194,
         type: 'city',
-        description: 'Compact city on peninsula; Golden Gate Bridge landmark'
+        description: 'Compact city on peninsula; Golden Gate Bridge landmark',
+        viewingRange: 80
     },
     {
         id: 'seattle',
@@ -1250,7 +1402,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 47.6062,
         longitude: -122.3321,
         type: 'city',
-        description: 'Space Needle skyline between Puget Sound and Lake Washington'
+        description: 'Space Needle skyline between Puget Sound and Lake Washington',
+        viewingRange: 80
     },
     {
         id: 'miami',
@@ -1258,7 +1411,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 25.7617,
         longitude: -80.1918,
         type: 'city',
-        description: 'Coastal skyline with beach strip; turquoise waters contrast'
+        description: 'Coastal skyline with beach strip; turquoise waters contrast',
+        viewingRange: 80
     },
     {
         id: 'denver',
@@ -1266,7 +1420,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.7392,
         longitude: -104.9903,
         type: 'city',
-        description: 'Mile High City with Rocky Mountain backdrop'
+        description: 'Mile High City with Rocky Mountain backdrop',
+        viewingRange: 80
     },
     {
         id: 'las-vegas',
@@ -1274,7 +1429,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.1699,
         longitude: -115.1398,
         type: 'city',
-        description: 'Bright Strip visible in desert; spectacular at night'
+        description: 'Bright Strip visible in desert; spectacular at night',
+        viewingRange: 100
     },
     {
         id: 'phoenix',
@@ -1282,7 +1438,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 33.4484,
         longitude: -112.0740,
         type: 'city',
-        description: 'Desert metropolis with mountain preserves; grid pattern'
+        description: 'Desert metropolis with mountain preserves; grid pattern',
+        viewingRange: 80
     },
     {
         id: 'dallas',
@@ -1290,7 +1447,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 32.7767,
         longitude: -96.7970,
         type: 'city',
-        description: 'Texas skyline with distinctive Reunion Tower'
+        description: 'Texas skyline with distinctive Reunion Tower',
+        viewingRange: 80
     },
     {
         id: 'houston',
@@ -1298,7 +1456,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 29.7604,
         longitude: -95.3698,
         type: 'city',
-        description: 'Sprawling Texas city; multiple downtown clusters'
+        description: 'Sprawling Texas city; multiple downtown clusters',
+        viewingRange: 80
     },
     {
         id: 'boston',
@@ -1306,7 +1465,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 42.3601,
         longitude: -71.0589,
         type: 'city',
-        description: 'Historic harbor city; compact downtown on waterfront'
+        description: 'Historic harbor city; compact downtown on waterfront',
+        viewingRange: 80
     },
     {
         id: 'washington-dc',
@@ -1314,7 +1474,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.9072,
         longitude: -77.0369,
         type: 'city',
-        description: 'National Mall, monuments, Potomac River; no skyscrapers'
+        description: 'National Mall, monuments, Potomac River; no skyscrapers',
+        viewingRange: 60
     },
     {
         id: 'atlanta',
@@ -1322,7 +1483,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 33.7490,
         longitude: -84.3880,
         type: 'city',
-        description: 'Southern hub with modern skyline; sprawling suburbs'
+        description: 'Southern hub with modern skyline; sprawling suburbs',
+        viewingRange: 80
     },
     {
         id: 'philadelphia',
@@ -1330,7 +1492,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.9526,
         longitude: -75.1652,
         type: 'city',
-        description: 'Historic city skyline on Delaware River'
+        description: 'Historic city skyline on Delaware River',
+        viewingRange: 80
     },
     {
         id: 'minneapolis',
@@ -1338,7 +1501,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 44.9778,
         longitude: -93.2650,
         type: 'city',
-        description: 'Twin Cities skyline with Chain of Lakes'
+        description: 'Twin Cities skyline with Chain of Lakes',
+        viewingRange: 80
     },
     {
         id: 'detroit',
@@ -1346,7 +1510,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 42.3314,
         longitude: -83.0458,
         type: 'city',
-        description: 'Renaissance Center on Detroit River; Canadian border'
+        description: 'Renaissance Center on Detroit River; Canadian border',
+        viewingRange: 80
     },
     {
         id: 'san-diego',
@@ -1354,7 +1519,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 32.7157,
         longitude: -117.1611,
         type: 'city',
-        description: 'Coastal California city; bay and Coronado Bridge'
+        description: 'Coastal California city; bay and Coronado Bridge',
+        viewingRange: 80
     },
     {
         id: 'new-orleans',
@@ -1362,7 +1528,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 29.9511,
         longitude: -90.0715,
         type: 'city',
-        description: 'Crescent City on Mississippi River; Lake Pontchartrain'
+        description: 'Crescent City on Mississippi River; Lake Pontchartrain',
+        viewingRange: 80
     },
     {
         id: 'salt-lake-city',
@@ -1370,7 +1537,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 40.7608,
         longitude: -111.8910,
         type: 'city',
-        description: 'Mountain-framed city near Great Salt Lake'
+        description: 'Mountain-framed city near Great Salt Lake',
+        viewingRange: 80
     },
     {
         id: 'portland-or',
@@ -1378,7 +1546,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 45.5152,
         longitude: -122.6784,
         type: 'city',
-        description: 'City on Willamette River with Mt Hood backdrop'
+        description: 'City on Willamette River with Mt Hood backdrop',
+        viewingRange: 80
     },
     {
         id: 'portland-me',
@@ -1386,7 +1555,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 43.6591,
         longitude: -70.2568,
         type: 'city',
-        description: 'Historic seaport on Casco Bay'
+        description: 'Historic seaport on Casco Bay',
+        viewingRange: 60
     },
     {
         id: 'austin',
@@ -1394,7 +1564,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 30.2672,
         longitude: -97.7431,
         type: 'city',
-        description: 'Texas capital on Colorado River; State Capitol dome'
+        description: 'Texas capital on Colorado River; State Capitol dome',
+        viewingRange: 80
     },
     {
         id: 'san-antonio',
@@ -1402,7 +1573,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 29.4241,
         longitude: -98.4936,
         type: 'city',
-        description: 'Historic Texas city; River Walk area visible'
+        description: 'Historic Texas city; River Walk area visible',
+        viewingRange: 80
     },
     {
         id: 'nashville',
@@ -1410,7 +1582,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 36.1627,
         longitude: -86.7816,
         type: 'city',
-        description: 'Music City skyline on Cumberland River'
+        description: 'Music City skyline on Cumberland River',
+        viewingRange: 80
     },
     {
         id: 'charlotte',
@@ -1418,7 +1591,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.2271,
         longitude: -80.8431,
         type: 'city',
-        description: 'Banking center with modern skyline'
+        description: 'Banking center with modern skyline',
+        viewingRange: 80
     },
     {
         id: 'indianapolis',
@@ -1426,7 +1600,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.7684,
         longitude: -86.1581,
         type: 'city',
-        description: 'Circle City with Monument Circle visible'
+        description: 'Circle City with Monument Circle visible',
+        viewingRange: 80
     },
     {
         id: 'columbus',
@@ -1434,7 +1609,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.9612,
         longitude: -82.9988,
         type: 'city',
-        description: 'Ohio capital with Scioto riverfront'
+        description: 'Ohio capital with Scioto riverfront',
+        viewingRange: 80
     },
     {
         id: 'kansas-city',
@@ -1442,7 +1618,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.0997,
         longitude: -94.5786,
         type: 'city',
-        description: 'City spanning Missouri-Kansas border'
+        description: 'City spanning Missouri-Kansas border',
+        viewingRange: 80
     },
     {
         id: 'st-louis',
@@ -1450,7 +1627,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.6270,
         longitude: -90.1994,
         type: 'city',
-        description: 'Gateway Arch dominates riverfront skyline'
+        description: 'Gateway Arch dominates riverfront skyline',
+        viewingRange: 80
     },
     {
         id: 'pittsburgh',
@@ -1458,7 +1636,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 40.4406,
         longitude: -79.9959,
         type: 'city',
-        description: 'Three rivers confluence; distinctive Point'
+        description: 'Three rivers confluence; distinctive Point',
+        viewingRange: 80
     },
     {
         id: 'cincinnati',
@@ -1466,7 +1645,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.1031,
         longitude: -84.5120,
         type: 'city',
-        description: 'Ohio River city with distinctive hills'
+        description: 'Ohio River city with distinctive hills',
+        viewingRange: 80
     },
     {
         id: 'cleveland',
@@ -1474,7 +1654,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.4993,
         longitude: -81.6944,
         type: 'city',
-        description: 'Lake Erie waterfront; Rock Hall visible'
+        description: 'Lake Erie waterfront; Rock Hall visible',
+        viewingRange: 80
     },
     {
         id: 'milwaukee',
@@ -1482,7 +1663,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 43.0389,
         longitude: -87.9065,
         type: 'city',
-        description: 'Lake Michigan city; Calatrava art museum'
+        description: 'Lake Michigan city; Calatrava art museum',
+        viewingRange: 80
     },
     {
         id: 'baltimore',
@@ -1490,7 +1672,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.2904,
         longitude: -76.6122,
         type: 'city',
-        description: 'Inner Harbor city on Chesapeake Bay'
+        description: 'Inner Harbor city on Chesapeake Bay',
+        viewingRange: 80
     },
     {
         id: 'tampa',
@@ -1498,7 +1681,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 27.9506,
         longitude: -82.4572,
         type: 'city',
-        description: 'Florida Gulf Coast city with bay bridges'
+        description: 'Florida Gulf Coast city with bay bridges',
+        viewingRange: 80
     },
     {
         id: 'orlando',
@@ -1506,7 +1690,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 28.5383,
         longitude: -81.3792,
         type: 'city',
-        description: 'Theme park capital; lakes throughout metro'
+        description: 'Theme park capital; lakes throughout metro',
+        viewingRange: 80
     },
     {
         id: 'jacksonville',
@@ -1514,7 +1699,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 30.3322,
         longitude: -81.6557,
         type: 'city',
-        description: 'Largest city by area; St Johns River'
+        description: 'Largest city by area; St Johns River',
+        viewingRange: 80
     },
     {
         id: 'sacramento',
@@ -1522,7 +1708,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.5816,
         longitude: -121.4944,
         type: 'city',
-        description: 'California capital at river confluence'
+        description: 'California capital at river confluence',
+        viewingRange: 80
     },
     {
         id: 'san-jose',
@@ -1530,7 +1717,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.3382,
         longitude: -121.8863,
         type: 'city',
-        description: 'Silicon Valley hub south of SF Bay'
+        description: 'Silicon Valley hub south of SF Bay',
+        viewingRange: 80
     },
     {
         id: 'oakland',
@@ -1538,7 +1726,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 37.8044,
         longitude: -122.2712,
         type: 'city',
-        description: 'East Bay city with port and Bay Bridge'
+        description: 'East Bay city with port and Bay Bridge',
+        viewingRange: 80
     },
     {
         id: 'honolulu',
@@ -1546,7 +1735,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 21.3069,
         longitude: -157.8583,
         type: 'city',
-        description: 'Waikiki high-rises against Diamond Head'
+        description: 'Waikiki high-rises against Diamond Head',
+        viewingRange: 80
     },
     {
         id: 'anchorage',
@@ -1554,7 +1744,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 61.2181,
         longitude: -149.9003,
         type: 'city',
-        description: 'Alaska\'s largest city; mountain backdrop'
+        description: 'Alaska\'s largest city; mountain backdrop',
+        viewingRange: 80
     },
     {
         id: 'albuquerque',
@@ -1562,7 +1753,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.0844,
         longitude: -106.6504,
         type: 'city',
-        description: 'Rio Grande valley with Sandia Mountains'
+        description: 'Rio Grande valley with Sandia Mountains',
+        viewingRange: 80
     },
     {
         id: 'tucson',
@@ -1570,7 +1762,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 32.2226,
         longitude: -110.9747,
         type: 'city',
-        description: 'Desert city surrounded by mountain ranges'
+        description: 'Desert city surrounded by mountain ranges',
+        viewingRange: 80
     },
     {
         id: 'reno',
@@ -1578,7 +1771,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 39.5296,
         longitude: -119.8138,
         type: 'city',
-        description: 'Biggest Little City near Tahoe and Sierra'
+        description: 'Biggest Little City near Tahoe and Sierra',
+        viewingRange: 60
     },
     {
         id: 'memphis',
@@ -1586,7 +1780,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 35.1495,
         longitude: -90.0490,
         type: 'city',
-        description: 'Mississippi River city; Pyramid arena'
+        description: 'Mississippi River city; Pyramid arena',
+        viewingRange: 80
     },
     {
         id: 'louisville',
@@ -1594,7 +1789,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 38.2527,
         longitude: -85.7585,
         type: 'city',
-        description: 'Ohio River city; bridges to Indiana'
+        description: 'Ohio River city; bridges to Indiana',
+        viewingRange: 80
     },
     {
         id: 'buffalo',
@@ -1602,7 +1798,8 @@ export const LANDMARKS: Landmark[] = [
         latitude: 42.8864,
         longitude: -78.8784,
         type: 'city',
-        description: 'Lake Erie city near Niagara Falls'
+        description: 'Lake Erie city near Niagara Falls',
+        viewingRange: 80
     },
     {
         id: 'providence',
@@ -1610,6 +1807,7 @@ export const LANDMARKS: Landmark[] = [
         latitude: 41.8240,
         longitude: -71.4128,
         type: 'city',
-        description: 'Rhode Island capital on Narragansett Bay'
+        description: 'Rhode Island capital on Narragansett Bay',
+        viewingRange: 60
     }
 ];
