@@ -22,38 +22,38 @@ jobs:
       created: ${{ steps.release.outputs.result }}
     
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 📦 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      - name: 📌 Get version from package.json
+      - name: Get version from package.json
         id: version
         run: |
           VERSION=$(node -p "require('./package.json').version")
           TAG="v$VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "tag=$TAG" >> $GITHUB_OUTPUT
-          echo "📦 Version: $TAG"
+          echo "Version: $TAG"
 
-      - name: ✅ Check if tag exists
+      - name: Check if tag exists
         id: check-tag
         run: |
           TAG="v$(node -p "require('./package.json').version")"
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "⚠️  Tag $TAG already exists - skipping release"
+            echo "Tag $TAG already exists - skipping release"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "✨ Creating new release: $TAG"
+            echo "Creating new release: $TAG"
           fi
 
-      - name: 🎉 Create GitHub Release
+      - name: Create GitHub Release
         if: steps.check-tag.outputs.exists == 'false'
         id: release
         uses: softprops/action-gh-release@v1
@@ -61,21 +61,12 @@ jobs:
           tag_name: ${{ steps.version.outputs.tag }}
           name: Release ${{ steps.version.outputs.tag }}
           body: |
-            ## 🚀 Release ${{ steps.version.outputs.tag }}
+            ## Release ${{ steps.version.outputs.tag }}
 
             **What's Deployed:**
-            - ✅ Frontend deployed to [Vercel](https://windowseat.vercel.app)
-            - ✅ Backend deployed to [Railway](https://railway.app)
-
-            **View Deployment Status:**
+            - Frontend deployed to [Vercel](https://windowseat.vercel.app)
+            - Backend deployed to [Railway](https://railway.app)
             - Actions: https://github.com/${{ github.repository }}/actions
-            - Frontend: https://windowseat.vercel.app
-            - Backend: https://railway.app
-
-            **Latest Commit:**
-            ```
-            ${{ github.event.head_commit.message }}
-            ```
 
             ---
             *This is an automated release created by GitHub Actions*
@@ -88,10 +79,10 @@ jobs:
     needs: version-and-release
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 📦 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -101,14 +92,14 @@ jobs:
         run: |
           npm ci
           npm run build
-          echo "✅ Frontend build successful"
+          echo "Frontend build successful"
 
       - name: 🔨 Build Backend
         working-directory: ./server
         run: |
           npm ci
           npm run build
-          echo "✅ Backend build successful"
+          echo "Backend build successful"
 
   deploy-vercel:
     needs: [version-and-release, build-and-test]
@@ -128,21 +119,18 @@ jobs:
           PR_PREVIEW_DOMAIN: windowseat.vercel.app
           PRODUCTION_DOMAIN: windowseat.vercel.app
 
-      - name: ✅ Vercel Deployment Complete
+      - name: Vercel Deployment Complete
         run: |
-          echo "🌐 Frontend live at: https://windowseat.vercel.app"
-          echo "📊 Check Vercel dashboard: https://vercel.com"
+          echo "Frontend live at: https://windowseat.vercel.app"
 
   notify-backend:
     needs: [version-and-release, build-and-test]
     runs-on: ubuntu-latest
     steps:
-      - name: 🚂 Backend Deployment (Railway)
+      - name: Backend Deployment (Railway)
         run: |
-          echo "✅ Backend deploying to Railway"
-          echo "🔗 Railway auto-deploys on main branch push"
-          echo "📊 Monitor at: https://railway.app"
-          echo "⏱️  Deployment should complete in 2-3 minutes"
+          echo "Backend deploying to Railway"
+          echo "Monitor at: https://railway.app"
 
   summary:
     needs: [version-and-release, deploy-vercel, notify-backend]
@@ -152,14 +140,10 @@ jobs:
       - name: 📊 Deployment Summary
         run: |
           echo "════════════════════════════════════════"
-          echo "🚀 Deployment Pipeline Complete"
+          echo "Deployment Pipeline Complete"
           echo "════════════════════════════════════════"
           echo ""
-          echo "📦 Release: ${{ needs.version-and-release.outputs.tag }}"
-          echo "🌐 Frontend: https://windowseat.vercel.app"
-          echo "🚂 Backend: https://railway.app"
+          echo "Release: ${{ needs.version-and-release.outputs.tag }}"
+          echo "Frontend: https://windowseat.vercel.app"
+          echo "Backend: https://railway.app"
           echo ""
-          echo "🔗 View Release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.version-and-release.outputs.tag }}"
-          echo "📋 View Actions: https://github.com/${{ github.repository }}/actions"
-          echo ""
-          echo "✅ All systems deployed successfully!"
