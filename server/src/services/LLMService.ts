@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import type { LandmarkSummary, SeatRecommendation, FlightData } from "../../../shared/types/flight.types";
+import type { LandmarkSummary, SeatRecommendation, FlightData } from "../../shared/types/flight.types";
 import type { GeoPoint } from "../types/GeoPoint";
 import type { SideAnalysis } from '../types/SideAnalysis';
 import type { PromptData } from '../types/PromptData';

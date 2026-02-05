@@ -10,7 +10,7 @@ import type {
     FlightRecommendation,
     FlightData,
     LandmarkSummary
-} from '../../../shared/types/flight.types';
+} from '../../shared/types/flight.types';
 import type { APIError } from '../helper/classifyError';
 
 export const router = express.Router();
