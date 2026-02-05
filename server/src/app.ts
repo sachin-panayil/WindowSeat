@@ -28,22 +28,26 @@ const allowedOrigins = isProduction
     ? [process.env.CLIENT_URL].filter(Boolean) as string[]
     : ['http://localhost:5173'];
 
-app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin && !isProduction) {
-            return callback(null, true);
-        }
-        
-        if (origin && allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        }
-        
-        callback(new Error('Not allowed by CORS'));
-    },
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true
-}))
+const strictCors = cors({
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(new Error('Not allowed by CORS'));
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    callback(new Error('Not allowed by CORS'));
+  },
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true
+});
+
+const openCors = cors({
+  origin: true
+});
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -58,9 +62,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next()
 })
 
-app.use('/api/recommendations', recommendationsLimiter, router);
+app.use('/api/recommendations', strictCors, recommendationsLimiter, router);
 
-app.get('/api/health', (req: Request, res: Response) => {
+app.get('/api/health', openCors, (req: Request, res: Response) => {
     res.json({
         status: 'healthy',
         timestamp: new Date().toISOString(),
