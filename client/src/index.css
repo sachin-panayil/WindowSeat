@@ -1,100 +1,170 @@
-/* Import Tailwind CSS base styles, components, and utilities */
+/* Import Space Grotesk font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;900&display=swap');
+
+/* Import Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Base styles and CSS reset */
+/* ============================================
+   BASE STYLES
+   ============================================ */
 @layer base {
-  /* Set up the html and body elements */
   html {
     height: 100%;
+    scroll-behavior: smooth;
   }
 
   body {
     height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #000000;
+    color: #ffffff;
   }
 
-  /* Root element styling */
   #root {
     height: 100%;
     margin: 0;
     padding: 0;
   }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0f0f0f;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #404040;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #525252;
+  }
+
+  /* Selection color */
+  ::selection {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
 }
 
-/* Custom component classes */
+/* ============================================
+   COMPONENT STYLES
+   ============================================ */
 @layer components {
-  /* Custom input field styling */
-  .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
-           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-           disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed;
+  /* Glassmorphic card */
+  .glass-card {
+    @apply bg-space-900/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl;
   }
 
-  .input-field--error {
-    @apply border-red-500 focus:ring-red-500 focus:border-red-500;
+  .glass-card-hover {
+    @apply glass-card hover:border-white/15 transition-all duration-300;
   }
 
-  /* Custom button styles */
-  .btn {
-    @apply px-4 py-2 rounded-md font-medium text-sm transition-colors duration-200 
-           focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed;
+  /* Input field - dark theme */
+  .input-dark {
+    @apply w-full px-4 py-4 bg-space-950 border border-white/10 rounded-xl 
+           text-white placeholder-text-muted font-display
+           focus:outline-none focus:ring-2 focus:ring-white/15 focus:border-white/20 
+           transition-all duration-300;
   }
 
-  .btn--primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500
-           disabled:bg-gray-400 disabled:hover:bg-gray-400;
+  .input-dark--error {
+    @apply border-red-500/50 focus:ring-red-500/15 focus:border-red-500/50;
   }
 
-  .btn--secondary {
-    @apply bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 
-           focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-400;
+  .input-dark--success {
+    @apply border-green-500/50 focus:ring-green-500/15 focus:border-green-500/50;
   }
 
-  /* Card component styling */
-  .card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden;
+  /* Primary button - grey gradient */
+  .btn-primary {
+    @apply w-full py-5 px-8 
+           bg-gradient-to-br from-space-800 to-space-900 
+           border border-white/10 rounded-xl 
+           text-white font-display font-bold text-lg
+           shadow-lg 
+           hover:from-space-700 hover:to-space-800
+           hover:shadow-xl hover:shadow-white/10 
+           hover:-translate-y-0.5 
+           active:translate-y-0 
+           transition-all duration-300 
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-lg;
   }
 
-  .card--hover {
-    @apply hover:shadow-md transition-shadow duration-200;
+  /* Secondary button */
+  .btn-secondary {
+    @apply w-full py-3 px-6
+           bg-transparent border border-white/10 rounded-xl
+           text-text-tertiary font-display font-medium
+           hover:bg-white/5 hover:border-white/20 hover:text-white
+           transition-all duration-300;
   }
 
-  /* Form group styling */
-  .form-group {
-    @apply space-y-1;
-  }
-
+  /* Form label */
   .form-label {
-    @apply block text-sm font-medium text-gray-700;
+    @apply block text-sm font-medium text-text-secondary mb-2 font-display;
   }
 
+  /* Form helper text */
+  .form-helper {
+    @apply text-xs text-text-muted mt-1 font-display;
+  }
+
+  /* Form error text */
   .form-error {
-    @apply text-sm text-red-600;
+    @apply text-sm text-red-400 mt-2 font-display;
   }
 
-  .form-help {
-    @apply text-sm text-gray-500;
+  /* Section divider */
+  .divider {
+    @apply border-t border-white/5;
+  }
+
+  /* Landmark card */
+  .landmark-card {
+    @apply bg-space-950/60 border border-white/5 rounded-xl p-3
+           hover:bg-space-950/80 hover:border-white/10 
+           transition-all duration-300;
+  }
+
+  /* Badge */
+  .badge {
+    @apply w-8 h-8 bg-gradient-to-br from-space-700 to-space-600 
+           rounded-full flex items-center justify-center 
+           border border-white/10;
+  }
+
+  /* Status indicator */
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+
+  .status-dot--success {
+    @apply bg-green-400;
+  }
+
+  .status-dot--warning {
+    @apply bg-yellow-400;
+  }
+
+  .status-dot--error {
+    @apply bg-orange-400;
   }
 }
 
-/* Custom utilities */
+/* ============================================
+   UTILITY STYLES
+   ============================================ */
 @layer utilities {
-  /* Loading spinner animation */
-  .animate-spin-slow {
-    animation: spin 2s linear infinite;
-  }
-
-  /* Custom scroll behavior */
-  .scroll-smooth {
-    scroll-behavior: smooth;
-  }
-
   /* Hide scrollbar but keep functionality */
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -105,23 +175,26 @@
     display: none;
   }
 
-  /* Custom gradient backgrounds */
-  .gradient-blue {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-text-secondary;
   }
 
-  .gradient-sky {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  /* Glow effect */
+  .glow {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
   }
-}
 
-/* Animations and keyframes */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  .glow-lg {
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.15);
   }
 }
 
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Fade in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -133,6 +206,7 @@
   }
 }
 
+/* Slide in animation */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -141,6 +215,16 @@
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+/* Pulse glow animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -153,37 +237,23 @@
   animation: slideIn 0.3s ease-out;
 }
 
-/* Responsive design helpers */
+.pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
 @media (max-width: 640px) {
-  /* Mobile-specific styles */
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
   }
 }
 
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
-  }
-  
-  body {
-    background: white !important;
-    color: black !important;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .btn--primary {
-    @apply border-2 border-blue-800;
-  }
-  
-  .input-field {
-    @apply border-2 border-gray-600;
-  }
-}
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
@@ -193,29 +263,23 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-/* Dark mode support (future enhancement) */
-@media (prefers-color-scheme: dark) {
-  /* Add dark mode styles when you're ready to implement them */
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn-primary {
+    @apply border-2 border-white;
+  }
+  
+  .input-dark {
+    @apply border-2 border-white/30;
+  }
 }
 
-/* React Query DevTools positioning fix */
-.react-query-devtools {
-  z-index: 9999 !important;
-}
-
-@keyframes flyLeft {
-  0% { left: -50px; opacity: 0; }
-  10% { opacity: 0.7; }
-  90% { opacity: 0.7; }
-  100% { left: 100vw; opacity: 0; }
-}
-
-@keyframes flyRight {
-  0% { right: -50px; opacity: 0; }
-  10% { opacity: 0.7; }
-  90% { opacity: 0.7; }
-  100% { right: 100vw; opacity: 0; }
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import FlightSearchForm from '../components/forms/FlightSearchForm';
 import FlightRecommendation from '../components/results/FlightRecommendation';
 import SearchStatus from '../components/results/SearchStatus';
-import FlyingPlanes from '../components/common/FlyingPlanes';
+import { Stars, FlyingPlanes, EarthOutline } from '../components/background';
 import { useFlightRecommendation } from '../hooks/useFlightRecommendation';
 
 const SearchPage: React.FC = () => {
@@ -13,70 +13,112 @@ const SearchPage: React.FC = () => {
     isLoading,
     error,
     searchFlight,
-    retry,
     clearSearch,
     searchParams
   } = useFlightRecommendation();
 
-  // Scroll to results when search starts so form goes out of view
+  // Scroll to results when search completes
   useEffect(() => {
-    if (searchParams && resultsRef.current) {
+    if (recommendation && resultsRef.current) {
       resultsRef.current.scrollIntoView({ 
         behavior: 'smooth', 
         block: 'start' 
       });
     }
-  }, [searchParams]);
+  }, [recommendation]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#722f37] to-[#2a1419] relative overflow-hidden">
-      {/* Animated airplanes */}
-      <FlyingPlanes enabled={true} planeCount={3} />
+    <div className="min-h-screen bg-space-black relative overflow-x-hidden">
+      {/* Background Elements - Fixed */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {/* Stars */}
+        <Stars count={120} />
+        
+        {/* Flying Planes */}
+        <FlyingPlanes enabled={true} planeCount={3} />
+        
+        {/* Earth - positioned lower and larger, more subtle */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/3">
+          <EarthOutline className="w-[600px] h-[600px] md:w-[800px] md:h-[800px] opacity-40" />
+        </div>
+      </div>
 
       {/* Main Content */}
-      <div className="relative z-10 w-full py-8">
-        {/* Header Section */}
-        <div className="max-w-lg mx-auto px-4 pb-8 text-center">
-          <h1 className="text-3xl font-bold text-[#f8fafc] mb-3 tracking-tight">
-            WindowSeat
-          </h1>
-          <p className="text-[#dbb8bd] text-lg">
-            AI-powered airplane seat recommendations to give you the best view!
-          </p>
-        </div>
-
-        {/* Search Form */}
-        <div className="max-w-lg mx-auto px-4 mb-8">
-          <div className="bg-[#371e23]/80 backdrop-blur-xl border border-[#722f37]/40 rounded-3xl p-8 shadow-2xl">
-            <FlightSearchForm 
-              onSearch={searchFlight}
-              isLoading={isLoading}
-            />
+      <div className="relative z-10">
+        {/* Hero Section with Form */}
+        <section className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+          {/* Header */}
+          <div className="text-center mb-10">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-display font-black text-white tracking-tight mb-4">
+              WindowSeat
+            </h1>
+            <p className="text-lg md:text-xl text-text-secondary font-display font-medium max-w-md mx-auto">
+              AI-powered seat recommendations for the best views
+            </p>
           </div>
-        </div>
 
-        {/* Conditional gap - only appears after form submission to push results down */}
-        {searchParams && <div className="h-32"></div>}
-
-        {/* Results Section - positioned at top when visible */}
-        {searchParams && (
-          <div ref={resultsRef} className="max-w-5xl mx-auto px-4 pb-8 min-h-screen pt-8">
-            {/* Search Status - always at top */}
-            <SearchStatus 
-              searchParams={searchParams}
-              onClearSearch={clearSearch}
-            />
-            
-            {/* Recommendation Results - directly below search status */}
-            <div className="bg-[#371e23]/60 backdrop-blur-xl border border-[#722f37]/30 rounded-3xl p-6">
-              <FlightRecommendation 
-                recommendation={recommendation}
+          {/* Form Card */}
+          <div className="w-full max-w-md">
+            <div className="glass-card p-6 md:p-8">
+              <FlightSearchForm 
+                onSearch={searchFlight}
                 isLoading={isLoading}
-                error={error}
-                onRetry={retry}
               />
             </div>
           </div>
+
+          {/* Scroll hint - only show when no search */}
+          {!searchParams && !isLoading && (
+            <div className="mt-16 text-text-muted text-sm font-display text-center opacity-60">
+              <p>Enter your flight details to get started</p>
+            </div>
+          )}
+        </section>
+
+        {/* Results Section */}
+        {searchParams && (
+          <section 
+            ref={resultsRef} 
+            className="min-h-screen px-4 py-12 pt-20"
+          >
+            {/* Back to top button */}
+            <div className="max-w-3xl mx-auto mb-6">
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="text-text-muted hover:text-white text-sm font-display transition-colors flex items-center space-x-2 group"
+              >
+                <svg 
+                  className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                </svg>
+                <span>Back to search</span>
+              </button>
+            </div>
+
+            {/* Search Status */}
+            <SearchStatus 
+              searchParams={searchParams}
+              onClearSearch={() => {
+                clearSearch();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
+            
+            {/* Recommendation Results */}
+            <div className="max-w-3xl mx-auto">
+              <div className="glass-card p-5 md:p-8">
+                <FlightRecommendation 
+                  recommendation={recommendation}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
+            </div>
+          </section>
         )}
       </div>
     </div>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import type { FlightSearchParams } from '../../../../shared/types/flight.types';
 import type { FlightSearchFormData } from '../../types/FlightSearchFormData';
@@ -45,7 +46,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
     const iataPattern = /^[A-Z]{3}$/;
     
     if (!iataPattern.test(cleaned)) {
-      return 'Please enter a valid 3-letter airport code (e.g., LAX, JFK)';
+      return 'Please enter a valid 3-letter airport code';
     }
     
     return true;
@@ -63,11 +64,33 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
     return true;
   };
 
+  // Get input state classes
+  const getInputClasses = (fieldName: keyof FlightSearchFormData) => {
+    const baseClasses = `
+      w-full px-4 py-4 text-lg 
+      bg-space-950 border rounded-xl 
+      text-white placeholder-text-muted 
+      font-display
+      focus:outline-none focus:ring-2 
+      transition-all duration-300
+    `;
+
+    if (errors[fieldName]) {
+      return `${baseClasses} border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20`;
+    }
+    
+    if (touchedFields[fieldName] && !errors[fieldName]) {
+      return `${baseClasses} border-green-500/50 focus:border-green-500/50 focus:ring-green-500/20`;
+    }
+    
+    return `${baseClasses} border-white/10 focus:border-white/20 focus:ring-white/15`;
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Origin Airport */}
       <div>
-        <label htmlFor="origin" className="block text-sm font-medium text-[#f4e6e8] mb-2">
+        <label htmlFor="origin" className="form-label">
           From (Origin Airport)
         </label>
         <input
@@ -82,25 +105,19 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
               validFormat: validateIataCode
             }
           })}
-          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 uppercase ${
-            errors.origin 
-              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : touchedFields.origin && !errors.origin
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
-              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
-          }`}
+          className={`${getInputClasses('origin')} uppercase`}
         />
         {errors.origin && (
-          <p className="mt-2 text-sm text-red-400">{errors.origin.message}</p>
+          <p className="form-error">{errors.origin.message}</p>
         )}
-        <p className="mt-1 text-xs text-[#dbb8bd]">
+        <p className="form-helper">
           3-letter airport code (e.g., LAX, SFO, ORD)
         </p>
       </div>
 
       {/* Destination Airport */}
       <div>
-        <label htmlFor="destination" className="block text-sm font-medium text-[#f4e6e8] mb-2">
+        <label htmlFor="destination" className="form-label">
           To (Destination Airport)
         </label>
         <input
@@ -116,25 +133,19 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
               differentFromOrigin: validateDifferentAirports
             }
           })}
-          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 uppercase ${
-            errors.destination 
-              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : touchedFields.destination && !errors.destination
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
-              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
-          }`}
+          className={`${getInputClasses('destination')} uppercase`}
         />
         {errors.destination && (
-          <p className="mt-2 text-sm text-red-400">{errors.destination.message}</p>
+          <p className="form-error">{errors.destination.message}</p>
         )}
-        <p className="mt-1 text-xs text-[#dbb8bd]">
+        <p className="form-helper">
           3-letter airport code (e.g., JFK, MIA, SEA)
         </p>
       </div>
 
       {/* Flight Date */}
       <div>
-        <label htmlFor="date" className="block text-sm font-medium text-[#f4e6e8] mb-2">
+        <label htmlFor="date" className="form-label">
           Flight Date
         </label>
         <input
@@ -157,22 +168,16 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
               }
             }
           })}
-          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] focus:outline-none focus:ring-2 transition-all duration-300 ${
-            errors.date 
-              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : touchedFields.date && !errors.date
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
-              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
-          }`}
+          className={getInputClasses('date')}
         />
         {errors.date && (
-          <p className="mt-2 text-sm text-red-400">{errors.date.message}</p>
+          <p className="form-error">{errors.date.message}</p>
         )}
       </div>
 
       {/* Departure Time */}
       <div>
-        <label htmlFor="departureTime" className="block text-sm font-medium text-[#f4e6e8] mb-2">
+        <label htmlFor="departureTime" className="form-label">
           Departure Time
         </label>
         <input
@@ -181,32 +186,22 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
           {...register('departureTime', {
             required: 'Departure time is required'
           })}
-          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] focus:outline-none focus:ring-2 transition-all duration-300 ${
-            errors.departureTime 
-              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : touchedFields.departureTime && !errors.departureTime
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
-              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
-          }`}
+          className={getInputClasses('departureTime')}
         />
         {errors.departureTime && (
-          <p className="mt-2 text-sm text-red-400">{errors.departureTime.message}</p>
+          <p className="form-error">{errors.departureTime.message}</p>
         )}
-        <p className="mt-1 text-xs text-[#dbb8bd]">
+        <p className="form-helper">
           Local departure time at origin airport
         </p>
       </div>
 
       {/* Form Actions */}
-      <div className="space-y-3">
+      <div className="space-y-3 pt-2">
         <button
           type="submit"
           disabled={!isValid || isLoading}
-          className={`w-full py-5 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 ${
-            !isValid || isLoading
-              ? 'bg-gray-600 text-gray-300 cursor-not-allowed shadow-gray-600/20'
-              : 'bg-gradient-to-r from-[#722f37] to-[#9d4851] text-white shadow-[#722f37]/40 hover:shadow-xl hover:shadow-[#722f37]/50 hover:-translate-y-0.5 active:translate-y-0'
-          }`}
+          className="btn-primary"
         >
           {isLoading ? (
             <span className="flex items-center justify-center">
@@ -224,20 +219,20 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
         <button
           type="button"
           onClick={() => reset()}
-          className="w-full py-3 text-sm font-medium bg-transparent border border-[#722f37]/40 text-[#dbb8bd] rounded-xl hover:bg-[#722f37]/10 hover:border-[#722f37]/60 focus:outline-none focus:ring-2 focus:ring-[#722f37]/20 transition-all duration-300"
+          className="btn-secondary"
         >
           Clear Form
         </button>
       </div>
 
       {/* Form Status Indicator */}
-      <div className="text-center">
-        <div className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs transition-all duration-300 ${
+      <div className="text-center pt-2">
+        <div className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full text-xs font-display transition-all duration-300 ${
           isValid 
-            ? 'bg-green-500/20 text-green-400' 
-            : 'bg-yellow-500/20 text-yellow-400'
+            ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
+            : 'bg-white/5 text-text-muted border border-white/10'
         }`}>
-          <div className={`w-2 h-2 rounded-full ${isValid ? 'bg-green-400' : 'bg-yellow-400'}`}></div>
+          <div className={`w-2 h-2 rounded-full transition-colors ${isValid ? 'bg-green-400' : 'bg-text-muted'}`}></div>
           <span>{isValid ? 'Ready to analyze your flight' : 'Please complete all fields'}</span>
         </div>
       </div>
