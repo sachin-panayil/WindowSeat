@@ -14,7 +14,7 @@ export class APIError extends Error {
 }
 
 const api = axios.create({
-    baseURL: 'http://localhost:5001/api',
+    baseURL: `${import.meta.env.VITE_API_URL}/api`,
     timeout: 15000
 })
 
