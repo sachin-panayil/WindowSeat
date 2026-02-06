@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import type { FlightSearchParams } from '../../../../shared/types/flight.types';
+import type { FlightSearchParams } from '../../../../server/shared/types/flight.types';
 import type { FlightSearchFormData } from '../../types/FlightSearchFormData';
 
 interface FlightSearchFormProps {

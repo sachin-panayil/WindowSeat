@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { FlightSearchParams, FlightRecommendation } from "../../../shared/types/flight.types";
+import type { FlightSearchParams, FlightRecommendation } from "../../../server/shared/types/flight.types";
 
 export class APIError extends Error {
     code: string;
@@ -14,7 +14,7 @@ export class APIError extends Error {
 }
 
 const api = axios.create({
-    baseURL: 'http://localhost:5001/api',
+    baseURL: `${import.meta.env.VITE_API_URL}/api`,
     timeout: 15000
 })
 

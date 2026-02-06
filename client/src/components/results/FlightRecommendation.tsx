@@ -1,5 +1,6 @@
 import React from 'react';
-import type { FlightRecommendation as FlightRecommendationType } from '../../../../shared/types/flight.types';
+import type { FlightRecommendation as FlightRecommendationType } from '../../../../server/shared/types/flight.types';
+import type { FlightError } from '../../types/FlightError';
 
 interface FlightRecommendationProps {
   recommendation: FlightRecommendationType | null;
