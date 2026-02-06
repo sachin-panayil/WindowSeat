@@ -4,7 +4,6 @@ import FlightSearchForm from '../components/forms/FlightSearchForm';
 import FlightRecommendation from '../components/results/FlightRecommendation';
 import SearchStatus from '../components/results/SearchStatus';
 import Stars from '../components/background/Stars';
-import FlyingPlanes from '../components/background/FlyingPlanes';
 import EarthOutline from '../components/background/EarthOutline';
 import { useFlightRecommendation } from '../hooks/useFlightRecommendation';
 import type { FlightSearchParams, FlightRecommendation as FlightRecType } from '../../../shared/types/flight.types';
@@ -191,7 +190,6 @@ const SearchPage: React.FC = () => {
 
       {/* Fixed background layers */}
       <Stars count={150} />
-      <FlyingPlanes enabled={true} planeCount={3} />
 
       {/* Scroll container — 300vh tall for animation range */}
       <div
