@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useCallback, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import FlightSearchForm from '../components/forms/FlightSearchForm';
 import FlightRecommendation from '../components/results/FlightRecommendation';
 import SearchStatus from '../components/results/SearchStatus';
@@ -49,11 +49,15 @@ const MOCK_RECOMMENDATION: FlightRecType = {
   },
 };
 
+// Animation duration for the transition
+const TRANSITION = { duration: 1.2, ease: [0.4, 0, 0.2, 1] };
+
 // ============================================
 // PAGE COMPONENT
 // ============================================
 const SearchPage: React.FC = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  // View state: 'form' or 'results'
+  const [view, setView] = useState<'form' | 'results'>('form');
 
   // Real hook for actual API calls
   const {
@@ -77,103 +81,57 @@ const SearchPage: React.FC = () => {
   const isLoading = testMode ? testLoading : realLoading;
   const error = testMode ? null : realError;
 
-  // Framer Motion scroll tracking
-  const { scrollYProgress } = useScroll({
-    container: scrollContainerRef,
-  });
-
-  // Earth animation
-  const earthRotateX = useTransform(scrollYProgress, [0, 1], [75, 0]);
-  const earthTranslateY = useTransform(scrollYProgress, [0, 1], ['35%', '0%']);
-  const earthScale = useTransform(scrollYProgress, [0, 1], [1.3, 1.15]);
-
-  // Form fades out in first half of scroll
-  const formOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const formY = useTransform(scrollYProgress, [0, 0.4], [0, -60]);
-  const formPointerEvents = useTransform(scrollYProgress, (v) =>
-    v > 0.3 ? 'none' : 'auto'
-  );
-
-  // Results fade in during second half
-  const resultsOpacity = useTransform(scrollYProgress, [0.5, 0.85], [0, 1]);
-  const resultsY = useTransform(scrollYProgress, [0.5, 0.85], [60, 0]);
-
-  // Auto-scroll to results after search (real or test)
-  useEffect(() => {
-    if (searchParams && scrollContainerRef.current) {
-      const timer = setTimeout(() => {
-        scrollContainerRef.current?.scrollTo({
-          top: scrollContainerRef.current.scrollHeight,
-          behavior: 'smooth',
-        });
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [searchParams]);
+  const showResults = view === 'results';
 
   // Handle real search
   const handleSearch = useCallback(
     (params: FlightSearchParams) => {
       setTestMode(false);
       searchFlight(params);
+      setView('results');
     },
     [searchFlight]
   );
 
-  // Handle test flight — simulates loading then shows mock data
+  // Handle test flight
   const handleTestFlight = useCallback(() => {
     setTestMode(true);
     setTestLoading(true);
     setTestRecommendation(null);
     setTestSearchParams(MOCK_SEARCH_PARAMS);
+    setView('results');
 
-    // Simulate 1.5s loading delay
     setTimeout(() => {
       setTestRecommendation(MOCK_RECOMMENDATION);
       setTestLoading(false);
     }, 1500);
   }, []);
 
-  // Handle clear → scroll back to top
+  // Handle clear → back to form
   const handleClear = useCallback(() => {
-    if (testMode) {
-      setTestSearchParams(null);
-      setTestRecommendation(null);
-      setTestLoading(false);
-      setTestMode(false);
-    } else {
-      realClearSearch();
-    }
-    scrollContainerRef.current?.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    setView('form');
+    // Delay clearing data so it doesn't vanish mid-animation
+    setTimeout(() => {
+      if (testMode) {
+        setTestSearchParams(null);
+        setTestRecommendation(null);
+        setTestLoading(false);
+        setTestMode(false);
+      } else {
+        realClearSearch();
+      }
+    }, 600);
   }, [testMode, realClearSearch]);
-
-  // Debug slider
-  const handleDebugScroll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    const maxScroll = container.scrollHeight - container.clientHeight;
-    container.scrollTop = parseFloat(e.target.value) * maxScroll;
-  };
 
   return (
     <div className="relative h-screen bg-space-black overflow-hidden">
       {/* ============================================
           DEBUG TOOLBAR — remove before production
           ============================================ */}
-      <div className="fixed bottom-4 left-4 right-4 z-50 bg-space-900/95 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 flex items-center space-x-3">
-        <span className="text-text-muted text-xs font-display whitespace-nowrap">🛠</span>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.005"
-          defaultValue="0"
-          onChange={handleDebugScroll}
-          className="flex-1 h-1 accent-white cursor-pointer"
-        />
+      <div className="fixed bottom-4 left-4 right-4 z-50 bg-space-900/95 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 flex items-center justify-center space-x-3">
+        <span className="text-text-muted text-xs font-display whitespace-nowrap">
+          View: {view}
+        </span>
         <button
           onClick={handleTestFlight}
           className="px-3 py-1.5 bg-space-700 hover:bg-space-600 border border-white/10 rounded-lg text-white text-xs font-display font-medium transition-colors whitespace-nowrap"
@@ -188,41 +146,44 @@ const SearchPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Fixed background layers */}
+      {/* Fixed background */}
       <Stars count={150} />
 
-      {/* Scroll container — 300vh tall for animation range */}
-      <div
-        ref={scrollContainerRef}
-        className="relative h-screen overflow-y-auto scrollbar-hide"
-      >
-        <div className="relative" style={{ height: '300vh' }}>
-          {/* ========================================
-              FIXED VIEWPORT — Earth + Content
-              ======================================== */}
-          <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
-            {/* Earth — full-viewport background, rotates with scroll */}
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              style={{
-                rotateX: earthRotateX,
-                y: earthTranslateY,
-                scale: earthScale,
-                transformPerspective: 1200,
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              <EarthOutline className="opacity-50 w-[130vmin] h-[130vmin]" />
-            </motion.div>
+      {/* Full-screen viewport */}
+      <div className="relative h-screen flex items-center justify-center overflow-hidden">
 
-            {/* ---- FORM LAYER ---- */}
+        {/* Earth — animates between form and results positions */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          initial={{
+            rotateX: 75,
+            y: '35%',
+            scale: 1.3,
+          }}
+          animate={{
+            rotateX: showResults ? 0 : 75,
+            y: showResults ? '0%' : '35%',
+            scale: showResults ? 1.15 : 1.3,
+          }}
+          transition={TRANSITION}
+          style={{
+            transformPerspective: 1200,
+            transformStyle: 'preserve-3d',
+          }}
+        >
+          <EarthOutline className="opacity-50 w-[130vmin] h-[130vmin]" />
+        </motion.div>
+
+        {/* ---- FORM LAYER ---- */}
+        <AnimatePresence mode="wait">
+          {!showResults && (
             <motion.div
+              key="form"
               className="relative z-10 w-full max-w-md mx-auto px-4"
-              style={{
-                opacity: formOpacity,
-                y: formY,
-                pointerEvents: formPointerEvents,
-              }}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -60 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             >
               {/* Title */}
               <div className="text-center mb-8">
@@ -242,14 +203,19 @@ const SearchPage: React.FC = () => {
                 />
               </div>
             </motion.div>
+          )}
+        </AnimatePresence>
 
-            {/* ---- RESULTS LAYER ---- */}
+        {/* ---- RESULTS LAYER ---- */}
+        <AnimatePresence mode="wait">
+          {showResults && (
             <motion.div
-              className="absolute inset-0 flex items-start justify-center overflow-y-auto pt-8 pb-16 px-4"
-              style={{
-                opacity: resultsOpacity,
-                y: resultsY,
-              }}
+              key="results"
+              className="absolute inset-0 flex items-start justify-center overflow-y-auto pt-8 pb-20 px-4 z-10"
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 60 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1], delay: 0.3 }}
             >
               <div className="w-full max-w-3xl">
                 {searchParams && (
@@ -267,19 +233,10 @@ const SearchPage: React.FC = () => {
                     </div>
                   </>
                 )}
-
-                {/* Placeholder when no search yet */}
-                {!searchParams && (
-                  <div className="text-center py-20">
-                    <p className="text-text-muted text-sm font-display">
-                      Enter your flight details to get started
-                    </p>
-                  </div>
-                )}
               </div>
             </motion.div>
-          </div>
-        </div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
