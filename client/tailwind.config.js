@@ -6,12 +6,12 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // Font family - Space Grotesk
+      // Font family
       fontFamily: {
         display: ['Space Grotesk', 'sans-serif'],
       },
-      
-      // Custom colors from design system
+
+      // Custom colors from Design System v2
       colors: {
         'space-black': '#000000',
         'space': {
@@ -33,70 +33,38 @@ module.exports = {
           muted: '#737373',
         },
       },
-      
+
       // Custom spacing (8px base)
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
       },
-      
+
       // Backdrop blur
       backdropBlur: {
         xs: '2px',
       },
-      
-      // Border radius
-      borderRadius: {
-        '4xl': '2rem',
-      },
-      
+
       // Animations
       animation: {
         'plane-left': 'plane-left 20s linear infinite',
         'plane-right': 'plane-right 25s linear infinite',
         'twinkle': 'twinkle 3s ease-in-out infinite',
-        'float': 'float 6s ease-in-out infinite',
       },
-      
+
       keyframes: {
         'plane-left': {
-          '0%': { 
-            transform: 'translateX(-100px) rotate(45deg)',
-            opacity: '0'
-          },
-          '10%': { opacity: '0.5' },
-          '90%': { opacity: '0.5' },
-          '100%': { 
-            transform: 'translateX(calc(100vw + 100px)) rotate(45deg)',
-            opacity: '0'
-          },
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100vw)' },
         },
         'plane-right': {
-          '0%': { 
-            transform: 'translateX(calc(100vw + 100px)) rotate(-135deg)',
-            opacity: '0'
-          },
-          '10%': { opacity: '0.5' },
-          '90%': { opacity: '0.5' },
-          '100%': { 
-            transform: 'translateX(-100px) rotate(-135deg)',
-            opacity: '0'
-          },
+          '0%': { transform: 'translateX(100vw) scaleX(-1)' },
+          '100%': { transform: 'translateX(-100%) scaleX(-1)' },
         },
         'twinkle': {
           '0%, 100%': { opacity: '0.3' },
           '50%': { opacity: '1' },
         },
-        'float': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-      },
-      
-      // Box shadows
-      boxShadow: {
-        'glow': '0 0 30px rgba(255, 255, 255, 0.1)',
-        'glow-lg': '0 0 50px rgba(255, 255, 255, 0.15)',
       },
     },
   },

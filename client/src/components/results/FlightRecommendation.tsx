@@ -7,215 +7,232 @@ interface FlightRecommendationProps {
   error: Error | null;
 }
 
-const FlightRecommendation: React.FC<FlightRecommendationProps> = ({ 
-  recommendation, 
-  isLoading, 
-  error 
+const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
+  recommendation,
+  isLoading,
+  error,
 }) => {
-  // Handle loading state
+  // Loading
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <div className="w-16 h-16 border-2 border-white/10 border-t-white/60 rounded-full animate-spin mb-6"></div>
-        <p className="text-text-secondary text-lg font-display">Analyzing your flight...</p>
-        <p className="text-text-muted text-sm mt-2 font-display">Getting weather data and landmark information</p>
+        <div className="w-14 h-14 border-2 border-white/10 border-t-white/60 rounded-full animate-spin mb-6" />
+        <p className="text-text-secondary font-display font-medium text-lg">
+          Analyzing your flight...
+        </p>
+        <p className="text-text-muted font-display text-sm mt-2">
+          Checking weather, landmarks, and sun position
+        </p>
       </div>
     );
   }
 
-  // Handle error state
+  // Error
   if (error) {
     return (
-      <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6">
-        <h3 className="text-red-400 font-display font-semibold text-lg mb-2">Unable to analyze flight</h3>
-        <p className="text-red-400/80 text-sm font-display">{error.message}</p>
+      <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-6">
+        <h3 className="text-red-400 font-display font-semibold text-lg mb-1">
+          Unable to analyze flight
+        </h3>
+        <p className="text-red-400/70 font-display text-sm">{error.message}</p>
       </div>
     );
   }
 
-  // Handle no recommendation
+  // Empty state
   if (!recommendation) {
     return (
-      <div className="text-center py-12 text-text-muted font-display">
-        Enter your flight details above to get a personalized seat recommendation.
+      <div className="text-center py-12">
+        <p className="text-text-muted font-display">
+          Enter your flight details to get a personalized seat recommendation.
+        </p>
       </div>
     );
   }
 
   const { flight, recommendation: seatRec } = recommendation;
 
-  // Format estimated time for display
   const formatTime = (isoString: string) => {
     if (!isoString) return '';
     const date = new Date(isoString);
-    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+    });
   };
 
-  // Weather confidence display
-  const weatherConfidenceDisplay = {
-    high: { text: 'Weather data available', dotClass: 'status-dot--success' },
-    partial: { text: 'Partial weather data', dotClass: 'status-dot--warning' },
-    unavailable: { text: 'Weather forecast not yet available', dotClass: 'status-dot--error' }
-  };
-
-  // Confidence color based on score
-  const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 8) return 'text-green-400';
-    if (confidence >= 5) return 'text-yellow-400';
-    return 'text-orange-400';
+  const weatherLabel = {
+    high: { text: 'Weather data available', color: 'bg-emerald-400', textColor: 'text-emerald-400' },
+    partial: { text: 'Partial weather data', color: 'bg-amber-400', textColor: 'text-amber-400' },
+    unavailable: { text: 'Weather forecast unavailable', color: 'bg-orange-400', textColor: 'text-orange-400' },
   };
 
   return (
-    <div className="space-y-6">
-      {/* Flight Details Header */}
-      <div className="bg-space-950/60 border border-white/5 rounded-xl p-6">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h2 className="text-2xl font-display font-bold text-white mb-1">
-              {flight.originCity} → {flight.destinationCity}
-            </h2>
-            <p className="text-text-tertiary text-lg font-display">
-              {flight.route}
+    <div className="space-y-6 font-display">
+      {/* Flight Header */}
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div>
+          <h2 className="font-bold text-2xl sm:text-3xl text-white tracking-tight">
+            {flight.originCity} → {flight.destinationCity}
+          </h2>
+          <p className="text-text-tertiary text-sm mt-1">
+            {flight.route} · {flight.distanceMiles.toLocaleString()} miles ·{' '}
+            {Math.floor(flight.durationMinutes / 60)}h {flight.durationMinutes % 60}m
+          </p>
+        </div>
+        <div className="text-sm text-text-tertiary text-right shrink-0">
+          <p>{new Date(flight.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</p>
+          <p className="text-text-muted">{flight.departureTime} departure</p>
+        </div>
+      </div>
+
+      <div className="h-px bg-white/6" />
+
+      {/* Seat Recommendation Hero */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-text-muted text-xs uppercase tracking-wider mb-1">Recommended</p>
+          <h3 className="font-bold text-3xl text-white">
+            {seatRec.recommendedSeat === 'left' ? 'Left' : 'Right'} Side
+          </h3>
+          <p className="text-text-tertiary text-sm mt-0.5">Window seat</p>
+        </div>
+
+        {/* Confidence badge */}
+        <div className="flex items-center space-x-3">
+          <div className="text-right">
+            <p className="text-text-muted text-xs">Confidence</p>
+            <p className="text-white font-bold text-xl">{seatRec.confidence}/10</p>
+          </div>
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-space-700 to-space-600 border border-white/10 flex items-center justify-center">
+            <span className="text-white font-bold text-lg">{seatRec.confidence}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Simple airplane diagram */}
+      <div className="flex items-center justify-center py-4">
+        <div className="flex items-center space-x-6">
+          {/* Left side indicator */}
+          <div
+            className={`px-5 py-3 rounded-lg border text-center transition-all ${
+              seatRec.recommendedSeat === 'left'
+                ? 'bg-white/5 border-white/20 text-white'
+                : 'bg-transparent border-white/5 text-text-muted'
+            }`}
+          >
+            <p className="text-xs uppercase tracking-wider mb-0.5">Left</p>
+            <p className="font-semibold text-sm">
+              {seatRec.landmarks.filter(() => seatRec.recommendedSeat === 'left').length > 0
+                ? `${seatRec.landmarks.length} landmarks`
+                : 'Window A/B/C'}
             </p>
           </div>
-          <div className="text-right text-sm text-text-muted font-display">
-            <p>{new Date(flight.date).toLocaleDateString()}</p>
-            <p>{flight.distanceMiles.toLocaleString()} miles</p>
+
+          {/* Plane body */}
+          <div className="w-12 h-24 bg-space-800/80 border border-white/10 rounded-lg relative">
+            <div className="absolute top-2 left-1 right-1 h-0.5 bg-white/20 rounded" />
+            <div
+              className={`absolute top-5 w-2.5 h-2.5 rounded-sm ${
+                seatRec.recommendedSeat === 'left'
+                  ? 'left-1.5 bg-white/60'
+                  : 'right-1.5 bg-white/60'
+              }`}
+            />
+            <div
+              className={`absolute top-5 w-2.5 h-2.5 rounded-sm border border-white/20 ${
+                seatRec.recommendedSeat === 'left' ? 'right-1.5' : 'left-1.5'
+              }`}
+            />
           </div>
-        </div>
-        
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <span className="block font-display font-medium text-text-secondary">Departure</span>
-            <span className="text-text-tertiary font-display">{flight.departureTime}</span>
-          </div>
-          <div>
-            <span className="block font-display font-medium text-text-secondary">Duration</span>
-            <span className="text-text-tertiary font-display">
-              {Math.floor(flight.durationMinutes / 60)}h {flight.durationMinutes % 60}m
-            </span>
+
+          {/* Right side indicator */}
+          <div
+            className={`px-5 py-3 rounded-lg border text-center transition-all ${
+              seatRec.recommendedSeat === 'right'
+                ? 'bg-white/5 border-white/20 text-white'
+                : 'bg-transparent border-white/5 text-text-muted'
+            }`}
+          >
+            <p className="text-xs uppercase tracking-wider mb-0.5">Right</p>
+            <p className="font-semibold text-sm">
+              {seatRec.recommendedSeat === 'right'
+                ? `${seatRec.landmarks.length} landmarks`
+                : 'Window D/E/F'}
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Seat Recommendation */}
-      <div className="bg-space-950/60 border border-white/5 rounded-xl p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-display font-semibold text-white">
-            Recommended Seat
-          </h3>
-          <div className="flex items-center space-x-3">
-            <div className="text-right">
-              <div className="text-xs text-text-muted font-display uppercase tracking-wide">Confidence</div>
-              <div className={`text-2xl font-display font-bold ${getConfidenceColor(seatRec.confidence)}`}>
-                {seatRec.confidence}/10
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="h-px bg-white/6" />
 
-        {/* Seat Side Display */}
-        <div className="flex items-center space-x-6 mb-8">
-          <div className="flex-1">
-            <div className="bg-gradient-to-br from-space-800 to-space-900 border border-white/10 rounded-xl p-6 text-center">
-              <div className="text-3xl font-display font-bold text-white mb-2">
-                {seatRec.recommendedSeat === 'left' ? 'Left Side' : 'Right Side'}
-              </div>
-              <div className="text-text-tertiary text-sm font-display">
-                Window Seat Recommended
-              </div>
-            </div>
-          </div>
-          
-          {/* Simple airplane seat diagram */}
-          <div className="flex-shrink-0">
-            <div className="w-24 h-36 bg-space-900 border border-white/10 rounded-xl relative overflow-hidden">
-              {/* Cockpit indicator */}
-              <div className="absolute top-2 left-2 right-2 h-1 bg-white/20 rounded-full"></div>
-              
-              {/* Wing indicators */}
-              <div className="absolute top-1/2 -translate-y-1/2 left-0 w-2 h-8 bg-white/10 rounded-r"></div>
-              <div className="absolute top-1/2 -translate-y-1/2 right-0 w-2 h-8 bg-white/10 rounded-l"></div>
-              
-              {/* Seat indicators */}
-              <div className="absolute top-8 left-2 right-2 flex justify-between px-1">
-                {/* Left seats */}
-                <div className={`w-4 h-4 rounded-sm transition-all ${
-                  seatRec.recommendedSeat === 'left' 
-                    ? 'bg-green-500 shadow-lg shadow-green-500/50' 
-                    : 'bg-white/20'
-                }`}></div>
-                {/* Right seats */}
-                <div className={`w-4 h-4 rounded-sm transition-all ${
-                  seatRec.recommendedSeat === 'right' 
-                    ? 'bg-green-500 shadow-lg shadow-green-500/50' 
-                    : 'bg-white/20'
-                }`}></div>
-              </div>
-              
-              {/* Labels */}
-              <div className="absolute bottom-2 left-2 right-2 flex justify-between text-[10px] font-display text-text-muted">
-                <span>L</span>
-                <span>R</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Reasoning */}
+      <div>
+        <h4 className="font-semibold text-base text-white mb-2">Why this seat?</h4>
+        <p className="text-text-secondary text-sm leading-relaxed">{seatRec.reasoning}</p>
+      </div>
 
-        {/* Reasoning */}
-        <div className="mb-6">
-          <h4 className="font-display font-medium text-text-secondary mb-3">Why this seat?</h4>
-          <p className="text-text-tertiary leading-relaxed font-display">{seatRec.reasoning}</p>
-        </div>
-
-        {/* Divider */}
-        <div className="divider my-6"></div>
-
-        {/* Landmarks */}
-        {seatRec.landmarks.length > 0 && (
-          <div className="mb-6">
-            <h4 className="font-display font-medium text-text-secondary mb-4">
-              Landmarks You'll See ({seatRec.landmarks.length})
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {seatRec.landmarks.map((landmark, index) => (
-                <div key={index} className="landmark-card">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="badge">
-                        <span className="text-white text-sm font-display font-bold">{index + 1}</span>
-                      </div>
-                      <div>
-                        <span className="text-white text-sm font-display font-medium block">
-                          {landmark.name}
-                        </span>
-                        <span className="text-text-muted text-xs font-display">
-                          {formatTime(landmark.estimatedTime)} • {landmark.distanceFromOrigin} mi
-                        </span>
-                      </div>
+      {/* Landmarks */}
+      {seatRec.landmarks.length > 0 && (
+        <div>
+          <h4 className="font-semibold text-base text-white mb-3">
+            Landmarks You'll See
+            <span className="text-text-muted font-normal ml-2 text-sm">
+              ({seatRec.landmarks.length})
+            </span>
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {seatRec.landmarks.map((landmark, index) => (
+              <div key={index} className="landmark-item">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-space-700 to-space-600 border border-white/10 flex items-center justify-center shrink-0">
+                      <span className="text-white text-xs font-bold">{index + 1}</span>
                     </div>
-                    {landmark.cloudCover !== undefined && (
-                      <div className="text-xs text-text-muted font-display">
-                        {landmark.cloudCover}% clouds
-                      </div>
-                    )}
+                    <div>
+                      <span className="text-white text-sm font-medium block">
+                        {landmark.name}
+                      </span>
+                      <span className="text-text-muted text-xs">
+                        {formatTime(landmark.estimatedTime)} · {landmark.distanceFromOrigin} mi
+                      </span>
+                    </div>
                   </div>
+                  {landmark.cloudCover !== undefined && (
+                    <span className="text-text-muted text-xs shrink-0 ml-2">
+                      {landmark.cloudCover}% ☁
+                    </span>
+                  )}
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Weather Confidence */}
-        <div className="pt-4">
-          <div className="flex items-center space-x-2">
-            <div className={`status-dot ${weatherConfidenceDisplay[seatRec.weatherConfidence].dotClass}`}></div>
-            <span className="text-sm text-text-muted font-display">
-              {weatherConfidenceDisplay[seatRec.weatherConfidence].text}
-            </span>
+              </div>
+            ))}
           </div>
         </div>
+      )}
+
+      {/* Weather confidence footer */}
+      <div className="pt-2">
+        <div className="flex items-center space-x-2">
+          <div className={`w-1.5 h-1.5 rounded-full ${weatherLabel[seatRec.weatherConfidence].color}`} />
+          <span className={`text-xs font-display ${weatherLabel[seatRec.weatherConfidence].textColor}`}>
+            {weatherLabel[seatRec.weatherConfidence].text}
+          </span>
+        </div>
       </div>
+
+      {/* Future: View Map Button will go here */}
+      {/* 
+      <div className="border-t border-white/6 pt-6 mt-2">
+        <button className="btn-primary flex items-center justify-center space-x-3 group">
+          <span className="text-2xl group-hover:scale-110 transition-transform">🗺️</span>
+          <span>View Flight Path on Map</span>
+          <span className="text-sm opacity-60">→</span>
+        </button>
+        <p className="text-center text-text-muted text-xs mt-2">
+          Interactive visualization of your flight route
+        </p>
+      </div>
+      */}
     </div>
   );
 };

@@ -1,66 +1,62 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 interface FlyingPlanesProps {
   enabled?: boolean;
   planeCount?: number;
-  className?: string;
 }
 
-interface PlaneConfig {
-  id: number;
-  direction: 'left' | 'right';
-  top: string;
-  duration: number;
-  delay: number;
-  opacity: number;
-  size: string;
-}
-
-const FlyingPlanes: React.FC<FlyingPlanesProps> = ({ 
-  enabled = true, 
+const FlyingPlanes: React.FC<FlyingPlanesProps> = ({
+  enabled = true,
   planeCount = 3,
-  className = ''
 }) => {
-  // Generate plane configurations
-  const planes = useMemo<PlaneConfig[]>(() => {
-    return Array.from({ length: Math.min(planeCount, 6) }, (_, index) => ({
-      id: index,
-      direction: index % 2 === 0 ? 'left' : 'right',
-      top: `${15 + (index * 20)}%`, // Spread vertically
-      duration: 18 + (index * 4), // 18-38 seconds
-      delay: index * 5, // Stagger start times
-      opacity: 0.4 + (Math.random() * 0.2), // 0.4-0.6
-      size: index === 0 ? 'text-2xl' : 'text-xl', // Vary sizes slightly
-    }));
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setReady(true), 200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const planes = useMemo(() => {
+    return Array.from({ length: Math.min(planeCount, 5) }, (_, i) => {
+      const leftToRight = i % 2 === 0;
+      const duration = 18 + i * 5;
+      const delay = i * 4;
+      const top = 10 + i * 22; // spread across viewport height %
+
+      return { id: i, leftToRight, duration, delay, top };
+    });
   }, [planeCount]);
 
-  if (!enabled) {
-    return null;
-  }
+  if (!enabled) return null;
 
   return (
-    <div className={`fixed inset-0 pointer-events-none overflow-hidden ${className}`}>
+    <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }}>
       {planes.map((plane) => (
         <div
           key={plane.id}
-          className={`absolute ${plane.size} select-none`}
+          className="absolute text-xl text-white"
           style={{
-            top: plane.top,
-            left: plane.direction === 'left' ? '-50px' : 'auto',
-            right: plane.direction === 'right' ? '-50px' : 'auto',
-            opacity: 0,
-            animation: `${plane.direction === 'left' ? 'plane-left' : 'plane-right'} ${plane.duration}s linear infinite`,
-            animationDelay: `${plane.delay}s`,
+            top: `${plane.top}%`,
+            opacity: ready ? undefined : 0,
+            ...(ready
+              ? {
+                  [plane.leftToRight ? 'left' : 'right']: '-60px',
+                  animation: `${plane.leftToRight ? 'flyLeft' : 'flyRight'} ${plane.duration}s linear infinite`,
+                  animationDelay: `${plane.delay}s`,
+                }
+              : {
+                  [plane.leftToRight ? 'left' : 'right']: '-60px',
+                }),
           }}
         >
-          <span 
-            className="inline-block"
+          <span
+            className="inline-block opacity-40"
             style={{
-              filter: 'grayscale(100%) brightness(2)',
-              opacity: plane.opacity,
+              transform: plane.leftToRight ? 'rotate(45deg)' : 'rotate(-135deg)',
+              fontSize: '1.2rem',
             }}
           >
-            ✈️
+            ✈
           </span>
         </div>
       ))}
