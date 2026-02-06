@@ -57,7 +57,6 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
     return true;
   };
 
-  // Dynamic input class based on field state
   const inputClass = (fieldName: keyof FlightSearchFormData) => {
     const base = 'input-dark uppercase';
     if (errors[fieldName]) return `${base} input-dark--error`;

@@ -219,20 +219,6 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
           </span>
         </div>
       </div>
-
-      {/* Future: View Map Button will go here */}
-      {/* 
-      <div className="border-t border-white/6 pt-6 mt-2">
-        <button className="btn-primary flex items-center justify-center space-x-3 group">
-          <span className="text-2xl group-hover:scale-110 transition-transform">🗺️</span>
-          <span>View Flight Path on Map</span>
-          <span className="text-sm opacity-60">→</span>
-        </button>
-        <p className="text-center text-text-muted text-xs mt-2">
-          Interactive visualization of your flight route
-        </p>
-      </div>
-      */}
     </div>
   );
 };

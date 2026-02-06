@@ -4,8 +4,6 @@ interface EarthOutlineProps {
   className?: string;
 }
 
-// 6 flight routes — mix of long-haul, regional, and edge-hugging paths
-// All coordinates within the r=188 globe clip
 const FLIGHT_ROUTES = [
   {
     id: 'f1',
@@ -41,8 +39,7 @@ const FLIGHT_ROUTES = [
   },
   {
     id: 'f5',
-    label: 'Edge route — southern rim',
-    // Hugs the bottom edge of the globe
+    label: 'Southern rim',
     path: 'M 55,280 Q 200,360 345,280',
     dur: '14s',
     initialDelay: '18s',
@@ -50,7 +47,7 @@ const FLIGHT_ROUTES = [
   },
   {
     id: 'f6',
-    label: 'Edge route — Asia to Australia',
+    label: 'Asia to Australia',
     path: 'M 340,135 Q 370,200 348,270',
     dur: '9s',
     initialDelay: '8s',
@@ -118,17 +115,15 @@ const EarthOutline: React.FC<EarthOutlineProps> = ({ className = '' }) => {
           <path d="M 100,370 L 150,365 L 200,362 L 250,365 L 300,370" strokeWidth="0.8" fill="none" />
         </g>
 
-        {/* ========== ANIMATED FLIGHTS ========== */}
+        {/* Animated Flights*/}
         <g clipPath="url(#globe-clip)">
           {FLIGHT_ROUTES.map(route => {
-            // begin pattern: start at initialDelay, then restart waitAfter seconds after each end
             const beginValue = `${route.initialDelay};${route.id}-motion.end+${route.waitAfter}`;
 
             return (
               <g key={`plane-${route.id}`}>
-                {/* Plane group — starts invisible, fades in/out with each flight */}
+                {/* Plane group */}
                 <g opacity="0">
-                  {/* Motion along the curved route */}
                   <animateMotion
                     id={`${route.id}-motion`}
                     dur={route.dur}
@@ -139,7 +134,6 @@ const EarthOutline: React.FC<EarthOutlineProps> = ({ className = '' }) => {
                     <mpath href={`#${route.id}`} />
                   </animateMotion>
 
-                  {/* Fade in → hold → fade out, synced to motion */}
                   <animate
                     attributeName="opacity"
                     dur={route.dur}
@@ -149,15 +143,14 @@ const EarthOutline: React.FC<EarthOutlineProps> = ({ className = '' }) => {
                     fill="remove"
                   />
 
-                  {/* ✈ Airplane silhouette — top-down view, nose pointing right (+x)
-                      animateMotion rotate="auto" orients it along the path */}
+                  {/* ✈ Airplane silhouette */}
                   <g transform="scale(0.9)">
                     {/* Fuselage */}
                     <path
                       d="M -6,0 C -5,-0.8 -2,-1 0,-1 L 5,-0.6 L 7,0 L 5,0.6 L 0,1 C -2,1 -5,0.8 -6,0 Z"
                       fill="white"
                     />
-                    {/* Wings — swept back */}
+                    {/* Wings */}
                     <path
                       d="M -1,-0.8 L -3,-5 L -2,-5.2 L 2,-0.6 Z"
                       fill="white"
