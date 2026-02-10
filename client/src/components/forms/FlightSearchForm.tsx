@@ -1,3 +1,4 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import type { FlightSearchParams } from '../../../../server/shared/types/flight.types';
 import type { FlightSearchFormData } from '../../types/FlightSearchFormData';
@@ -7,9 +8,9 @@ interface FlightSearchFormProps {
   isLoading: boolean;
 }
 
-const FlightSearchForm: React.FC<FlightSearchFormProps> = ({ 
-  onSearch, 
-  isLoading 
+const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
+  onSearch,
+  isLoading,
 }) => {
   const {
     register,
@@ -22,53 +23,57 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
       origin: '',
       destination: '',
       date: '',
-      departureTime: ''
-    }
+      departureTime: '',
+    },
   });
 
   const onSubmit = (data: FlightSearchFormData) => {
-    console.log('Form submitted with data:', data);
-    
     const searchParams: FlightSearchParams = {
       origin: data.origin.toUpperCase().trim(),
       destination: data.destination.toUpperCase().trim(),
       date: data.date,
-      departureTime: data.departureTime
+      departureTime: data.departureTime,
     };
-    
     onSearch(searchParams);
   };
 
-  // Validate IATA airport code format (3 letters)
   const validateIataCode = (value: string) => {
     const cleaned = value.toUpperCase().trim();
-    const iataPattern = /^[A-Z]{3}$/;
-    
-    if (!iataPattern.test(cleaned)) {
-      return 'Please enter a valid 3-letter airport code (e.g., LAX, JFK)';
+    if (!/^[A-Z]{3}$/.test(cleaned)) {
+      return 'Enter a valid 3-letter airport code';
     }
-    
     return true;
   };
 
-  // Validate that origin and destination are different
-  const validateDifferentAirports = (value: string, formValues: FlightSearchFormData) => {
+  const validateDifferentAirports = (
+    value: string,
+    formValues: FlightSearchFormData
+  ) => {
     const origin = formValues.origin.toUpperCase().trim();
     const destination = value.toUpperCase().trim();
-    
     if (origin && destination && origin === destination) {
-      return 'Destination must be different from origin';
+      return 'Destination must differ from origin';
     }
-    
     return true;
+  };
+
+  const inputClass = (fieldName: keyof FlightSearchFormData) => {
+    const base = 'input-dark uppercase';
+    if (errors[fieldName]) return `${base} input-dark--error`;
+    if (touchedFields[fieldName] && !errors[fieldName])
+      return `${base} input-dark--success`;
+    return base;
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Origin Airport */}
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      {/* Origin */}
       <div>
-        <label htmlFor="origin" className="block text-sm font-medium text-[#f4e6e8] mb-2">
-          From (Origin Airport)
+        <label
+          htmlFor="origin"
+          className="block text-sm font-display font-normal text-text-tertiary mb-2"
+        >
+          Origin Airport
         </label>
         <input
           id="origin"
@@ -78,30 +83,24 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
           autoComplete="off"
           {...register('origin', {
             required: 'Origin airport is required',
-            validate: {
-              validFormat: validateIataCode
-            }
+            validate: { validFormat: validateIataCode },
           })}
-          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 uppercase ${
-            errors.origin 
-              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : touchedFields.origin && !errors.origin
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
-              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
-          }`}
+          className={inputClass('origin')}
         />
         {errors.origin && (
-          <p className="mt-2 text-sm text-red-400">{errors.origin.message}</p>
+          <p className="mt-1.5 text-xs text-red-400 font-display">
+            {errors.origin.message}
+          </p>
         )}
-        <p className="mt-1 text-xs text-[#dbb8bd]">
-          3-letter airport code (e.g., LAX, SFO, ORD)
-        </p>
       </div>
 
-      {/* Destination Airport */}
+      {/* Destination */}
       <div>
-        <label htmlFor="destination" className="block text-sm font-medium text-[#f4e6e8] mb-2">
-          To (Destination Airport)
+        <label
+          htmlFor="destination"
+          className="block text-sm font-display font-normal text-text-tertiary mb-2"
+        >
+          Destination Airport
         </label>
         <input
           id="destination"
@@ -113,106 +112,103 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
             required: 'Destination airport is required',
             validate: {
               validFormat: validateIataCode,
-              differentFromOrigin: validateDifferentAirports
-            }
+              differentFromOrigin: validateDifferentAirports,
+            },
           })}
-          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 uppercase ${
-            errors.destination 
-              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : touchedFields.destination && !errors.destination
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
-              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
-          }`}
+          className={inputClass('destination')}
         />
         {errors.destination && (
-          <p className="mt-2 text-sm text-red-400">{errors.destination.message}</p>
+          <p className="mt-1.5 text-xs text-red-400 font-display">
+            {errors.destination.message}
+          </p>
         )}
-        <p className="mt-1 text-xs text-[#dbb8bd]">
-          3-letter airport code (e.g., JFK, MIA, SEA)
-        </p>
       </div>
 
-      {/* Flight Date */}
-      <div>
-        <label htmlFor="date" className="block text-sm font-medium text-[#f4e6e8] mb-2">
-          Flight Date
-        </label>
-        <input
-          id="date"
-          type="date"
-          {...register('date', {
-            required: 'Flight date is required',
-            validate: {
-              notPastDate: (value) => {
-                const selectedDate = new Date(value);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                return selectedDate >= today || 'Flight date cannot be in the past';
+      {/* Date & Time row */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label
+            htmlFor="date"
+            className="block text-sm font-display font-normal text-text-tertiary mb-2"
+          >
+            Flight Date
+          </label>
+          <input
+            id="date"
+            type="date"
+            {...register('date', {
+              required: 'Date is required',
+              validate: {
+                notPast: (value) => {
+                  const selected = new Date(value);
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
+                  return selected >= today || 'Date cannot be in the past';
+                },
+                notTooFar: (value) => {
+                  const selected = new Date(value);
+                  const limit = new Date();
+                  limit.setFullYear(limit.getFullYear() + 1);
+                  return selected <= limit || 'Within one year only';
+                },
               },
-              notTooFarFuture: (value) => {
-                const selectedDate = new Date(value);
-                const oneYearFromNow = new Date();
-                oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
-                return selectedDate <= oneYearFromNow || 'Please select a date within the next year';
-              }
-            }
-          })}
-          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] focus:outline-none focus:ring-2 transition-all duration-300 ${
-            errors.date 
-              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : touchedFields.date && !errors.date
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
-              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
-          }`}
-        />
-        {errors.date && (
-          <p className="mt-2 text-sm text-red-400">{errors.date.message}</p>
-        )}
+            })}
+            className={inputClass('date')}
+          />
+          {errors.date && (
+            <p className="mt-1.5 text-xs text-red-400 font-display">
+              {errors.date.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label
+            htmlFor="departureTime"
+            className="block text-sm font-display font-normal text-text-tertiary mb-2"
+          >
+            Departure Time
+          </label>
+          <input
+            id="departureTime"
+            type="time"
+            {...register('departureTime', {
+              required: 'Time is required',
+            })}
+            className={inputClass('departureTime')}
+          />
+          {errors.departureTime && (
+            <p className="mt-1.5 text-xs text-red-400 font-display">
+              {errors.departureTime.message}
+            </p>
+          )}
+        </div>
       </div>
 
-      {/* Departure Time */}
-      <div>
-        <label htmlFor="departureTime" className="block text-sm font-medium text-[#f4e6e8] mb-2">
-          Departure Time
-        </label>
-        <input
-          id="departureTime"
-          type="time"
-          {...register('departureTime', {
-            required: 'Departure time is required'
-          })}
-          className={`w-full px-4 py-4 text-lg bg-[#190a0f]/80 border rounded-xl text-[#f8fafc] focus:outline-none focus:ring-2 transition-all duration-300 ${
-            errors.departureTime 
-              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : touchedFields.departureTime && !errors.departureTime
-              ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
-              : 'border-[#722f37]/40 focus:border-[#9d4851] focus:ring-[#722f37]/20'
-          }`}
-        />
-        {errors.departureTime && (
-          <p className="mt-2 text-sm text-red-400">{errors.departureTime.message}</p>
-        )}
-        <p className="mt-1 text-xs text-[#dbb8bd]">
-          Local departure time at origin airport
-        </p>
-      </div>
-
-      {/* Form Actions */}
-      <div className="space-y-3">
-        <button
-          type="submit"
-          disabled={!isValid || isLoading}
-          className={`w-full py-5 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 ${
-            !isValid || isLoading
-              ? 'bg-gray-600 text-gray-300 cursor-not-allowed shadow-gray-600/20'
-              : 'bg-gradient-to-r from-[#722f37] to-[#9d4851] text-white shadow-[#722f37]/40 hover:shadow-xl hover:shadow-[#722f37]/50 hover:-translate-y-0.5 active:translate-y-0'
-          }`}
-        >
+      {/* Submit */}
+      <div className="pt-2">
+        <button type="submit" disabled={!isValid || isLoading} className="btn-primary">
           {isLoading ? (
             <span className="flex items-center justify-center">
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <svg
+                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
               </svg>
               Analyzing your flight...
             </span>
@@ -220,25 +216,29 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
             'Get My Seat Recommendation'
           )}
         </button>
+      </div>
 
+      {/* Clear + status */}
+      <div className="flex items-center justify-between">
         <button
           type="button"
           onClick={() => reset()}
-          className="w-full py-3 text-sm font-medium bg-transparent border border-[#722f37]/40 text-[#dbb8bd] rounded-xl hover:bg-[#722f37]/10 hover:border-[#722f37]/60 focus:outline-none focus:ring-2 focus:ring-[#722f37]/20 transition-all duration-300"
+          className="text-sm font-display text-text-muted hover:text-text-tertiary transition-colors"
         >
-          Clear Form
+          Clear form
         </button>
-      </div>
 
-      {/* Form Status Indicator */}
-      <div className="text-center">
-        <div className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs transition-all duration-300 ${
-          isValid 
-            ? 'bg-green-500/20 text-green-400' 
-            : 'bg-yellow-500/20 text-yellow-400'
-        }`}>
-          <div className={`w-2 h-2 rounded-full ${isValid ? 'bg-green-400' : 'bg-yellow-400'}`}></div>
-          <span>{isValid ? 'Ready to analyze your flight' : 'Please complete all fields'}</span>
+        <div
+          className={`flex items-center space-x-1.5 text-xs font-display ${
+            isValid ? 'text-emerald-400/70' : 'text-text-muted'
+          }`}
+        >
+          <div
+            className={`w-1.5 h-1.5 rounded-full ${
+              isValid ? 'bg-emerald-400' : 'bg-text-muted'
+            }`}
+          />
+          <span>{isValid ? 'Ready' : 'Complete all fields'}</span>
         </div>
       </div>
     </form>

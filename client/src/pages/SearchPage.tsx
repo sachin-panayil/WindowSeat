@@ -1,83 +1,144 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import FlightSearchForm from '../components/forms/FlightSearchForm';
 import FlightRecommendation from '../components/results/FlightRecommendation';
 import SearchStatus from '../components/results/SearchStatus';
-import FlyingPlanes from '../components/common/FlyingPlanes';
+import Stars from '../components/background/Stars';
+import EarthOutline from '../components/background/EarthOutline';
+import DebugBar from '../components/debug/DebugBar';
 import { useFlightRecommendation } from '../hooks/useFlightRecommendation';
+import type { FlightSearchParams, FlightRecommendation as FlightRecType } from '../../../shared/types/flight.types';
+
+const TRANSITION = { duration: 1.2, ease: [0.4, 0, 0.2, 1] as const };
 
 const SearchPage: React.FC = () => {
-  const resultsRef = useRef<HTMLDivElement>(null);
-  
+  const [view, setView] = useState<'form' | 'results'>('form');
+
   const {
-    recommendation,
-    isLoading,
-    error,
+    recommendation: realRecommendation,
+    isLoading: realLoading,
+    error: realError,
     searchFlight,
-    retry,
-    clearSearch,
-    searchParams
+    clearSearch: realClearSearch,
+    searchParams: realSearchParams,
   } = useFlightRecommendation();
 
-  // Scroll to results when search starts so form goes out of view
-  useEffect(() => {
-    if (searchParams && resultsRef.current) {
-      resultsRef.current.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
-      });
-    }
-  }, [searchParams]);
+  const [testData, setTestData] = useState<{
+    params: FlightSearchParams;
+    recommendation: FlightRecType | null;
+    loading: boolean;
+  } | null>(null);
+
+  const isTestMode = testData !== null;
+  const searchParams = isTestMode ? testData.params : realSearchParams;
+  const recommendation = isTestMode ? testData.recommendation : realRecommendation;
+  const isLoading = isTestMode ? testData.loading : realLoading;
+  const error = isTestMode ? null : (realError as Error | null);
+  const showResults = view === 'results';
+
+  const handleSearch = useCallback(
+    (params: FlightSearchParams) => {
+      setTestData(null);
+      searchFlight(params);
+      setView('results');
+    },
+    [searchFlight]
+  );
+
+  const handleInjectTest = useCallback(
+    (params: FlightSearchParams, rec: FlightRecType) => {
+      setTestData({ params, recommendation: null, loading: true });
+      setView('results');
+      setTimeout(() => {
+        setTestData({ params, recommendation: rec, loading: false });
+      }, 1500);
+    },
+    []
+  );
+
+  const handleClear = useCallback(() => {
+    setView('form');
+    setTimeout(() => {
+      setTestData(null);
+      realClearSearch();
+    }, 600);
+  }, [realClearSearch]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#722f37] to-[#2a1419] relative overflow-hidden">
-      {/* Animated airplanes */}
-      <FlyingPlanes enabled={true} planeCount={3} />
+    <div className="relative h-screen bg-space-black overflow-hidden">
+      <DebugBar view={view} onInjectTest={handleInjectTest} onReset={handleClear} />
+      <Stars count={150} />
 
-      {/* Main Content */}
-      <div className="relative z-10 w-full py-8">
-        {/* Header Section */}
-        <div className="max-w-lg mx-auto px-4 pb-8 text-center">
-          <h1 className="text-3xl font-bold text-[#f8fafc] mb-3 tracking-tight">
-            WindowSeat
-          </h1>
-          <p className="text-[#dbb8bd] text-lg">
-            AI-powered airplane seat recommendations to give you the best view!
-          </p>
-        </div>
+      <div className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Earth */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          initial={{ rotateX: 75, y: '35%', scale: 1.3 }}
+          animate={{
+            rotateX: showResults ? 0 : 75,
+            y: showResults ? '0%' : '35%',
+            scale: showResults ? 1.15 : 1.3,
+          }}
+          transition={TRANSITION}
+          style={{ transformPerspective: 1200, transformStyle: 'preserve-3d' }}
+        >
+          <EarthOutline className="opacity-50 w-[130vmin] h-[130vmin]" />
+        </motion.div>
 
-        {/* Search Form */}
-        <div className="max-w-lg mx-auto px-4 mb-8">
-          <div className="bg-[#371e23]/80 backdrop-blur-xl border border-[#722f37]/40 rounded-3xl p-8 shadow-2xl">
-            <FlightSearchForm 
-              onSearch={searchFlight}
-              isLoading={isLoading}
-            />
-          </div>
-        </div>
+        {/* Form */}
+        <AnimatePresence mode="wait">
+          {!showResults && (
+            <motion.div
+              key="form"
+              className="relative z-10 w-full max-w-md mx-auto px-4"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -60 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <div className="text-center mb-8">
+                <h1 className="font-display font-bold text-6xl sm:text-7xl text-white tracking-tight mb-3">
+                  WindowSeat
+                </h1>
+                <p className="font-display font-medium text-lg sm:text-xl text-text-secondary">
+                  AI-powered seat recommendations
+                </p>
+              </div>
+              <div className="glass-card p-8">
+                <FlightSearchForm onSearch={handleSearch} isLoading={isLoading} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Conditional gap - only appears after form submission to push results down */}
-        {searchParams && <div className="h-32"></div>}
-
-        {/* Results Section - positioned at top when visible */}
-        {searchParams && (
-          <div ref={resultsRef} className="max-w-5xl mx-auto px-4 pb-8 min-h-screen pt-8">
-            {/* Search Status - always at top */}
-            <SearchStatus 
-              searchParams={searchParams}
-              onClearSearch={clearSearch}
-            />
-            
-            {/* Recommendation Results - directly below search status */}
-            <div className="bg-[#371e23]/60 backdrop-blur-xl border border-[#722f37]/30 rounded-3xl p-6">
-              <FlightRecommendation 
-                recommendation={recommendation}
-                isLoading={isLoading}
-                error={error}
-                onRetry={retry}
-              />
-            </div>
-          </div>
-        )}
+        {/* Results */}
+        <AnimatePresence mode="wait">
+          {showResults && (
+            <motion.div
+              key="results"
+              className="absolute inset-0 flex items-start justify-center overflow-y-auto pt-8 pb-20 px-4 z-10"
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 60 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1], delay: 0.3 }}
+            >
+              <div className="w-full max-w-3xl">
+                {searchParams && (
+                  <>
+                    <SearchStatus searchParams={searchParams} onClearSearch={handleClear} />
+                    <div className="mt-6 results-card">
+                      <FlightRecommendation
+                        recommendation={recommendation}
+                        isLoading={isLoading}
+                        error={error}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
