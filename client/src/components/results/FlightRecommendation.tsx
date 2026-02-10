@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import type { FlightRecommendation as FlightRecommendationType } from '../../../../server/shared/types/flight.types';
 import type { FlightError } from '../../types/FlightError';
 
@@ -61,6 +61,26 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
       minute: '2-digit',
     });
   };
+
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const handleCarouselWheel = useCallback((e: WheelEvent) => {
+    if (!carouselRef.current) return;
+    const el = carouselRef.current;
+    const canScroll = el.scrollWidth > el.clientWidth;
+    if (!canScroll) return;
+
+    e.preventDefault();
+    const scrollAmount = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  }, []);
+
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    el.addEventListener('wheel', handleCarouselWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleCarouselWheel);
+  }, [handleCarouselWheel]);
 
   const weatherLabel = {
     high: { text: 'Weather data available', color: 'bg-emerald-400', textColor: 'text-emerald-400' },
@@ -182,25 +202,29 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
               ({seatRec.landmarks.length})
             </span>
           </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div
+            ref={carouselRef}
+            className="flex overflow-x-auto gap-3 pb-3 snap-x snap-mandatory scrollbar-thin -mx-1 px-1"
+          >
             {seatRec.landmarks.map((landmark, index) => (
-              <div key={index} className="landmark-item">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-7 h-7 rounded-full bg-amber-glow-900 border border-amber-glow-500/20 flex items-center justify-center shrink-0">
-                      <span className="text-white text-xs font-bold">{index + 1}</span>
-                    </div>
-                    <div>
-                      <span className="text-white text-sm font-medium block">
-                        {landmark.name}
-                      </span>
-                      <span className="text-text-muted text-xs">
-                        {formatTime(landmark.estimatedTime)} · {landmark.distanceFromOrigin} mi
-                      </span>
-                    </div>
+              <div
+                key={index}
+                className="landmark-item min-w-[220px] max-w-[260px] shrink-0 snap-start rounded-xl bg-white/[0.03] border border-white/[0.06] p-4"
+              >
+                <div className="flex items-center space-x-3 mb-2">
+                  <div className="w-7 h-7 rounded-full bg-amber-glow-900 border border-amber-glow-500/20 flex items-center justify-center shrink-0">
+                    <span className="text-white text-xs font-bold">{index + 1}</span>
                   </div>
+                  <span className="text-white text-sm font-medium">
+                    {landmark.name}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-text-muted text-xs mt-1 pl-10">
+                  <span>
+                    {formatTime(landmark.estimatedTime)} · {landmark.distanceFromOrigin} mi
+                  </span>
                   {landmark.cloudCover !== undefined && (
-                    <span className="text-text-muted text-xs shrink-0 ml-2">
+                    <span className="shrink-0 ml-2">
                       {landmark.cloudCover}% ☁
                     </span>
                   )}
