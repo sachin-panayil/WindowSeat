@@ -35,6 +35,28 @@ const MOCK_RECOMMENDATION: FlightRecommendation = {
       { name: 'San Juan Mountains', side: 'left', distanceFromOrigin: 700, estimatedTime: '2026-02-15T18:54:00.000Z', cloudCover: 15 },
       { name: 'Appalachian Blue Ridge', side: 'left', distanceFromOrigin: 2100, estimatedTime: '2026-02-15T21:40:48.000Z', cloudCover: 68 },
     ],
+    leftSide: {
+      landmarks: [
+        { name: 'Pikes Peak', side: 'left', distanceFromOrigin: 820, estimatedTime: '2026-02-15T19:08:00.000Z', cloudCover: 7 },
+        { name: 'Death Valley', side: 'left', distanceFromOrigin: 195, estimatedTime: '2026-02-15T17:53:24.000Z', cloudCover: 100 },
+        { name: 'Rocky Mountains (Colorado)', side: 'left', distanceFromOrigin: 850, estimatedTime: '2026-02-15T19:11:36.000Z', cloudCover: 7 },
+        { name: 'Sierra Nevada (South)', side: 'left', distanceFromOrigin: 180, estimatedTime: '2026-02-15T17:51:36.000Z', cloudCover: 45 },
+        { name: 'Catskill Mountains', side: 'left', distanceFromOrigin: 2280, estimatedTime: '2026-02-15T22:02:24.000Z', cloudCover: 92 },
+        { name: 'Sangre de Cristo Mountains', side: 'left', distanceFromOrigin: 760, estimatedTime: '2026-02-15T19:01:12.000Z', cloudCover: 12 },
+        { name: 'San Juan Mountains', side: 'left', distanceFromOrigin: 700, estimatedTime: '2026-02-15T18:54:00.000Z', cloudCover: 15 },
+        { name: 'Appalachian Blue Ridge', side: 'left', distanceFromOrigin: 2100, estimatedTime: '2026-02-15T21:40:48.000Z', cloudCover: 68 },
+      ],
+      glarePercent: 0,
+      averageCloudCover: 44,
+    },
+    rightSide: {
+      landmarks: [
+        { name: 'Great Salt Lake', side: 'right', distanceFromOrigin: 600, estimatedTime: '2026-02-15T18:42:00.000Z', cloudCover: 20 },
+        { name: 'Niagara Falls', side: 'right', distanceFromOrigin: 2050, estimatedTime: '2026-02-15T21:34:48.000Z', cloudCover: 55 },
+      ],
+      glarePercent: 34,
+      averageCloudCover: 38,
+    },
     weatherConfidence: 'high',
   },
 };

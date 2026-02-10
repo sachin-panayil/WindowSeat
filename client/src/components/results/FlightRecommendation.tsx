@@ -1,6 +1,5 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import type { FlightRecommendation as FlightRecommendationType } from '../../../../server/shared/types/flight.types';
-import type { FlightError } from '../../types/FlightError';
 
 interface FlightRecommendationProps {
   recommendation: FlightRecommendationType | null;
@@ -13,6 +12,35 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
   isLoading,
   error,
 }) => {
+  const seatRec = recommendation?.recommendation;
+
+  const cleanupRef = useRef<(() => void) | null>(null);
+
+  const carouselRef = useCallback((el: HTMLDivElement | null) => {
+    if (cleanupRef.current) {
+      cleanupRef.current();
+      cleanupRef.current = null;
+    }
+    if (!el) return;
+
+    const handler = (e: WheelEvent) => {
+      const canScroll = el.scrollWidth > el.clientWidth;
+      if (!canScroll) return;
+      e.preventDefault();
+      const scrollAmount = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    };
+
+    el.addEventListener('wheel', handler, { passive: false });
+    cleanupRef.current = () => el.removeEventListener('wheel', handler);
+  }, []);
+
+  const [activeTab, setActiveTab] = useState<'left' | 'right'>(seatRec?.recommendedSeat ?? 'left');
+
+  const activeLandmarks = activeTab === 'left'
+    ? seatRec?.leftSide?.landmarks ?? []
+    : seatRec?.rightSide?.landmarks ?? [];
+
   // Loading
   if (isLoading) {
     return (
@@ -41,7 +69,7 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
   }
 
   // Empty state
-  if (!recommendation) {
+  if (!recommendation || !seatRec) {
     return (
       <div className="text-center py-12">
         <p className="text-text-muted font-display">
@@ -51,7 +79,11 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
     );
   }
 
-  const { flight, recommendation: seatRec } = recommendation;
+  const { flight } = recommendation;
+
+  const defaultSide = { landmarks: [], glarePercent: 0, averageCloudCover: null };
+  const leftSide = seatRec.leftSide ?? defaultSide;
+  const rightSide = seatRec.rightSide ?? defaultSide;
 
   const formatTime = (isoString: string) => {
     if (!isoString) return '';
@@ -61,26 +93,6 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
       minute: '2-digit',
     });
   };
-
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  const handleCarouselWheel = useCallback((e: WheelEvent) => {
-    if (!carouselRef.current) return;
-    const el = carouselRef.current;
-    const canScroll = el.scrollWidth > el.clientWidth;
-    if (!canScroll) return;
-
-    e.preventDefault();
-    const scrollAmount = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-    el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-  }, []);
-
-  useEffect(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-    el.addEventListener('wheel', handleCarouselWheel, { passive: false });
-    return () => el.removeEventListener('wheel', handleCarouselWheel);
-  }, [handleCarouselWheel]);
 
   const weatherLabel = {
     high: { text: 'Weather data available', color: 'bg-emerald-400', textColor: 'text-emerald-400' },
@@ -131,56 +143,78 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
         </div>
       </div>
 
-      {/* Simple airplane diagram */}
-      <div className="flex items-center justify-center py-4">
-        <div className="flex items-center space-x-6">
-          {/* Left side indicator */}
-          <div
-            className={`px-5 py-3 rounded-lg border text-center transition-all ${
-              seatRec.recommendedSeat === 'left'
-                ? 'bg-white/5 border-white/20 text-white'
-                : 'bg-transparent border-white/5 text-text-muted'
-            }`}
-          >
-            <p className="text-xs uppercase tracking-wider mb-0.5">Left</p>
-            <p className="font-semibold text-sm">
-              {seatRec.landmarks.filter(() => seatRec.recommendedSeat === 'left').length > 0
-                ? `${seatRec.landmarks.length} landmarks`
-                : 'Window A/B/C'}
-            </p>
+      {/* Side-by-side comparison */}
+      <div className="flex items-stretch gap-3 py-2">
+        {/* Left side card */}
+        <div
+          className={`flex-1 rounded-xl p-4 border transition-all ${
+            seatRec.recommendedSeat === 'left'
+              ? 'bg-white/5 border-amber-glow-500/30 text-white'
+              : 'bg-transparent border-dashed border-white/10 text-text-muted'
+          }`}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-xs uppercase tracking-wider font-semibold">Left</p>
+            {seatRec.recommendedSeat === 'left' && (
+              <span className="text-[10px] uppercase tracking-wider font-bold bg-amber-glow-500/20 text-amber-glow-400 px-2 py-0.5 rounded-full">
+                Recommended
+              </span>
+            )}
           </div>
-
-          {/* Plane body */}
-          <div className="w-12 h-24 bg-space-800/80 border border-white/10 rounded-lg relative">
-            <div className="absolute top-2 left-1 right-1 h-0.5 bg-white/20 rounded" />
-            <div
-              className={`absolute top-5 w-2.5 h-2.5 rounded-sm ${
-                seatRec.recommendedSeat === 'left'
-                  ? 'left-1.5 bg-white/60'
-                  : 'right-1.5 bg-white/60'
-              }`}
-            />
-            <div
-              className={`absolute top-5 w-2.5 h-2.5 rounded-sm border border-white/20 ${
-                seatRec.recommendedSeat === 'left' ? 'right-1.5' : 'left-1.5'
-              }`}
-            />
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-text-muted">Landmarks</span>
+              <span className="font-medium">{leftSide.landmarks.length}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-text-muted">Sun glare</span>
+              <span className="font-medium">{leftSide.glarePercent}%</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-text-muted">Cloud cover</span>
+              <span className="font-medium">
+                {leftSide.averageCloudCover !== null ? `${leftSide.averageCloudCover}%` : '—'}
+              </span>
+            </div>
           </div>
+        </div>
 
-          {/* Right side indicator */}
-          <div
-            className={`px-5 py-3 rounded-lg border text-center transition-all ${
-              seatRec.recommendedSeat === 'right'
-                ? 'bg-white/5 border-white/20 text-white'
-                : 'bg-transparent border-white/5 text-text-muted'
-            }`}
-          >
-            <p className="text-xs uppercase tracking-wider mb-0.5">Right</p>
-            <p className="font-semibold text-sm">
-              {seatRec.recommendedSeat === 'right'
-                ? `${seatRec.landmarks.length} landmarks`
-                : 'Window D/E/F'}
-            </p>
+        {/* Plane icon divider */}
+        <div className="flex items-center px-1">
+          <span className="text-text-muted text-xl">✈</span>
+        </div>
+
+        {/* Right side card */}
+        <div
+          className={`flex-1 rounded-xl p-4 border transition-all ${
+            seatRec.recommendedSeat === 'right'
+              ? 'bg-white/5 border-amber-glow-500/30 text-white'
+              : 'bg-transparent border-dashed border-white/10 text-text-muted'
+          }`}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-xs uppercase tracking-wider font-semibold">Right</p>
+            {seatRec.recommendedSeat === 'right' && (
+              <span className="text-[10px] uppercase tracking-wider font-bold bg-amber-glow-500/20 text-amber-glow-400 px-2 py-0.5 rounded-full">
+                Recommended
+              </span>
+            )}
+          </div>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-text-muted">Landmarks</span>
+              <span className="font-medium">{rightSide.landmarks.length}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-text-muted">Sun glare</span>
+              <span className="font-medium">{rightSide.glarePercent}%</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-text-muted">Cloud cover</span>
+              <span className="font-medium">
+                {rightSide.averageCloudCover !== null ? `${rightSide.averageCloudCover}%` : '—'}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -193,45 +227,76 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
         <p className="text-text-secondary text-sm leading-relaxed">{seatRec.reasoning}</p>
       </div>
 
-      {/* Landmarks */}
-      {seatRec.landmarks.length > 0 && (
+      {/* Landmarks with side tabs */}
+      {(leftSide.landmarks.length > 0 || rightSide.landmarks.length > 0) && (
         <div>
           <h4 className="font-semibold text-base text-white mb-3">
-            Landmarks You'll See
-            <span className="text-text-muted font-normal ml-2 text-sm">
-              ({seatRec.landmarks.length})
-            </span>
+            Landmarks Along Route
           </h4>
-          <div
-            ref={carouselRef}
-            className="flex overflow-x-auto gap-3 pb-3 snap-x snap-mandatory scrollbar-thin -mx-1 px-1"
-          >
-            {seatRec.landmarks.map((landmark, index) => (
-              <div
-                key={index}
-                className="landmark-item min-w-[220px] max-w-[260px] shrink-0 snap-start rounded-xl bg-white/[0.03] border border-white/[0.06] p-4"
-              >
-                <div className="flex items-center space-x-3 mb-2">
-                  <div className="w-7 h-7 rounded-full bg-amber-glow-900 border border-amber-glow-500/20 flex items-center justify-center shrink-0">
-                    <span className="text-white text-xs font-bold">{index + 1}</span>
-                  </div>
-                  <span className="text-white text-sm font-medium">
-                    {landmark.name}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-text-muted text-xs mt-1 pl-10">
-                  <span>
-                    {formatTime(landmark.estimatedTime)} · {landmark.distanceFromOrigin} mi
-                  </span>
-                  {landmark.cloudCover !== undefined && (
-                    <span className="shrink-0 ml-2">
-                      {landmark.cloudCover}% ☁
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
+
+          {/* Tab buttons */}
+          <div className="flex gap-2 mb-3">
+            <button
+              onClick={() => setActiveTab('left')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${
+                activeTab === 'left'
+                  ? seatRec.recommendedSeat === 'left'
+                    ? 'bg-amber-glow-500/20 text-amber-glow-400 border border-amber-glow-500/30'
+                    : 'bg-white/10 text-white border border-white/20'
+                  : 'bg-transparent text-text-muted border border-white/5 hover:border-white/10'
+              }`}
+            >
+              Left ({leftSide.landmarks.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('right')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${
+                activeTab === 'right'
+                  ? seatRec.recommendedSeat === 'right'
+                    ? 'bg-amber-glow-500/20 text-amber-glow-400 border border-amber-glow-500/30'
+                    : 'bg-white/10 text-white border border-white/20'
+                  : 'bg-transparent text-text-muted border border-white/5 hover:border-white/10'
+              }`}
+            >
+              Right ({rightSide.landmarks.length})
+            </button>
           </div>
+
+          {/* Landmark carousel for active tab */}
+          {activeLandmarks.length > 0 ? (
+            <div
+              ref={carouselRef}
+              className="flex overflow-x-auto gap-3 pb-3 snap-x snap-mandatory scrollbar-thin -mx-1 px-1"
+            >
+              {activeLandmarks.map((landmark, index) => (
+                <div
+                  key={`${activeTab}-${index}`}
+                  className="landmark-item min-w-[220px] max-w-[260px] shrink-0 snap-start rounded-xl bg-white/[0.03] border border-white/[0.06] p-4"
+                >
+                  <div className="flex items-center space-x-3 mb-2">
+                    <div className="w-7 h-7 rounded-full bg-amber-glow-900 border border-amber-glow-500/20 flex items-center justify-center shrink-0">
+                      <span className="text-white text-xs font-bold">{index + 1}</span>
+                    </div>
+                    <span className="text-white text-sm font-medium">
+                      {landmark.name}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-text-muted text-xs mt-1 pl-10">
+                    <span>
+                      {formatTime(landmark.estimatedTime)} · {landmark.distanceFromOrigin} mi
+                    </span>
+                    {landmark.cloudCover !== undefined && (
+                      <span className="shrink-0 ml-2">
+                        {landmark.cloudCover}% ☁
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-text-muted text-sm">No landmarks on this side.</p>
+          )}
         </div>
       )}
 
