@@ -25,11 +25,19 @@ export interface LandmarkSummary {
     cloudCover?: number;
 }
 
+export interface SideResult {
+    landmarks: LandmarkSummary[];
+    glarePercent: number;
+    averageCloudCover: number | null;
+}
+
 export interface SeatRecommendation {
     recommendedSeat: 'left' | 'right';
     confidence: number;       // 1-10 score
     reasoning: string;        // explanation
     landmarks: LandmarkSummary[];
+    leftSide: SideResult;
+    rightSide: SideResult;
     weatherConfidence: 'high' | 'partial' | 'unavailable';
 }
 

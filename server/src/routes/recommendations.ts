@@ -5,11 +5,12 @@ import { getSunPositions } from '../utils/sunHelper';
 import { getRouteWeather } from '../services/weatherService';
 import { generateRecommendation } from '../services/LLMService';
 import { classifyError } from '../helper/classifyError';
-import type { 
-    FlightSearchParams, 
+import type {
+    FlightSearchParams,
     FlightRecommendation,
     FlightData,
-    LandmarkSummary
+    LandmarkSummary,
+    SideResult
 } from '../../shared/types/flight.types';
 import type { APIError } from '../helper/classifyError';
 
@@ -108,13 +109,38 @@ router.post('/', async (req, res) => {
             };
         });
 
-        // 8. Generate recommendation 
+        // 8. Generate recommendation
         const recommendation = await generateRecommendation(landmarkSummaries, pathWithSun, weatherResult.reason, flightData);
+
+        // 8.5 Compute per-side results
+        const leftLandmarks = landmarkSummaries.filter(l => l.side === 'left');
+        const rightLandmarks = landmarkSummaries.filter(l => l.side === 'right');
+
+        const totalPoints = pathWithSun.length;
+        const leftGlareCount = pathWithSun.filter(p => p.sunGlareSide === 'left').length;
+        const rightGlareCount = pathWithSun.filter(p => p.sunGlareSide === 'right').length;
+
+        const avgCloud = (landmarks: LandmarkSummary[]): number | null => {
+            const covers = landmarks.map(l => l.cloudCover).filter((c): c is number => c !== undefined);
+            return covers.length > 0 ? Math.round(covers.reduce((a, b) => a + b, 0) / covers.length) : null;
+        };
+
+        const leftSide: SideResult = {
+            landmarks: leftLandmarks,
+            glarePercent: totalPoints > 0 ? Math.round((leftGlareCount / totalPoints) * 100) : 0,
+            averageCloudCover: avgCloud(leftLandmarks),
+        };
+
+        const rightSide: SideResult = {
+            landmarks: rightLandmarks,
+            glarePercent: totalPoints > 0 ? Math.round((rightGlareCount / totalPoints) * 100) : 0,
+            averageCloudCover: avgCloud(rightLandmarks),
+        };
 
         // 9. Assemble response
         const response: FlightRecommendation = {
             flight: flightData,
-            recommendation
+            recommendation: { ...recommendation, leftSide, rightSide }
         };
 
         console.log('Recommendation:', recommendation.recommendedSeat, 'side with confidence', recommendation.confidence);

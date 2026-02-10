@@ -13,12 +13,14 @@ const openai = new OpenAI({
     timeout: 15000
 });
 
+type BaseSeatRecommendation = Omit<SeatRecommendation, 'leftSide' | 'rightSide'>;
+
 export async function generateRecommendation(
     landmarks: LandmarkSummary[],
     pathWithSun: GeoPoint[],
     weatherReason: string,
-    flightData?: FlightData 
-): Promise<SeatRecommendation> {
+    flightData?: FlightData
+): Promise<BaseSeatRecommendation> {
     
     const promptData = buildPromptData(landmarks, pathWithSun, weatherReason, flightData);
     console.log('Prompt Data:', JSON.stringify(promptData, null, 2));
@@ -109,7 +111,7 @@ function validateAndTransform(
     aiResponse: any,
     allLandmarks: LandmarkSummary[],
     weatherReason: string
-): SeatRecommendation {
+): BaseSeatRecommendation {
     // Validate required fields
     if (!aiResponse.recommendedSeat || !['left', 'right'].includes(aiResponse.recommendedSeat)) {
         throw new Error('Invalid recommendedSeat');
@@ -156,7 +158,7 @@ function fallbackRecommendation(
     landmarks: LandmarkSummary[],
     pathWithSun: GeoPoint[],
     weatherReason: string
-): SeatRecommendation {
+): BaseSeatRecommendation {
     const leftLandmarks = landmarks.filter(l => l.side === 'left');
     const rightLandmarks = landmarks.filter(l => l.side === 'right');
     
