@@ -13,6 +13,12 @@ module.exports = {
 
       // Custom colors from Design System v2
       colors: {
+        'amber-glow': {
+          400: '#FBBF24',
+          500: '#D4A017',
+          600: '#B8860B',
+          900: '#3D2E0A',
+        },
         'space-black': '#000000',
         'space': {
           950: '#0f0f0f',

@@ -6,16 +6,20 @@ interface StarsProps {
 
 const Stars: React.FC<StarsProps> = ({ count = 150 }) => {
   const stars = useMemo(() => {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      size: Math.random() * 2 + 1,
-      opacity: Math.random() * 0.5 + 0.2,
-      // Only some stars twinkle
-      twinkle: Math.random() > 0.7,
-      animationDelay: `${Math.random() * 5}s`,
-    }));
+    return Array.from({ length: count }, (_, i) => {
+      const warm = Math.random() > 0.88;
+      const baseOpacity = Math.random() * 0.5 + 0.2;
+      return {
+        id: i,
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        size: Math.random() * 2 + 1,
+        opacity: warm ? baseOpacity * 0.7 : baseOpacity,
+        warm,
+        twinkle: Math.random() > 0.7,
+        animationDelay: `${Math.random() * 5}s`,
+      };
+    });
   }, [count]);
 
   return (
@@ -23,7 +27,7 @@ const Stars: React.FC<StarsProps> = ({ count = 150 }) => {
       {stars.map((star) => (
         <div
           key={star.id}
-          className={`absolute rounded-full bg-white ${star.twinkle ? 'animate-twinkle' : ''}`}
+          className={`absolute rounded-full ${star.warm ? 'bg-amber-200' : 'bg-white'} ${star.twinkle ? 'animate-twinkle' : ''}`}
           style={{
             left: star.left,
             top: star.top,

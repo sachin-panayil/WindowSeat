@@ -52,7 +52,7 @@
   .input-dark {
     @apply w-full px-4 py-4 bg-space-950 border border-white/10 rounded-xl
            text-white placeholder-text-muted font-display
-           focus:outline-none focus:ring-2 focus:ring-white/15 focus:border-white/20
+           focus:outline-none focus:ring-2 focus:ring-amber-glow-500/25 focus:border-amber-glow-500/30
            transition-all duration-300;
   }
 
@@ -64,15 +64,15 @@
     @apply border-emerald-500/50 focus:ring-emerald-500/15 focus:border-emerald-500/50;
   }
 
-  /* Primary button - grey gradient */
+  /* Primary button - amber */
   .btn-primary {
     @apply w-full py-5 px-8
-           bg-gradient-to-br from-space-800 to-space-900
-           border border-white/10 rounded-xl
+           bg-amber-glow-600
+           border border-amber-glow-500/20 rounded-xl
            text-white font-display font-bold text-lg
            shadow-lg
-           hover:shadow-xl hover:shadow-white/5
-           hover:-translate-y-0.5 hover:from-space-700 hover:to-space-800
+           hover:shadow-xl hover:shadow-amber-glow-500/15
+           hover:-translate-y-0.5 hover:bg-amber-glow-500
            active:translate-y-0
            transition-all duration-300
            disabled:opacity-40 disabled:cursor-not-allowed

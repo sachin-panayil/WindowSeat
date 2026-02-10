@@ -62,7 +62,7 @@ const EarthOutline: React.FC<EarthOutlineProps> = ({ className = '' }) => {
         viewBox="0 0 400 400"
         xmlns="http://www.w3.org/2000/svg"
         className="w-full h-full"
-        style={{ filter: 'drop-shadow(0 0 40px rgba(255,255,255,0.05))' }}
+        style={{ filter: 'drop-shadow(0 0 40px rgba(251,191,36,0.06))' }}
       >
         {/* Globe circle */}
         <circle

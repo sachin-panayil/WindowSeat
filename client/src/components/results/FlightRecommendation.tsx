@@ -17,7 +17,7 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <div className="w-14 h-14 border-2 border-white/10 border-t-white/60 rounded-full animate-spin mb-6" />
+        <div className="w-14 h-14 border-2 border-amber-glow-500/10 border-t-amber-glow-400/60 rounded-full animate-spin mb-6" />
         <p className="text-text-secondary font-display font-medium text-lg">
           Analyzing your flight...
         </p>
@@ -93,7 +93,7 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
       <div className="flex items-center justify-between">
         <div>
           <p className="text-text-muted text-xs uppercase tracking-wider mb-1">Recommended</p>
-          <h3 className="font-bold text-3xl text-white">
+          <h3 className="font-bold text-3xl text-amber-glow-400">
             {seatRec.recommendedSeat === 'left' ? 'Left' : 'Right'} Side
           </h3>
           <p className="text-text-tertiary text-sm mt-0.5">Window seat</p>
@@ -105,7 +105,7 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
             <p className="text-text-muted text-xs">Confidence</p>
             <p className="text-white font-bold text-xl">{seatRec.confidence}/10</p>
           </div>
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-space-700 to-space-600 border border-white/10 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-full bg-amber-glow-900 border border-amber-glow-500/20 flex items-center justify-center">
             <span className="text-white font-bold text-lg">{seatRec.confidence}</span>
           </div>
         </div>
@@ -187,7 +187,7 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
               <div key={index} className="landmark-item">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-space-700 to-space-600 border border-white/10 flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 rounded-full bg-amber-glow-900 border border-amber-glow-500/20 flex items-center justify-center shrink-0">
                       <span className="text-white text-xs font-bold">{index + 1}</span>
                     </div>
                     <div>
