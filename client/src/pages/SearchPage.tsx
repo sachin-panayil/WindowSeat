@@ -85,9 +85,9 @@ const SearchPage: React.FC = () => {
           <EarthOutline className="opacity-50 w-[130vmin] h-[130vmin]" />
         </motion.div>
 
-        {/* Form */}
+        {/* Form / Results */}
         <AnimatePresence mode="wait">
-          {!showResults && (
+          {!showResults ? (
             <motion.div
               key="form"
               className="relative z-10 w-full max-w-md mx-auto px-4"
@@ -108,19 +108,14 @@ const SearchPage: React.FC = () => {
                 <FlightSearchForm onSearch={handleSearch} isLoading={isLoading} />
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Results */}
-        <AnimatePresence mode="wait">
-          {showResults && (
+          ) : (
             <motion.div
               key="results"
               className="absolute inset-0 flex items-start justify-center overflow-y-auto pt-8 pb-20 px-4 z-10"
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 60 }}
-              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1], delay: 0.3 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             >
               <div className="w-full max-w-3xl">
                 {searchParams && (
