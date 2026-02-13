@@ -143,6 +143,76 @@
 }
 
 /* ============================================
+   GEOAPIFY AUTOCOMPLETE DARK THEME OVERRIDES
+   ============================================ */
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-input {
+  width: 100%;
+  padding: 1rem;
+  background-color: #0f0f0f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-input::placeholder {
+  color: #737373;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-input:focus {
+  ring: 2px;
+  border-color: rgba(212, 160, 23, 0.3);
+  box-shadow: 0 0 0 2px rgba(212, 160, 23, 0.25);
+}
+
+.geoapify-autocomplete-wrapper .geoapify-close-button {
+  color: #737373;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-close-button:hover {
+  color: #ffffff;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-items {
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  margin-top: 0.25rem;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-items .geoapify-autocomplete-item {
+  padding: 0.75rem 1rem;
+  color: #e5e5e5;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-items .geoapify-autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-items .geoapify-autocomplete-item:hover,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-items .geoapify-autocomplete-item.active {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-items .geoapify-autocomplete-item .icon {
+  display: none;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-items .geoapify-autocomplete-item .secondary-part {
+  color: #a3a3a3;
+}
+
+/* ============================================
    REDUCED MOTION
    ============================================ */
 @media (prefers-reduced-motion: reduce) {

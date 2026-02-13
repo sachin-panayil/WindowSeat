@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import type { FlightRecommendation as FlightRecommendationType } from '../../../../server/shared/types/flight.types';
 
 interface FlightRecommendationProps {
@@ -35,7 +35,13 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
     cleanupRef.current = () => el.removeEventListener('wheel', handler);
   }, []);
 
-  const [activeTab, setActiveTab] = useState<'left' | 'right'>(seatRec?.recommendedSeat ?? 'left');
+  const [activeTab, setActiveTab] = useState<'left' | 'right'>('left');
+
+  useEffect(() => {
+    if (seatRec?.recommendedSeat) {
+      setActiveTab(seatRec.recommendedSeat);
+    }
+  }, [seatRec?.recommendedSeat]);
 
   const activeLandmarks = activeTab === 'left'
     ? seatRec?.leftSide?.landmarks ?? []

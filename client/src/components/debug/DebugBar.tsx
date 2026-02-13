@@ -1,18 +1,26 @@
 import React, { useCallback } from 'react';
-import type { FlightSearchParams, FlightRecommendation } from '../../../../shared/types/flight.types';
+import type { FlightSearchParams, FlightRecommendation } from '../../../../server/shared/types/flight.types';
 
 const MOCK_SEARCH_PARAMS: FlightSearchParams = {
-  origin: 'LAX',
-  destination: 'JFK',
+  origin: {
+    name: 'Los Angeles, CA, United States',
+    latitude: 33.9425,
+    longitude: -118.4081,
+    timezone: 'America/Los_Angeles',
+  },
+  destination: {
+    name: 'New York, NY, United States',
+    latitude: 40.7128,
+    longitude: -74.006,
+    timezone: 'America/New_York',
+  },
   date: '2026-02-15',
   departureTime: '10:30',
 };
 
 const MOCK_RECOMMENDATION: FlightRecommendation = {
   flight: {
-    route: 'LAX → JFK',
-    origin: 'LAX',
-    destination: 'JFK',
+    route: 'Los Angeles, CA, United States → New York, NY, United States',
     originCity: 'Los Angeles',
     destinationCity: 'New York',
     departureTime: '10:30',

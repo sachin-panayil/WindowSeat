@@ -1,14 +1,19 @@
+export interface Location {
+    name: string;
+    latitude: number;
+    longitude: number;
+    timezone: string;
+}
+
 export interface FlightSearchParams {
-    origin: string;           // IATA code
-    destination: string;      // IATA code
+    origin: Location;
+    destination: Location;
     date: string;             // YYYY-MM-DD
     departureTime: string;    // HH:MM
 }
 
 export interface FlightData {
-    route: string;            // "LAX → JFK"
-    origin: string;           // IATA code
-    destination: string;      // IATA code
+    route: string;            // "Los Angeles → New York"
     originCity: string;       // "Los Angeles"
     destinationCity: string;  // "New York"
     departureTime: string;    // from user input
