@@ -9,12 +9,12 @@ export function classifyError(error: Error): { status: number; body: APIError } 
     const message = error.message.toLowerCase();
     
     // User errors - bad input, not retryable
-    if (message.includes('airport not found')) {
+    if (message.includes('invalid input') || message.includes('invalid location')) {
         return {
             status: 400,
             body: {
-                error: 'Invalid airport',
-                code: 'AIRPORT_NOT_FOUND',
+                error: 'Invalid input',
+                code: 'INVALID_INPUT',
                 message: error.message,
                 retryable: false
             }

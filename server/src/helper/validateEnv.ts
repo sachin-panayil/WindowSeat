@@ -1,5 +1,5 @@
 export function validateEnv(): void {
-    const required = ['OPENAI_API_KEY', 'API_NINJAS_API_KEY'];
+    const required = ['OPENAI_API_KEY'];
     const missing = required.filter(key => !process.env[key]);
     
     if (missing.length > 0) {

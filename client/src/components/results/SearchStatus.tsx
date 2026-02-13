@@ -13,7 +13,7 @@ const SearchStatus: React.FC<SearchStatusProps> = ({ searchParams, onClearSearch
         <div className="flex items-center space-x-4">
           <div className="text-sm text-text-secondary">
             <span className="font-semibold text-white">
-              {searchParams.origin} → {searchParams.destination}
+              {searchParams.origin.name} → {searchParams.destination.name}
             </span>
             <span className="text-text-muted mx-2">·</span>
             <span className="text-text-tertiary">

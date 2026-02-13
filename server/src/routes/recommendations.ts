@@ -1,5 +1,4 @@
 import express from 'express';
-import { getAirport } from '../services/airportService';
 import { calculatePath, findLandmarksAlongPath } from '../utils/geoHelper';
 import { getSunPositions } from '../utils/sunHelper';
 import { getRouteWeather } from '../services/weatherService';
@@ -18,41 +17,48 @@ export const router = express.Router();
 
 const CRUISE_SPEED_MPH = 500;
 
+function validateLocation(loc: unknown, label: string): string | null {
+    if (!loc || typeof loc !== 'object') return `${label} is required`;
+    const l = loc as Record<string, unknown>;
+    if (typeof l.name !== 'string' || l.name.trim() === '') return `${label} name is required`;
+    if (typeof l.latitude !== 'number' || l.latitude < -90 || l.latitude > 90) return `${label} has invalid latitude`;
+    if (typeof l.longitude !== 'number' || l.longitude < -180 || l.longitude > 180) return `${label} has invalid longitude`;
+    if (typeof l.timezone !== 'string' || l.timezone.trim() === '') return `${label} timezone is required`;
+    return null;
+}
+
 router.post('/', async (req, res) => {
     try {
         const params: FlightSearchParams = req.body;
         console.log('Received request:', params);
 
-        // 1. Get airport data
-        const [originAirport, destAirport] = await Promise.all([
-            getAirport(params.origin),
-            getAirport(params.destination)
-        ]);
-
-        if (!originAirport || !originAirport.city || !originAirport.timezone) {
+        // 1. Validate input
+        const originError = validateLocation(params.origin, 'Origin');
+        if (originError) {
             return res.status(400).json({
-                error: 'Invalid airport',
-                code: 'AIRPORT_NOT_FOUND',
-                message: `Airport not found: ${params.origin}. Please enter a valid 3-letter airport code.`,
-                retryable: false
-            } as APIError);
-        }
-        
-        if (!destAirport || !destAirport.city || !destAirport.timezone) {
-            return res.status(400).json({
-                error: 'Invalid airport',
-                code: 'AIRPORT_NOT_FOUND',
-                message: `Airport not found: ${params.destination}. Please enter a valid 3-letter airport code.`,
+                error: 'Invalid input',
+                code: 'INVALID_INPUT',
+                message: originError,
                 retryable: false
             } as APIError);
         }
 
-        console.log('Airports resolved:', originAirport.city, '→', destAirport.city);
+        const destError = validateLocation(params.destination, 'Destination');
+        if (destError) {
+            return res.status(400).json({
+                error: 'Invalid input',
+                code: 'INVALID_INPUT',
+                message: destError,
+                retryable: false
+            } as APIError);
+        }
+
+        console.log('Locations:', params.origin.name, '→', params.destination.name);
 
         // 2. Calculate flight path
         const path = calculatePath(
-            { latitude: originAirport.latitude, longitude: originAirport.longitude },
-            { latitude: destAirport.latitude, longitude: destAirport.longitude }
+            { latitude: params.origin.latitude, longitude: params.origin.longitude },
+            { latitude: params.destination.latitude, longitude: params.destination.longitude }
         );
 
         console.log(`Path calculated: ${path.length} points`);
@@ -63,18 +69,18 @@ router.post('/', async (req, res) => {
 
         // 4. Get sun positions (pass origin timezone for proper time conversion)
         const pathWithSun = getSunPositions(
-            path, 
-            params.date, 
+            path,
+            params.date,
             params.departureTime,
-            originAirport.timezone
+            params.origin.timezone
         );
 
         // 5. Get weather data (pass origin timezone for proper time conversion)
         const weatherResult = await getRouteWeather(
-            path, 
-            params.date, 
+            path,
+            params.date,
             params.departureTime,
-            originAirport.timezone
+            params.origin.timezone
         );
         console.log(`Weather coverage: ${Math.round(weatherResult.coverage * 100)}% (${weatherResult.reason})`);
 
@@ -83,11 +89,9 @@ router.post('/', async (req, res) => {
         const durationMinutes = Math.round((totalDistance / CRUISE_SPEED_MPH) * 60);
 
         const flightData: FlightData = {
-            route: `${params.origin} → ${params.destination}`,
-            origin: params.origin,
-            destination: params.destination,
-            originCity: originAirport.city,
-            destinationCity: destAirport.city,
+            route: `${params.origin.name} → ${params.destination.name}`,
+            originCity: params.origin.name,
+            destinationCity: params.destination.name,
             departureTime: params.departureTime,
             date: params.date,
             distanceMiles: Math.round(totalDistance),
@@ -148,7 +152,7 @@ router.post('/', async (req, res) => {
 
     } catch (error) {
         console.error('Recommendation error:', error);
-        
+
         const { status, body } = classifyError(error instanceof Error ? error : new Error('Unknown error'));
         res.status(status).json(body);
     }
