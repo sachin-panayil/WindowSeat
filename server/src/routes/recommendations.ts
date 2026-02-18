@@ -10,7 +10,7 @@ import type {
     FlightData,
     LandmarkSummary,
     SideResult
-} from '../../shared/types/flight.types';
+} from '@windowseat/shared';
 import type { APIError } from '../helper/classifyError';
 
 export const router = express.Router();

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FlightSearchParams } from '../../../../server/shared/types/flight.types';
+import type { FlightSearchParams } from '@windowseat/shared';
 
 interface SearchStatusProps {
   searchParams: FlightSearchParams;

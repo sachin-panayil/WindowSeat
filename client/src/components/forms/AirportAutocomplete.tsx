@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import Fuse from 'fuse.js';
 import { US_AIRPORTS } from '../../types/Airport';
 import type { Airport } from '../../types/Airport';
-import type { Location } from '../../../../server/shared/types/flight.types';
+import type { Location } from '@windowseat/shared';
 
 interface AirportAutocompleteProps {
   label: string;

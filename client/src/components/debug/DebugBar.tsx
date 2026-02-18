@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import type { FlightSearchParams, FlightRecommendation } from '../../../../server/shared/types/flight.types';
+import type { FlightSearchParams, FlightRecommendation } from '@windowseat/shared';
 
 const MOCK_SEARCH_PARAMS: FlightSearchParams = {
   origin: {

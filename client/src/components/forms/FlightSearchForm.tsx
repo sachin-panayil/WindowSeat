@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import AirportAutocomplete from './AirportAutocomplete';
-import type { FlightSearchParams, Location } from '../../../../server/shared/types/flight.types';
+import type { FlightSearchParams, Location } from '@windowseat/shared';
 
 interface FlightSearchFormProps {
   onSearch: (data: FlightSearchParams) => void;

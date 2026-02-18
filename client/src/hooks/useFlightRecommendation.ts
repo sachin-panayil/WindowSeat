@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { flightAPI } from '../services/flightAPI';
 import { APIError } from '../services/flightAPI';
-import type { FlightSearchParams, FlightRecommendation } from '../../../server/shared/types/flight.types';
+import type { FlightSearchParams, FlightRecommendation } from '@windowseat/shared';
 import type { FlightError } from '../types/FlightError';
 
 export const useFlightRecommendation = () => {

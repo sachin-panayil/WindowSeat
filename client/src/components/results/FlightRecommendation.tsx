@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import type { FlightRecommendation as FlightRecommendationType } from '../../../../server/shared/types/flight.types';
+import type { FlightRecommendation as FlightRecommendationType } from '@windowseat/shared';
 
 interface FlightRecommendationProps {
   recommendation: FlightRecommendationType | null;

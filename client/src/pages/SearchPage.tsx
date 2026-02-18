@@ -6,9 +6,9 @@ import SearchStatus from '../components/results/SearchStatus';
 import Stars from '../components/background/Stars';
 import EarthOutline from '../components/background/EarthOutline';
 import DebugBar from '../components/debug/DebugBar';
-import HowItWorksOverlay from '../components/HowItWorksOverlay';
+import HowItWorksOverlay from '../components/overlay/HowItWorksOverlay';
 import { useFlightRecommendation } from '../hooks/useFlightRecommendation';
-import type { FlightSearchParams, FlightRecommendation as FlightRecType } from '../../../server/shared/types/flight.types';
+import type { FlightSearchParams, FlightRecommendation as FlightRecType } from '@windowseat/shared';
 
 const TRANSITION = { duration: 1.2, ease: [0.4, 0, 0.2, 1] as const };
 

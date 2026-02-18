@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { FlightSearchParams, FlightRecommendation } from "../../../server/shared/types/flight.types";
+import type { FlightSearchParams, FlightRecommendation } from "@windowseat/shared";
 
 export class APIError extends Error {
     code: string;
