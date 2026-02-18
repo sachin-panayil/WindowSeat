@@ -6,6 +6,7 @@ import SearchStatus from '../components/results/SearchStatus';
 import Stars from '../components/background/Stars';
 import EarthOutline from '../components/background/EarthOutline';
 import DebugBar from '../components/debug/DebugBar';
+import HowItWorksOverlay from '../components/HowItWorksOverlay';
 import { useFlightRecommendation } from '../hooks/useFlightRecommendation';
 import type { FlightSearchParams, FlightRecommendation as FlightRecType } from '../../../server/shared/types/flight.types';
 
@@ -13,6 +14,7 @@ const TRANSITION = { duration: 1.2, ease: [0.4, 0, 0.2, 1] as const };
 
 const SearchPage: React.FC = () => {
   const [view, setView] = useState<'form' | 'results'>('form');
+  const [howItWorksOpen, setHowItWorksOpen] = useState(false);
 
   const {
     recommendation: realRecommendation,
@@ -96,13 +98,19 @@ const SearchPage: React.FC = () => {
               exit={{ opacity: 0, y: -60 }}
               transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             >
-              <div className="text-center mb-8">
+              <div className="text-center mb-4">
                 <h1 className="font-display font-bold text-6xl sm:text-7xl text-white tracking-tight mb-3">
                   WindowSeat
                 </h1>
                 <p className="font-display font-medium text-lg sm:text-xl text-text-secondary">
                   AI-powered seat recommendations
                 </p>
+                <button
+                  onClick={() => setHowItWorksOpen(true)}
+                  className="mt-2 text-sm text-text-tertiary hover:text-amber-glow-400 cursor-pointer transition-colors"
+                >
+                  How it works
+                </button>
               </div>
               <div className="glass-card p-8">
                 <FlightSearchForm onSearch={handleSearch} isLoading={isLoading} />
@@ -135,6 +143,7 @@ const SearchPage: React.FC = () => {
           )}
         </AnimatePresence>
       </div>
+      <HowItWorksOverlay isOpen={howItWorksOpen} onClose={() => setHowItWorksOpen(false)} />
     </div>
   );
 };
