@@ -114,14 +114,15 @@ const SearchPage: React.FC = () => {
                   How it works
                 </button>
               </div>
-              <div className="glass-card p-8">
+              <div className="glass-card p-5 sm:p-8">
                 <FlightSearchForm onSearch={handleSearch} isLoading={isLoading} />
               </div>
             </motion.div>
           ) : (
             <motion.div
               key="results"
-              className="absolute inset-0 flex items-start justify-center overflow-y-auto pt-8 pb-20 px-4 z-10"
+              className="absolute inset-0 flex items-start justify-center overflow-y-auto pt-6 sm:pt-8 px-4 z-10"
+              style={{ paddingBottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 60 }}

@@ -27,28 +27,39 @@ const MapOverlay: React.FC<MapOverlayProps> = ({ isOpen, onClose, recommendation
           {/* Full-screen map */}
           <FlightPathMap mapData={mapData} recommendedSide={side} />
 
-          {/* Back button */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 left-4 z-10 flex items-center gap-2 px-4 py-2 rounded-xl bg-space-900/80 backdrop-blur-xl border border-white/10 text-white font-display text-sm font-medium hover:bg-space-900 transition-colors"
+          {/* Top bar — back button + flight info in one row */}
+          <div
+            className="absolute inset-x-0 top-0 z-[200] flex items-start gap-2 px-3 sm:px-4"
+            style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top, 0.75rem))' }}
           >
-            <span className="text-lg leading-none">&larr;</span>
-            Back
-          </button>
+            <button
+              onClick={onClose}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-space-900/80 backdrop-blur-xl border border-white/10 text-white font-display text-sm font-medium hover:bg-space-900 transition-colors shrink-0"
+              style={{ minHeight: '44px', touchAction: 'manipulation' }}
+            >
+              <span className="text-base leading-none">&larr;</span>
+              Back
+            </button>
 
-          {/* Flight info pill */}
-          <div className="absolute top-4 right-4 z-10 px-4 py-2 rounded-xl bg-space-900/80 backdrop-blur-xl border border-white/10 font-display text-sm">
-            <span className="text-white font-semibold">{flight.route}</span>
-            <span className="mx-2 text-white/30">|</span>
-            <span className="text-amber-glow-400 font-semibold">
-              {side === 'left' ? 'Left' : 'Right'} side
-            </span>
+            <div
+              className="flex items-center min-w-0 flex-1 px-3 sm:px-4 py-2.5 rounded-xl bg-space-900/80 backdrop-blur-xl border border-white/10 font-display text-sm"
+              style={{ minHeight: '44px' }}
+            >
+              <span className="text-white font-semibold truncate">{flight.route}</span>
+              <span className="mx-2 text-white/30 shrink-0">|</span>
+              <span className="text-amber-glow-400 font-semibold shrink-0">
+                {side === 'left' ? 'Left' : 'Right'} side
+              </span>
+            </div>
           </div>
 
           {/* Legend */}
-          <div className="absolute bottom-6 left-4 z-10 px-4 py-3 rounded-xl bg-space-900/80 backdrop-blur-xl border border-white/10 font-display text-xs space-y-1.5">
+          <div
+            className="absolute left-3 sm:left-4 z-[200] px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-space-900/80 backdrop-blur-xl border border-white/10 font-display text-xs space-y-1.5"
+            style={{ bottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))' }}
+          >
             <div className="flex items-center gap-2">
-              <span className="w-5 h-0.5 border-t-2 border-dashed border-amber-400" />
+              <span className="w-5 h-0.5 border-t-2 border-dashed border-amber-400 shrink-0" />
               <span className="text-white/70">Flight path</span>
             </div>
             <div className="flex items-center gap-2">
@@ -61,7 +72,8 @@ const MapOverlay: React.FC<MapOverlayProps> = ({ isOpen, onClose, recommendation
             </div>
             <div className="flex items-center gap-2">
               <span className="w-4 h-4 rounded border-2 border-amber-400/80 bg-amber-400/15 shrink-0" />
-              <span className="text-white/70">Recommended side</span>
+              <span className="text-white/70 hidden sm:inline">Recommended side</span>
+              <span className="text-white/70 sm:hidden">Rec. side</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-4 h-4 rounded border-2 border-white/30 bg-white/5 shrink-0" />
