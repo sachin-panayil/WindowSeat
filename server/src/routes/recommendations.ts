@@ -9,13 +9,16 @@ import type {
     FlightRecommendation,
     FlightData,
     LandmarkSummary,
-    SideResult
+    SideResult,
+    MapData,
+    MapLandmark
 } from '@windowseat/shared';
 import type { APIError } from '../helper/classifyError';
 
 export const router = express.Router();
 
 const CRUISE_SPEED_MPH = 500;
+const isProduction = process.env.NODE_ENV === 'production';
 
 function validateLocation(loc: unknown, label: string): string | null {
     if (!loc || typeof loc !== 'object') return `${label} is required`;
@@ -30,7 +33,10 @@ function validateLocation(loc: unknown, label: string): string | null {
 router.post('/', async (req, res) => {
     try {
         const params: FlightSearchParams = req.body;
-        console.log('Received request:', params);
+        if (!isProduction) {
+            console.log('Received request:', params);
+        }
+
 
         // 1. Validate input
         const originError = validateLocation(params.origin, 'Origin');
@@ -53,7 +59,9 @@ router.post('/', async (req, res) => {
             } as APIError);
         }
 
-        console.log('Locations:', params.origin.name, '→', params.destination.name);
+        if (!isProduction) {
+            console.log('Locations:', params.origin.name, '→', params.destination.name);
+        }
 
         // 2. Calculate flight path
         const path = calculatePath(
@@ -61,11 +69,16 @@ router.post('/', async (req, res) => {
             { latitude: params.destination.latitude, longitude: params.destination.longitude }
         );
 
-        console.log(`Path calculated: ${path.length} points`);
+        if (!isProduction) {
+            console.log(`Path calculated: ${path.length} points`);
+        }
 
         // 3. Find landmarks along path
         const landmarkSightings = findLandmarksAlongPath(path);
-        console.log(`Landmarks found: ${landmarkSightings.length}`);
+
+        if (!isProduction) {
+            console.log(`Landmarks found: ${landmarkSightings.length}`);
+        }
 
         // 4. Get sun positions (pass origin timezone for proper time conversion)
         const pathWithSun = getSunPositions(
@@ -82,7 +95,10 @@ router.post('/', async (req, res) => {
             params.departureTime,
             params.origin.timezone
         );
-        console.log(`Weather coverage: ${Math.round(weatherResult.coverage * 100)}% (${weatherResult.reason})`);
+
+        if (!isProduction) {
+            console.log(`Weather coverage: ${Math.round(weatherResult.coverage * 100)}% (${weatherResult.reason})`);
+        }
 
         // 6. Build flight data
         const totalDistance = path[path.length - 1].distanceFromOrigin ?? 0;
@@ -141,13 +157,40 @@ router.post('/', async (req, res) => {
             averageCloudCover: avgCloud(rightLandmarks),
         };
 
-        // 9. Assemble response
-        const response: FlightRecommendation = {
-            flight: flightData,
-            recommendation: { ...recommendation, leftSide, rightSide }
+        // 9. Build map data from existing path and landmark sightings
+        const mapData: MapData = {
+            path: path.map(p => ({ latitude: p.latitude, longitude: p.longitude })),
+            landmarks: landmarkSightings.map((sighting): MapLandmark => {
+                const closestPathPoint = weatherResult.path.find(
+                    p => Math.abs((p.distanceFromOrigin ?? 0) - sighting.distanceFromOrigin) < 100
+                ) || weatherResult.path[0];
+
+                return {
+                    name: sighting.landmark.name,
+                    latitude: sighting.landmark.latitude,
+                    longitude: sighting.landmark.longitude,
+                    side: sighting.side,
+                    type: sighting.landmark.type,
+                    distanceFromOrigin: Math.round(sighting.distanceFromOrigin),
+                    estimatedTime: closestPathPoint.estimatedTime ?? '',
+                    cloudCover: closestPathPoint.cloudCover,
+                };
+            }),
+            origin: { latitude: params.origin.latitude, longitude: params.origin.longitude, name: params.origin.name },
+            destination: { latitude: params.destination.latitude, longitude: params.destination.longitude, name: params.destination.name },
         };
 
-        console.log('Recommendation:', recommendation.recommendedSeat, 'side with confidence', recommendation.confidence);
+        // 10. Assemble response
+        const response: FlightRecommendation = {
+            flight: flightData,
+            recommendation: { ...recommendation, leftSide, rightSide },
+            mapData
+        };
+
+        if (!isProduction) {
+            console.log('Recommendation:', recommendation.recommendedSeat, 'side with confidence', recommendation.confidence);
+        }
+        
         res.json(response);
 
     } catch (error) {

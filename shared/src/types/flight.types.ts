@@ -46,7 +46,26 @@ export interface SeatRecommendation {
     weatherConfidence: 'high' | 'partial' | 'unavailable';
 }
 
+export interface MapLandmark {
+    name: string;
+    latitude: number;
+    longitude: number;
+    side: 'left' | 'right';
+    type: string;
+    distanceFromOrigin: number;
+    estimatedTime: string;
+    cloudCover?: number;
+}
+
+export interface MapData {
+    path: { latitude: number; longitude: number }[];
+    landmarks: MapLandmark[];
+    origin: { latitude: number; longitude: number; name: string };
+    destination: { latitude: number; longitude: number; name: string };
+}
+
 export interface FlightRecommendation {
     flight: FlightData;
     recommendation: SeatRecommendation;
+    mapData?: MapData;
 }

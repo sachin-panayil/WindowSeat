@@ -7,6 +7,7 @@ import Stars from '../components/background/Stars';
 import EarthOutline from '../components/background/EarthOutline';
 import DebugBar from '../components/debug/DebugBar';
 import HowItWorksOverlay from '../components/overlay/HowItWorksOverlay';
+import MapOverlay from '../components/map/MapOverlay';
 import { useFlightRecommendation } from '../hooks/useFlightRecommendation';
 import type { FlightSearchParams, FlightRecommendation as FlightRecType } from '@windowseat/shared';
 
@@ -15,6 +16,7 @@ const TRANSITION = { duration: 1.2, ease: [0.4, 0, 0.2, 1] as const };
 const SearchPage: React.FC = () => {
   const [view, setView] = useState<'form' | 'results'>('form');
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
+  const [showMap, setShowMap] = useState(false);
 
   const {
     recommendation: realRecommendation,
@@ -134,6 +136,7 @@ const SearchPage: React.FC = () => {
                         recommendation={recommendation}
                         isLoading={isLoading}
                         error={error}
+                        onViewMap={() => setShowMap(true)}
                       />
                     </div>
                   </>
@@ -144,6 +147,7 @@ const SearchPage: React.FC = () => {
         </AnimatePresence>
       </div>
       <HowItWorksOverlay isOpen={howItWorksOpen} onClose={() => setHowItWorksOpen(false)} />
+      <MapOverlay isOpen={showMap} onClose={() => setShowMap(false)} recommendation={recommendation} />
     </div>
   );
 };

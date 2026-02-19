@@ -5,12 +5,14 @@ interface FlightRecommendationProps {
   recommendation: FlightRecommendationType | null;
   isLoading: boolean;
   error: Error | null;
+  onViewMap?: () => void;
 }
 
 const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
   recommendation,
   isLoading,
   error,
+  onViewMap,
 }) => {
   const seatRec = recommendation?.recommendation;
 
@@ -46,6 +48,10 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
   const activeLandmarks = activeTab === 'left'
     ? seatRec?.leftSide?.landmarks ?? []
     : seatRec?.rightSide?.landmarks ?? [];
+
+  const sortedLandmarks = activeLandmarks.sort((a, b) => {
+    return a.distanceFromOrigin - b.distanceFromOrigin
+  })
 
   // Loading
   if (isLoading) {
@@ -274,7 +280,7 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
               ref={carouselRef}
               className="flex overflow-x-auto gap-3 pb-3 snap-x snap-mandatory scrollbar-thin -mx-1 px-1"
             >
-              {activeLandmarks.map((landmark, index) => (
+              {sortedLandmarks.map((landmark, index) => (
                 <div
                   key={`${activeTab}-${index}`}
                   className="landmark-item min-w-[220px] max-w-[260px] shrink-0 snap-start rounded-xl bg-white/[0.03] border border-white/[0.06] p-4"
@@ -315,6 +321,20 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
           </span>
         </div>
       </div>
+
+      {/* View Map button */}
+      {recommendation.mapData && onViewMap && (
+        <>
+          <div className="bg-white/6" />
+            <button
+              onClick={onViewMap}
+              className="w-full py-3 px-4 rounded-xl bg-white/[0.04] border border-white/10 text-white font-display font-semibold text-sm hover:bg-white/[0.08] hover:border-white/15 transition-all flex items-center justify-center gap-2"
+            >
+              <span>View Flight Path Map</span>
+              <span className="text-base">&rarr;</span>
+          </button>
+        </>
+      )}
     </div>
   );
 };
