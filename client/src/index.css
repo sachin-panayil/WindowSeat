@@ -157,6 +157,49 @@
 }
 
 /* ============================================
+   MAPLIBRE POPUP DARK THEME
+   ============================================ */
+.ws-popup .maplibregl-popup-content {
+  background: rgba(15, 15, 30, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  max-width: 240px;
+}
+
+.ws-popup .maplibregl-popup-tip {
+  border-top-color: rgba(15, 15, 30, 0.95);
+}
+
+.ws-popup .maplibregl-popup-close-button {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 18px;
+  padding: 4px 8px;
+}
+
+.ws-popup .maplibregl-popup-close-button:hover {
+  color: #ffffff;
+  background: transparent;
+}
+
+.ws-popup .popup-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.ws-popup .popup-detail {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ============================================
    CUSTOM SCROLLBAR (optional, for scroll container)
    ============================================ */
 .scroll-container::-webkit-scrollbar {
