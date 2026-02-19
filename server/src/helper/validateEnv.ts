@@ -9,5 +9,9 @@ export function validateEnv(): void {
         process.exit(1);
     }
     
+    if (!process.env.POSTHOG_API_KEY) {
+        console.warn('Warning: POSTHOG_API_KEY is not set — analytics will be disabled.');
+    }
+
     console.log('Environment variables validated!');
 }

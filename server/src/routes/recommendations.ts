@@ -3,6 +3,7 @@ import { calculatePath, findLandmarksAlongPath } from '../utils/geoHelper';
 import { getSunPositions } from '../utils/sunHelper';
 import { getRouteWeather } from '../services/weatherService';
 import { generateRecommendation } from '../services/LLMService';
+import { captureEvent } from '../services/analyticsService';
 import { classifyError } from '../helper/classifyError';
 import type {
     FlightSearchParams,
@@ -190,7 +191,21 @@ router.post('/', async (req, res) => {
         if (!isProduction) {
             console.log('Recommendation:', recommendation.recommendedSeat, 'side with confidence', recommendation.confidence);
         }
-        
+
+        captureEvent('flight_search', {
+            distinct_id: 'server',
+            origin: params.origin.name,
+            destination: params.destination.name,
+            recommended_seat: recommendation.recommendedSeat,
+            confidence: recommendation.confidence,
+            landmark_count: landmarkSummaries.length,
+            left_landmark_count: leftLandmarks.length,
+            right_landmark_count: rightLandmarks.length,
+            distance_miles: flightData.distanceMiles,
+            duration_minutes: flightData.durationMinutes,
+            weather_coverage: weatherResult.reason,
+        });
+
         res.json(response);
 
     } catch (error) {

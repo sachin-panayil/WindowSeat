@@ -1,8 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import posthog from 'posthog-js'
 import App from './App.tsx'
 import './index.css'
+
+const posthogKey = import.meta.env.VITE_POSTHOG_KEY
+if (posthogKey) {
+  posthog.init(posthogKey, {
+    api_host: import.meta.env.VITE_POSTHOG_HOST ?? 'https://us.i.posthog.com',
+    capture_pageview: true,
+    autocapture: false,
+  })
+}
 
 // Create a QueryClient instance
 // This is like setting up a smart data management center for your entire app

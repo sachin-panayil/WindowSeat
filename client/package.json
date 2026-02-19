@@ -10,12 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@windowseat/shared": "file:../shared",
     "@tanstack/react-query": "^5.89.0",
+    "@windowseat/shared": "file:../shared",
     "axios": "^1.12.2",
     "framer-motion": "^12.31.0",
     "fuse.js": "^7.1.0",
     "maplibre-gl": "^5.17.0",
+    "posthog-js": "^1.351.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
