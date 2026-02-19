@@ -19,3 +19,7 @@ There's no way to figure out which side to sit on unless you've flown the exact 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
+
+# License
+
+This project is released under the [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (Public Domain Dedication). You can copy, modify, distribute, and use the work for any purpose without asking permission.
