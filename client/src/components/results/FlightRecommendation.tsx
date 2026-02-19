@@ -8,6 +8,31 @@ interface FlightRecommendationProps {
   onViewMap?: () => void;
 }
 
+function useTypewriter(text: string, speed = 18) {
+  const [displayed, setDisplayed] = useState('');
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    setDisplayed('');
+    setDone(false);
+    if (!text) return;
+
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) {
+        clearInterval(interval);
+        setDone(true);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed]);
+
+  return { displayed, done };
+}
+
 const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
   recommendation,
   isLoading,
@@ -38,6 +63,7 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
   }, []);
 
   const [activeTab, setActiveTab] = useState<'left' | 'right'>('left');
+  const { displayed: typedReasoning, done: reasoningDone } = useTypewriter(seatRec?.reasoning ?? '');
 
   useEffect(() => {
     if (seatRec?.recommendedSeat) {
@@ -125,7 +151,7 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
             {Math.floor(flight.durationMinutes / 60)}h {flight.durationMinutes % 60}m
           </p>
         </div>
-        <div className="text-sm text-text-tertiary text-right shrink-0">
+        <div className="text-sm text-text-tertiary text-left sm:text-right shrink-0">
           <p>{new Date(flight.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</p>
           <p className="text-text-muted">{flight.departureTime} departure</p>
         </div>
@@ -159,32 +185,32 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
       <div className="flex items-stretch gap-3 py-2">
         {/* Left side card */}
         <div
-          className={`flex-1 rounded-xl p-4 border transition-all ${
+          className={`flex-1 rounded-xl p-3 border transition-all ${
             seatRec.recommendedSeat === 'left'
               ? 'bg-white/5 border-amber-glow-500/30 text-white'
               : 'bg-transparent border-dashed border-white/10 text-text-muted'
           }`}
         >
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-3 gap-1">
             <p className="text-xs uppercase tracking-wider font-semibold">Left</p>
             {seatRec.recommendedSeat === 'left' && (
-              <span className="text-[10px] uppercase tracking-wider font-bold bg-amber-glow-500/20 text-amber-glow-400 px-2 py-0.5 rounded-full">
+              <span className="text-[9px] uppercase tracking-wider font-bold bg-amber-glow-500/20 text-amber-glow-400 px-1.5 py-0.5 rounded-full whitespace-nowrap">
                 Recommended
               </span>
             )}
           </div>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-text-muted">Landmarks</span>
-              <span className="font-medium">{leftSide.landmarks.length}</span>
+          <div className="space-y-2 text-xs sm:text-sm">
+            <div className="flex justify-between gap-1">
+              <span className="text-text-muted whitespace-nowrap">Landmarks</span>
+              <span className="font-medium shrink-0">{leftSide.landmarks.length}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-text-muted">Sun glare</span>
-              <span className="font-medium">{leftSide.glarePercent}%</span>
+            <div className="flex justify-between gap-1">
+              <span className="text-text-muted whitespace-nowrap">Sun glare</span>
+              <span className="font-medium shrink-0">{leftSide.glarePercent}%</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-text-muted">Cloud cover</span>
-              <span className="font-medium">
+            <div className="flex justify-between gap-1">
+              <span className="text-text-muted whitespace-nowrap">Cloud cover</span>
+              <span className="font-medium shrink-0">
                 {leftSide.averageCloudCover !== null ? `${leftSide.averageCloudCover}%` : '—'}
               </span>
             </div>
@@ -198,32 +224,32 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
 
         {/* Right side card */}
         <div
-          className={`flex-1 rounded-xl p-4 border transition-all ${
+          className={`flex-1 rounded-xl p-3 border transition-all ${
             seatRec.recommendedSeat === 'right'
               ? 'bg-white/5 border-amber-glow-500/30 text-white'
               : 'bg-transparent border-dashed border-white/10 text-text-muted'
           }`}
         >
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-3 gap-1">
             <p className="text-xs uppercase tracking-wider font-semibold">Right</p>
             {seatRec.recommendedSeat === 'right' && (
-              <span className="text-[10px] uppercase tracking-wider font-bold bg-amber-glow-500/20 text-amber-glow-400 px-2 py-0.5 rounded-full">
+              <span className="text-[9px] uppercase tracking-wider font-bold bg-amber-glow-500/20 text-amber-glow-400 px-1.5 py-0.5 rounded-full whitespace-nowrap">
                 Recommended
               </span>
             )}
           </div>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-text-muted">Landmarks</span>
-              <span className="font-medium">{rightSide.landmarks.length}</span>
+          <div className="space-y-2 text-xs sm:text-sm">
+            <div className="flex justify-between gap-1">
+              <span className="text-text-muted whitespace-nowrap">Landmarks</span>
+              <span className="font-medium shrink-0">{rightSide.landmarks.length}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-text-muted">Sun glare</span>
-              <span className="font-medium">{rightSide.glarePercent}%</span>
+            <div className="flex justify-between gap-1">
+              <span className="text-text-muted whitespace-nowrap">Sun glare</span>
+              <span className="font-medium shrink-0">{rightSide.glarePercent}%</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-text-muted">Cloud cover</span>
-              <span className="font-medium">
+            <div className="flex justify-between gap-1">
+              <span className="text-text-muted whitespace-nowrap">Cloud cover</span>
+              <span className="font-medium shrink-0">
                 {rightSide.averageCloudCover !== null ? `${rightSide.averageCloudCover}%` : '—'}
               </span>
             </div>
@@ -236,7 +262,12 @@ const FlightRecommendation: React.FC<FlightRecommendationProps> = ({
       {/* Reasoning */}
       <div>
         <h4 className="font-semibold text-base text-white mb-2">Why this seat?</h4>
-        <p className="text-text-secondary text-sm leading-relaxed">{seatRec.reasoning}</p>
+        <p className="text-text-secondary text-sm leading-relaxed">
+          {typedReasoning}
+          {!reasoningDone && (
+            <span className="inline-block w-[2px] h-[1em] bg-amber-glow-400/80 ml-0.5 align-middle animate-pulse" />
+          )}
+        </p>
       </div>
 
       {/* Landmarks with side tabs */}
