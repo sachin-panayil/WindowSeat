@@ -1,9 +1,0 @@
-# The Story Behind WindowSeat
-
-My girlfriend lives in Chicago, I'm in NYC. We fly back and forth all the time.
-
-After a few trips, I realized we kept talking about what views we'd catch from our flights. Sometimes the NYC skyline at night was right infront of us and it was hitting but other times we saw nothing because we picked the wrong side of the plane.
-
-How do you even know which side of the plane to sit on? There's no way to figure it out unless you've flown that exact route before and even then, there's nothing really to give you odds on where to sit and show you whats on the way.
-
-So I built this. Now we both know which window seat to pick :) 

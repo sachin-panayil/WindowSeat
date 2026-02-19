@@ -1,80 +1,84 @@
-# Getting Started
+# Contributing
 
-## Prerequisites
-- Node.js 16+
-- npm
+Thanks for your interest in contributing to WindowSeat!
 
-## Setup
+## Stack
 
-1. **Fork and clone the repository**
+**Frontend:** React 19, TanStack Query, Tailwind CSS, MapLibre GL, Framer Motion
+**Backend:** Express, TypeScript, OpenAI API, OpenWeather API, AviationStack API
 
-2. **Install dependencies**
+## Getting Started
 
-Frontend:
+1. Fork and clone the repo
+2. Install dependencies
+
 ```bash
-cd client
-npm install
+cd client && npm install
+cd ../server && npm install
 ```
 
-Backend:
-```bash
-cd ../server
-npm install
-```
+3. Create `server/.env`:
 
-3. **Set up environment variables**
-
-Create `server/.env`:
 ```env
 PORT=5000
 NODE_ENV=development
-
-# API Keys (optional for basic development)
 AVIATION_STACK_API_KEY=your_key_here
 OPENWEATHER_API_KEY=your_key_here
 OPENAI_API_KEY=your_key_here
-
-# Frontend URL
 CLIENT_URL=http://localhost:5173
 ```
 
-## Running the Application
+4. Create `client/.env`:
 
-You'll need two terminal windows:
-
-**Terminal 1 - Backend:**
-```bash
-cd server
-npm run dev
+```env
+VITE_API_URL=http://localhost:5000
 ```
-Backend will run on `http://localhost:5000`
 
-**Terminal 2 - Frontend:**
+## Running Locally
+
 ```bash
-cd client
-npm run dev
+# Terminal 1 — Backend (http://localhost:5000)
+cd server && npm run dev
+
+# Terminal 2 — Frontend (http://localhost:5173)
+cd client && npm run dev
 ```
-Frontend will run on `http://localhost:5173`
-
-## Verify It's Working
-
-1. Open `http://localhost:5173` in your browser
-2. Open browser console (F12)
-3. You should see the WindowSeat interface
-4. Backend logs should show in Terminal 1
 
 ## Project Structure
 
 ```
 WindowSeat/
-├── client/          # React frontend
+├── client/          # React + Vite frontend
 │   └── src/
 │       ├── components/
 │       ├── pages/
 │       └── services/
-└── server/          # Express backend
+├── server/          # Express backend
+│   └── src/
+│       ├── data/        # Landmarks DB and AI prompt
+│       ├── routes/
+│       ├── services/
+│       └── utils/       # Geo and sun helpers
+└── shared/          # Shared TypeScript types
     └── src/
-        ├── routes/
-        ├── services/
-        └── middleware/
+        └── types/
 ```
+
+## Workflow
+
+1. Create a feature branch off `main`
+2. Make your changes with focused, small commits
+3. Open a pull request against `main`
+4. Wait for review
+
+## Issues
+
+When filing a bug, please include:
+- What you expected to happen
+- What actually happened
+- Steps to reproduce
+
+## Notes
+
+- Landmarks are hardcoded in `server/src/data/landmarks.ts` — add new ones there
+- Rate limit: 10 requests/minute per IP in production

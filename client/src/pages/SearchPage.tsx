@@ -139,6 +139,29 @@ const SearchPage: React.FC = () => {
                         onViewMap={() => setShowMap(true)}
                       />
                     </div>
+                    <div className="mt-6 text-center text-xs text-text-muted font-display space-y-1 pb-4">
+                      <p>
+                        WindowSeat is{' '}
+                        <a
+                          href="https://github.com/sachin-panayil/WindowSeat"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-text-tertiary hover:text-amber-glow-400 transition-colors underline underline-offset-2"
+                        >
+                          open source
+                        </a>
+                      </p>
+                      <p>
+                        <a
+                          href="https://github.com/sachin-panayil/WindowSeat/issues/new?template=feedback.md"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-text-tertiary hover:text-amber-glow-400 transition-colors"
+                        >
+                          Have feedback? Open an issue →
+                        </a>
+                      </p>
+                    </div>
                   </>
                 )}
               </div>
