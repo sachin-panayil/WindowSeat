@@ -50,7 +50,7 @@
 
   /* Input field - dark theme */
   .input-dark {
-    @apply w-full px-4 py-4 bg-space-950 border border-white/10 rounded-xl
+    @apply w-full min-w-0 box-border px-4 py-4 bg-space-950 border border-white/10 rounded-xl
            text-white placeholder-text-muted font-display
            focus:outline-none focus:ring-2 focus:ring-amber-glow-500/25 focus:border-amber-glow-500/30
            transition-all duration-300;

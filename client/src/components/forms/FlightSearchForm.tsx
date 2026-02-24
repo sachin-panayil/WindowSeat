@@ -124,7 +124,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
                 },
               },
             })}
-            className={`input-dark ${errors.date ? 'input-dark--error' : ''}`}
+            className={`input-dark w-full min-w-0 ${errors.date ? 'input-dark--error' : ''}`}
           />
           {errors.date && (
             <p className="mt-1.5 text-xs text-red-400 font-display">
@@ -146,7 +146,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
             {...register('departureTime', {
               required: 'Time is required',
             })}
-            className={`input-dark ${errors.departureTime ? 'input-dark--error' : ''}`}
+            className={`input-dark w-full min-w-0 ${errors.departureTime ? 'input-dark--error' : ''}`}
           />
           {errors.departureTime && (
             <p className="mt-1.5 text-xs text-red-400 font-display">
