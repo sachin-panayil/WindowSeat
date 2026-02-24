@@ -14,11 +14,11 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const recommendationsLimiter = rateLimit({
     windowMs: 60 * 1000, // 1 minute
-    max: 10, // 10 requests per minute per IP
+    max: 10,
     message: {
         error: 'Too many requests',
-        message: 'Please wait 3 minutes before searching again.',
-        retryAfter: 180
+        message: 'Please wait before searching again.',
+        retryAfter: 60
     },
     standardHeaders: true,
     legacyHeaders: false

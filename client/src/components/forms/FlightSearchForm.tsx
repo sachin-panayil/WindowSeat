@@ -37,7 +37,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
       setSameLocationError(false);
       return;
     }
-    // Compare by name (which includes IATA code)
+    // compare by name which includes IATA code
     setSameLocationError(loc1.name === loc2.name);
   };
 

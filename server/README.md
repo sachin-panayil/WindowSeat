@@ -22,8 +22,6 @@ Requires a `.env` file:
 ```env
 PORT=5000
 NODE_ENV=development
-AVIATION_STACK_API_KEY=your_key_here
-OPENWEATHER_API_KEY=your_key_here
 OPENAI_API_KEY=your_key_here
 CLIENT_URL=http://localhost:5173
 ```

@@ -5,6 +5,7 @@ import { getRouteWeather } from '../services/weatherService';
 import { generateRecommendation } from '../services/LLMService';
 import { captureEvent } from '../services/analyticsService';
 import { classifyError } from '../helper/classifyError';
+import { validateLocation } from '../helper/validateLocation';
 import type {
     FlightSearchParams,
     FlightRecommendation,
@@ -21,23 +22,12 @@ export const router = express.Router();
 const CRUISE_SPEED_MPH = 500;
 const isProduction = process.env.NODE_ENV === 'production';
 
-function validateLocation(loc: unknown, label: string): string | null {
-    if (!loc || typeof loc !== 'object') return `${label} is required`;
-    const l = loc as Record<string, unknown>;
-    if (typeof l.name !== 'string' || l.name.trim() === '') return `${label} name is required`;
-    if (typeof l.latitude !== 'number' || l.latitude < -90 || l.latitude > 90) return `${label} has invalid latitude`;
-    if (typeof l.longitude !== 'number' || l.longitude < -180 || l.longitude > 180) return `${label} has invalid longitude`;
-    if (typeof l.timezone !== 'string' || l.timezone.trim() === '') return `${label} timezone is required`;
-    return null;
-}
-
 router.post('/', async (req, res) => {
     try {
         const params: FlightSearchParams = req.body;
         if (!isProduction) {
             console.log('Received request:', params);
         }
-
 
         // 1. Validate input
         const originError = validateLocation(params.origin, 'Origin');
@@ -61,7 +51,7 @@ router.post('/', async (req, res) => {
         }
 
         if (!isProduction) {
-            console.log('Locations:', params.origin.name, '→', params.destination.name);
+            console.log('Locations:', params.origin.name, '->', params.destination.name);
         }
 
         // 2. Calculate flight path

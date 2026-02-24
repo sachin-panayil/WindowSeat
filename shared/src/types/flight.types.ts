@@ -13,13 +13,13 @@ export interface FlightSearchParams {
 }
 
 export interface FlightData {
-    route: string;            // "Los Angeles → New York"
-    originCity: string;       // "Los Angeles"
-    destinationCity: string;  // "New York"
-    departureTime: string;    // from user input
-    date: string;             // from user input
-    distanceMiles: number;    // calculated from path
-    durationMinutes: number;  // estimated from distance
+    route: string;
+    originCity: string;
+    destinationCity: string;
+    departureTime: string;
+    date: string;
+    distanceMiles: number;
+    durationMinutes: number;
 }
 
 export interface LandmarkSummary {
@@ -38,8 +38,8 @@ export interface SideResult {
 
 export interface SeatRecommendation {
     recommendedSeat: 'left' | 'right';
-    confidence: number;       // 1-10 score
-    reasoning: string;        // explanation
+    confidence: number; // 1-10 
+    reasoning: string; 
     landmarks: LandmarkSummary[];
     leftSide: SideResult;
     rightSide: SideResult;
