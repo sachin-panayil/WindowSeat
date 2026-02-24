@@ -37,6 +37,15 @@
     filter: invert(1) brightness(0.7);
     cursor: pointer;
   }
+
+  /* Fix Safari date/time input overflow */
+  input[type="date"],
+  input[type="time"] {
+    -webkit-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
 }
 
 /* ============================================

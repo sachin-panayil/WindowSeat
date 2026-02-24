@@ -114,7 +114,7 @@ const SearchPage: React.FC = () => {
                   How it works
                 </button>
               </div>
-              <div className="glass-card p-5 sm:p-8">
+              <div className="glass-card p-5 sm:p-8 overflow-hidden">
                 <FlightSearchForm onSearch={handleSearch} isLoading={isLoading} />
               </div>
             </motion.div>

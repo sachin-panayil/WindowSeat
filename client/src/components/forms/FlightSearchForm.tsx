@@ -95,7 +95,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
 
       {/* Date & Time row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="date"
             className="block text-sm font-display font-normal text-text-tertiary mb-2"
@@ -124,7 +124,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
                 },
               },
             })}
-            className={`input-dark w-full min-w-0 ${errors.date ? 'input-dark--error' : ''}`}
+            className={`input-dark w-full min-w-0 max-w-full ${errors.date ? 'input-dark--error' : ''}`}
           />
           {errors.date && (
             <p className="mt-1.5 text-xs text-red-400 font-display">
@@ -133,7 +133,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
           )}
         </div>
 
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="departureTime"
             className="block text-sm font-display font-normal text-text-tertiary mb-2"
@@ -146,7 +146,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
             {...register('departureTime', {
               required: 'Time is required',
             })}
-            className={`input-dark w-full min-w-0 ${errors.departureTime ? 'input-dark--error' : ''}`}
+            className={`input-dark w-full min-w-0 max-w-full ${errors.departureTime ? 'input-dark--error' : ''}`}
           />
           {errors.departureTime && (
             <p className="mt-1.5 text-xs text-red-400 font-display">
